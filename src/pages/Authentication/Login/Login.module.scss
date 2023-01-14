@@ -1,0 +1,11 @@
+.Login-container {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+
+    .form {
+        width: 500px;
+        max-width: calc(100% - 60px);
+        margin: auto;
+    }
+}

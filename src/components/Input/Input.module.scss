@@ -1,0 +1,30 @@
+.input-wrap {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.4rem;
+
+    .label {
+        font-weight: 500;
+        margin-left: 8px;
+    }
+
+    .input {
+        min-height: 40px;
+        width: 100%;
+        border-radius: 10px;
+        padding-left: 8px;
+        padding-right: 8px;
+        border: 1px solid #555;
+        outline: none;
+
+        &:focus {
+            border-color: var(--primary-color);
+        }
+    }
+}
+
+.input-wrap ~ .input-wrap {
+    margin-top: 8px;
+}
