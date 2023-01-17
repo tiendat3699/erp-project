@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import Input from '~/components/Input';
-import Button from '~/components/button/button';
+import Button from '~/components/button/Button';
 
 import styles from './Login.module.scss';
 import { backgroundAuthenPage } from '~/images';
