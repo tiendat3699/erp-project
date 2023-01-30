@@ -1,5 +1,5 @@
 import Button from './Button';
 import TextField from './TextField';
-import CheckBox from './Checkbox';
+import Checkbox from './Checkbox';
 
-export { Button, TextField, CheckBox };
+export { Button, TextField, Checkbox };

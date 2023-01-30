@@ -23,16 +23,17 @@
         .hint-text {
             text-align: center;
             margin-bottom: 24px;
+        }
 
-            a {
-                margin-left: 6px;
-                font-weight: 600;
-                color: var(--primary-color);
-                text-decoration: none;
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
+        .bottom {
+            display: flex;
+            align-items: center;
+        }
+
+        .space-btw-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .submit-btn {
@@ -43,6 +44,16 @@
             width: 140px;
             font-size: 1.8rem;
             font-weight: 600;
+        }
+    }
+
+    a {
+        margin-left: 6px;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
         }
     }
 }

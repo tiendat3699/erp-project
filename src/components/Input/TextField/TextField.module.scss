@@ -1,10 +1,11 @@
 .wrapper {
-    height: 100%;
+    position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
     font-size: 1.4rem;
     user-select: none;
+    margin: 8px 0;
 
     .label {
         font-weight: 500;
@@ -13,8 +14,8 @@
     }
 
     .input {
-        min-height: 40px;
         width: 100%;
+        height: 40px;
         border-radius: 10px;
         padding-left: 16px;
         padding-right: 16px;
@@ -28,8 +29,30 @@
             caret-color: var(--primary-color);
         }
     }
-}
 
-.wrapper ~ .wrapper {
-    margin-top: 8px;
+    .btn-hide {
+        position: absolute;
+        display: flex;
+        top: 50%;
+        right: 4px;
+        transform: translateY(-50%);
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        outline: none;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        transition: all ease 0.3s;
+
+        &:hover {
+            background-color: rgba(81, 122, 226, 0.2);
+        }
+
+        .btn-icon {
+            margin: auto;
+            font-size: 1.3rem;
+            color: #404040;
+        }
+    }
 }
