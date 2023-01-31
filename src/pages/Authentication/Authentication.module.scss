@@ -11,7 +11,7 @@
         background: linear-gradient(177.65deg, rgba(255, 255, 255, 0.65) 1.22%, rgba(255, 255, 255, 0.35) 94.99%);
         border: 1px solid rgba(255, 255, 255, 0.8);
         border-radius: 10px;
-        backdrop-filter: blur(6px);
+        backdrop-filter: blur(12px);
         padding: 40px 30px;
 
         .title {
@@ -52,12 +52,18 @@
     }
 
     a {
-        margin-left: 6px;
         font-weight: 700;
         color: var(--primary-color);
         text-decoration: none;
         &:hover {
             text-decoration: underline;
         }
+    }
+
+    .validate-msg {
+        font-weight: 600;
+        text-align: center;
+        font-size: 1.6rem;
+        color: var(--danger-color);
     }
 }

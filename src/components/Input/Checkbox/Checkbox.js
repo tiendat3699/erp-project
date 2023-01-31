@@ -5,14 +5,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './Checkbox.module.scss';
+import { forwardRef } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Checkbox({ name, labelLeft, labelRight }) {
+const Checkbox = forwardRef(({ name, labelLeft, labelRight, onChange, error }, ref) => {
     const id = name + '_checkbox';
     const [checked, setCheck] = useState(false);
 
-    const HandleChange = () => {
+    // console.log(onChange);
+
+    const HandleChange = (e) => {
+        onChange(e);
         setCheck(!checked);
     };
 
@@ -20,13 +24,21 @@ function Checkbox({ name, labelLeft, labelRight }) {
         <label htmlFor={id} className={cx('wrapper')}>
             {labelLeft && <span>{labelLeft}</span>}
             <div className={cx('checkbox')}>
-                <input id={id} name={name} type="checkbox" onChange={HandleChange} checked={checked} />
+                <input
+                    className={cx({ invalid: error })}
+                    ref={ref}
+                    id={id}
+                    name={name}
+                    type="checkbox"
+                    onChange={HandleChange}
+                    checked={checked}
+                />
                 {checked && <FontAwesomeIcon className={cx('icon')} icon={faCheck} />}
             </div>
             {labelRight && <span>{labelRight}</span>}
         </label>
     );
-}
+});
 
 Checkbox.propTypes = {
     name: PropTypes.string.isRequired,

@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { TextField, Button, Checkbox } from '~/components/Input';
+import { useForm, rules } from '~/hooks';
 
 import styles from './Authentication.module.scss';
 import { backgroundAuthenPage } from '~/images';
@@ -8,21 +9,41 @@ import { backgroundAuthenPage } from '~/images';
 const cx = classNames.bind(styles);
 
 function login() {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+    } = useForm();
+
+    const onSubmit = (data) => console.log(data);
+
     return (
         <div className={cx('container')} style={{ backgroundImage: 'url(' + backgroundAuthenPage + ')' }}>
-            <form action="" className={cx('form')}>
+            <form action="" className={cx('form')} onSubmit={handleSubmit(onSubmit)}>
                 <h1 className={cx('title')}>Đăng nhập</h1>
                 <p className={cx('hint-text')}>
-                    Chưa có tài khoản?
-                    <Link to="/signIn">Đăng ký</Link>
+                    Chưa có tài khoản? <Link to="/signIn">Đăng ký</Link>
                 </p>
-                <TextField name="name_account" placeholder="Tên tài khoản" />
-                <TextField name="password" placeholder="Mật khẩu" hideBtn hidedfield />
+                <TextField
+                    {...register('name_account', { required: rules.required })}
+                    name="name_account"
+                    message={errors.name_account?.message}
+                    placeholder="Tên tài khoản"
+                />
+                <TextField
+                    {...register('password', { required: rules.required })}
+                    name="password"
+                    placeholder="Mật khẩu"
+                    message={errors.password?.message}
+                    hideBtn
+                    hidedfield
+                />
                 <div className={cx('space-btw-bottom')}>
                     <Checkbox name="rememberme" labelRight="Ghi nhớ" />
                     <Link to="/">Quên mật khẩu</Link>
                 </div>
-                <Button className={cx('submit-btn')} rounded primary>
+                <Button type="submit" className={cx('submit-btn')} rounded primary>
                     Đăng nhập
                 </Button>
             </form>

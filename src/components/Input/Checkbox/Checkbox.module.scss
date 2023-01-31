@@ -24,6 +24,10 @@
             border: 1px solid var(--primary-color);
             cursor: pointer;
 
+            &.invalid {
+                border-color: var(--danger-color);
+            }
+
             &:hover {
                 border-width: 2px;
             }

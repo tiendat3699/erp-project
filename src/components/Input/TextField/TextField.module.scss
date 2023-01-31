@@ -1,11 +1,14 @@
 .wrapper {
-    position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
     font-size: 1.4rem;
     user-select: none;
     margin: 8px 0;
+
+    .group-field {
+        position: relative;
+    }
 
     .label {
         font-weight: 500;
@@ -27,6 +30,13 @@
             border-color: var(--primary-color);
             box-shadow: 0 0 0 1px var(--primary-color);
             caret-color: var(--primary-color);
+            &.invalid {
+                box-shadow: 0 0 0 1px var(--danger-color);
+            }
+        }
+
+        &.invalid {
+            border-color: var(--danger-color);
         }
     }
 
@@ -54,5 +64,18 @@
             font-size: 1.3rem;
             color: #404040;
         }
+    }
+
+    .error-messgae {
+        display: inline-flex;
+        align-items: center;
+        font-size: 1.3rem;
+        font-weight: 500;
+        padding: 0 8px;
+        color: var(--danger-color);
+    }
+
+    .error-icon {
+        margin-right: 4px;
     }
 }
