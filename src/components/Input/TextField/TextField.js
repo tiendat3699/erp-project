@@ -29,7 +29,7 @@ const TextField = forwardRef(({ name, placeholder, label, hideBtn, hidedfield, m
                     {...passProps}
                 />
                 {hideBtn && (
-                    <button type="button" className={cx('btn-hide')} onClick={() => setHide(!hide)}>
+                    <button type="button" className={cx('btn-hide')} onClick={() => setHide(!hide)} tabIndex={-1}>
                         <FontAwesomeIcon className={cx('btn-icon')} icon={hide ? faEye : faEyeSlash} />
                     </button>
                 )}

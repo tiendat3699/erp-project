@@ -23,7 +23,7 @@ function login() {
             <form action="" className={cx('form')} onSubmit={handleSubmit(onSubmit)}>
                 <h1 className={cx('title')}>Đăng nhập</h1>
                 <p className={cx('hint-text')}>
-                    Chưa có tài khoản? <Link to="/signIn">Đăng ký</Link>
+                    Chưa có tài khoản? <Link to="/signin">Đăng ký</Link>
                 </p>
                 <TextField
                     {...register('name_account', { required: rules.required })}
@@ -40,8 +40,8 @@ function login() {
                     hidedfield
                 />
                 <div className={cx('space-btw-bottom')}>
-                    <Checkbox name="rememberme" labelRight="Ghi nhớ" />
-                    <Link to="/">Quên mật khẩu</Link>
+                    <Checkbox {...register('rememberme')} name="rememberme" labelRight="Ghi nhớ" />
+                    <Link to="/forgetpass">Quên mật khẩu</Link>
                 </div>
                 <Button type="submit" className={cx('submit-btn')} rounded primary>
                     Đăng nhập

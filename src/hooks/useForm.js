@@ -1,4 +1,4 @@
-import { useForm as useFormReact } from 'react-hook-form';
+import { useForm as useFormHook } from 'react-hook-form';
 
 const rules = {
     required: 'Không được bỏ trống',
@@ -17,7 +17,7 @@ const rules = {
 };
 
 function useForm() {
-    return useFormReact({ mode: 'onTouched' });
+    return useFormHook({ mode: 'onTouched' });
 }
 
 export default useForm;
