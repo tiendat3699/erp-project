@@ -6,12 +6,18 @@ import styles from './Button.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Button({ to, href, children, primary, rounded, className, ...passProp }) {
+function Button({ to, href, children, primary, rounded, className, onClick, ...passProp }) {
     let Comp = 'button';
+    const props = {
+        onClick,
+        ...passProp,
+    };
 
     if (to) {
+        props.to = to;
         Comp = Link;
     } else if (href) {
+        props.href = href;
         Comp = 'a';
     }
 
@@ -22,7 +28,7 @@ function Button({ to, href, children, primary, rounded, className, ...passProp }
     });
 
     return (
-        <Comp className={classes} {...passProp}>
+        <Comp className={classes} {...props}>
             {children}
         </Comp>
     );

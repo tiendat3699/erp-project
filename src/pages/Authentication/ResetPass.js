@@ -42,9 +42,14 @@ function ResetPass() {
                     hideBtn
                     hidedfield
                 />
-                <Button type="submit" className={cx('submit-btn')} rounded primary>
-                    Lưu
-                </Button>
+                <div className={cx('footer')}>
+                    <Button to="/login" className={cx('submit-btn')} rounded>
+                        Hủy
+                    </Button>
+                    <Button type="submit" className={cx('submit-btn')} rounded primary>
+                        Lưu
+                    </Button>
+                </div>
             </form>
         </div>
     );

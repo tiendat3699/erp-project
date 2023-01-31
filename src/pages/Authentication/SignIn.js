@@ -90,9 +90,11 @@ function SignIn() {
                         tôi
                     </p>
                 )}
-                <Button type="submit" className={cx('submit-btn')} rounded primary>
-                    Đăng ký
-                </Button>
+                <div className={cx('footer')}>
+                    <Button type="submit" className={cx('submit-btn')} rounded primary>
+                        Đăng ký
+                    </Button>
+                </div>
             </form>
         </div>
     );

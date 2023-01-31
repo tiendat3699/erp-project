@@ -43,9 +43,11 @@ function login() {
                     <Checkbox {...register('rememberme')} name="rememberme" labelRight="Ghi nhớ" />
                     <Link to="/forgetpass">Quên mật khẩu</Link>
                 </div>
-                <Button type="submit" className={cx('submit-btn')} rounded primary>
-                    Đăng nhập
-                </Button>
+                <div className={cx('footer')}>
+                    <Button type="submit" className={cx('submit-btn')} rounded primary>
+                        Đăng nhập
+                    </Button>
+                </div>
             </form>
         </div>
     );

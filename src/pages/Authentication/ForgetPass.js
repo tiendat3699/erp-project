@@ -28,9 +28,14 @@ function ForgetPass() {
                     message={errors.mail_account?.message}
                     placeholder="Email"
                 />
-                <Button type="submit" className={cx('submit-btn')} rounded primary>
-                    Gửi email
-                </Button>
+                <div className={cx('footer')}>
+                    <Button to="/login" className={cx('submit-btn')} rounded>
+                        Hủy
+                    </Button>
+                    <Button type="submit" className={cx('submit-btn')} rounded primary>
+                        Gửi email
+                    </Button>
+                </div>
             </form>
         </div>
     );
