@@ -3,7 +3,7 @@ import { useForm as useFormHook } from 'react-hook-form';
 const rules = {
     required: 'Không được bỏ trống',
     email: {
-        value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        value: /^\S+@\S+\.\S+$/,
         message: 'Email không hợp lệ',
     },
     minLength6: {
