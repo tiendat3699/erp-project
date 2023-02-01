@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { TextField, Button, Checkbox } from '~/components/Input';
-import { useForm, rules } from '~/hooks';
+import { useForm } from '~/hooks';
 
 import styles from './Authentication.module.scss';
 import { backgroundAuthenPage } from '~/images';
@@ -10,6 +10,7 @@ const cx = classNames.bind(styles);
 
 function login() {
     const {
+        rules,
         register,
         handleSubmit,
         formState: { errors },

@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import { useForm, rules } from '~/hooks';
+import { useForm } from '~/hooks';
 import { TextField, Button, Checkbox } from '~/components/Input';
 
 import styles from './Authentication.module.scss';
@@ -10,6 +10,7 @@ const cx = classNames.bind(styles);
 
 function SignIn() {
     const {
+        rules,
         register,
         handleSubmit,
         watch,
@@ -44,7 +45,7 @@ function SignIn() {
                 <TextField
                     {...register('name_account', {
                         required: rules.required,
-                        minLength: rules.minLength6,
+                        minLength: rules.minLength(6),
                     })}
                     name="name_account"
                     placeholder="Tên tài khoản"
@@ -53,7 +54,7 @@ function SignIn() {
                 <TextField
                     {...register('password', {
                         required: rules.required,
-                        minLength: rules.minLength8,
+                        minLength: rules.minLength(8),
                     })}
                     name="password"
                     placeholder="Mật khẩu"
@@ -64,7 +65,7 @@ function SignIn() {
                 <TextField
                     {...register('repeat_password', {
                         required: rules.required,
-                        validate: (value) => value === watch('password') || 'Mật khẩu không giống nhau',
+                        validate: (val) => rules.matchCheck(val, watch('password')),
                     })}
                     name="repeat_password"
                     placeholder="Nhập lại mật khẩu"

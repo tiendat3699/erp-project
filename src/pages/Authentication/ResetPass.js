@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { TextField, Button } from '~/components/Input';
-import { useForm, rules } from '~/hooks';
+import { useForm } from '~/hooks';
 
 import styles from './Authentication.module.scss';
 import { backgroundAuthenPage } from '~/images';
@@ -9,6 +9,7 @@ const cx = classNames.bind(styles);
 
 function ResetPass() {
     const {
+        rules,
         register,
         handleSubmit,
         watch,
@@ -24,7 +25,7 @@ function ResetPass() {
                 <h1 className={cx('title')}>Đặt mật khẩu mới</h1>
                 <p className={cx('hint-text')}>Đặt lại mật khẩu mới</p>
                 <TextField
-                    {...register('password', { required: rules.required, minLength: rules.minLength8 })}
+                    {...register('password', { required: rules.required, minLength: rules.minLength(8) })}
                     name="password"
                     placeholder="Mật khẩu mới"
                     message={errors.password?.message}
@@ -34,7 +35,7 @@ function ResetPass() {
                 <TextField
                     {...register('repeat_password', {
                         required: rules.required,
-                        validate: (value) => value === watch('password') || 'Mật khẩu không giống nhau',
+                        validate: (value) => rules.matchCheck(value, watch('password')),
                     })}
                     name="repeat_password"
                     placeholder="Nhập lại mật khẩu"
