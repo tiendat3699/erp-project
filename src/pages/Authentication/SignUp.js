@@ -8,7 +8,7 @@ import { backgroundAuthenPage } from '~/images';
 
 const cx = classNames.bind(styles);
 
-function SignIn() {
+function SignUp() {
     const {
         rules,
         register,
@@ -101,4 +101,4 @@ function SignIn() {
     );
 }
 
-export default SignIn;
+export default SignUp;

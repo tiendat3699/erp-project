@@ -1,11 +1,11 @@
 import Home from '~/pages/Home';
 import Projects from '~/pages/Projects';
-import { Login, SignIn, ForgetPass, ResetPass } from '~/pages/Authentication';
+import { Login, SignUp, ForgetPass, ResetPass } from '~/pages/Authentication';
 
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/login', component: Login },
-    { path: '/signin', component: SignIn },
+    { path: '/signup', component: SignUp },
     { path: '/forgetpass', component: ForgetPass },
     { path: '/resetpass', component: ResetPass },
 ];

@@ -24,7 +24,7 @@ function login() {
             <form action="" className={cx('form')} onSubmit={handleSubmit(onSubmit)}>
                 <h1 className={cx('title')}>Đăng nhập</h1>
                 <p className={cx('hint-text')}>
-                    Chưa có tài khoản? <Link to="/signin">Đăng ký</Link>
+                    Chưa có tài khoản? <Link to="/signup">Đăng ký</Link>
                 </p>
                 <TextField
                     {...register('name_account', { required: rules.required })}
