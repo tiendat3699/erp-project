@@ -45,7 +45,9 @@ function SignUp() {
                 <TextField
                     {...register('name_account', {
                         required: rules.required,
+                        pattern: rules.username,
                         minLength: rules.minLength(6),
+                        maxLength: rules.maxLength(12),
                     })}
                     name="name_account"
                     placeholder="Tên tài khoản"
