@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { TextField, Button, Checkbox } from '~/components/Input';
 import { useForm } from '~/hooks';
+import * as authServices from '~/services/authServices';
 
 import styles from './Authentication.module.scss';
 import { backgroundAuthenPage } from '~/images';
@@ -17,7 +18,9 @@ function login() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
     } = useForm();
 
-    const onSubmit = (data) => console.log(data);
+    const onSubmit = (data) => {
+        console.log(authServices.login(data));
+    };
 
     return (
         <div className={cx('container')} style={{ backgroundImage: 'url(' + backgroundAuthenPage + ')' }}>
@@ -27,9 +30,9 @@ function login() {
                     Chưa có tài khoản? <Link to="/signup">Đăng ký</Link>
                 </p>
                 <TextField
-                    {...register('name_account', { required: rules.required })}
-                    name="name_account"
-                    message={errors.name_account?.message}
+                    {...register('username', { required: rules.required })}
+                    name="username"
+                    message={errors.username?.message}
                     placeholder="Tên tài khoản"
                 />
                 <TextField

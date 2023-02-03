@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { useForm } from '~/hooks';
 import { TextField, Button, Checkbox } from '~/components/Input';
+import * as authServices from '~/services/authServices';
 
 import styles from './Authentication.module.scss';
 import { backgroundAuthenPage } from '~/images';
@@ -18,7 +19,7 @@ function SignUp() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
     } = useForm();
 
-    const onSubmit = (data) => console.log(data);
+    const onSubmit = (data) => console.log(authServices.signup(data));
 
     return (
         <div className={cx('container')} style={{ backgroundImage: 'url(' + backgroundAuthenPage + ')' }}>
@@ -34,24 +35,24 @@ function SignUp() {
                     message={errors.fullname?.message}
                 />
                 <TextField
-                    {...register('mail_account', {
+                    {...register('email', {
                         required: rules.required,
                         pattern: rules.email,
                     })}
-                    name="mail_account"
+                    name="email"
                     placeholder="Email"
                     message={errors.mail_account?.message}
                 />
                 <TextField
-                    {...register('name_account', {
+                    {...register('username', {
                         required: rules.required,
                         pattern: rules.username,
                         minLength: rules.minLength(6),
                         maxLength: rules.maxLength(12),
                     })}
-                    name="name_account"
+                    name="username"
                     placeholder="Tên tài khoản"
-                    message={errors.name_account?.message}
+                    message={errors.username?.message}
                 />
                 <TextField
                     {...register('password', {
