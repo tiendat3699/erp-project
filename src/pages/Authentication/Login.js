@@ -1,8 +1,14 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+
 import { TextField, Button, Checkbox } from '~/components/Input';
 import { useForm } from '~/hooks';
-import * as authServices from '~/services/authServices';
+import { authService } from '~/services';
+import ToastComponent, { loading as toastLoading, update as toastUpdate } from '~/components/Toast/';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './Authentication.module.scss';
 import { backgroundAuthenPage } from '~/images';
@@ -15,11 +21,26 @@ function login() {
         register,
         handleSubmit,
         formState: { errors },
-        // eslint-disable-next-line react-hooks/rules-of-hooks
     } = useForm();
 
+    const [cookies, setCookies] = useCookies();
+
+    const navigate = useNavigate();
+
     const onSubmit = (data) => {
-        console.log(authServices.login(data));
+        const fetch = async () => {
+            const toastId = toastLoading('Đang đăng nhập');
+            const result = await authService.login(data);
+            if (result.accessToken) {
+                setCookies('accessToken', result.accessToken);
+                toastUpdate(toastId, result.message, 'success');
+                // navigate('/');
+            } else {
+                toastUpdate(toastId, result.message, 'error');
+            }
+        };
+
+        fetch();
     };
 
     return (
@@ -53,6 +74,12 @@ function login() {
                     </Button>
                 </div>
             </form>
+            {/* {loading && (
+                <div className={cx('overlay')}>
+                    <FontAwesomeIcon className={cx('loading-icon')} icon={faSpinner} pulse />
+                </div>
+            )} */}
+            <ToastComponent />
         </div>
     );
 }

@@ -1,5 +1,3 @@
-import Button from './Button';
-import TextField from './TextField';
-import Checkbox from './Checkbox';
-
-export { Button, TextField, Checkbox };
+export { default as Button } from './Button';
+export { default as TextField } from './TextField';
+export { default as Checkbox } from './Checkbox';

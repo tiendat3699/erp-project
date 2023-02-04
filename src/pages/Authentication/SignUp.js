@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { useForm } from '~/hooks';
 import { TextField, Button, Checkbox } from '~/components/Input';
-import * as authServices from '~/services/authServices';
+import { authService } from '~/services';
 
 import styles from './Authentication.module.scss';
 import { backgroundAuthenPage } from '~/images';
@@ -19,7 +19,7 @@ function SignUp() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
     } = useForm();
 
-    const onSubmit = (data) => console.log(authServices.signup(data));
+    const onSubmit = (data) => console.log(authService.signup(data));
 
     return (
         <div className={cx('container')} style={{ backgroundImage: 'url(' + backgroundAuthenPage + ')' }}>
