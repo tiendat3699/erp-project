@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 import { TextField, Button, Checkbox } from '~/components/Input';
 import { useForm } from '~/hooks';
 import { authService } from '~/services';
-import ToastComponent, { loading as toastLoading, update as toastUpdate } from '~/components/Toast/';
-
-import 'react-toastify/dist/ReactToastify.css';
+import ToastComponent, { showtoast } from '~/components/Toast/';
 
 import styles from './Authentication.module.scss';
 import { backgroundAuthenPage } from '~/images';
@@ -23,20 +22,29 @@ function login() {
         formState: { errors },
     } = useForm();
 
-    const [cookies, setCookies] = useCookies();
-
+    const [disabledBtn, setDisabledBtn] = useState(false);
     const navigate = useNavigate();
+    const [cookie, setCookie] = useCookies();
 
     const onSubmit = (data) => {
         const fetch = async () => {
-            const toastId = toastLoading('Đang đăng nhập');
-            const result = await authService.login(data);
-            if (result.accessToken) {
-                setCookies('accessToken', result.accessToken);
-                toastUpdate(toastId, result.message, 'success');
-                // navigate('/');
-            } else {
-                toastUpdate(toastId, result.message, 'error');
+            const toastId = showtoast.loading('Đang đăng nhập...');
+            try {
+                setDisabledBtn(true);
+                const result = await authService.login(data);
+                setDisabledBtn(false);
+                setCookie('accessToken', result.accessToken);
+                showtoast.update(toastId, result.message, 'success');
+                navigate('/');
+            } catch (err) {
+                const data = err.response?.data;
+                setDisabledBtn(false);
+                if (data) {
+                    showtoast.update(toastId, data.message, 'error');
+                } else {
+                    console.log(err.message);
+                    showtoast.update(toastId, 'Lỗi đăng nhập', 'error');
+                }
             }
         };
 
@@ -69,16 +77,11 @@ function login() {
                     <Link to="/forgetpass">Quên mật khẩu</Link>
                 </div>
                 <div className={cx('footer')}>
-                    <Button type="submit" className={cx('submit-btn')} rounded primary>
+                    <Button disabled={disabledBtn} type="submit" className={cx('submit-btn')} rounded primary>
                         Đăng nhập
                     </Button>
                 </div>
             </form>
-            {/* {loading && (
-                <div className={cx('overlay')}>
-                    <FontAwesomeIcon className={cx('loading-icon')} icon={faSpinner} pulse />
-                </div>
-            )} */}
             <ToastComponent />
         </div>
     );

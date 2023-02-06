@@ -2,21 +2,13 @@ import { httpRequest } from '~/utils';
 
 const authService = {
     login: async (data) => {
-        try {
-            const res = await httpRequest.post('auth/login', data);
-            return res.data;
-        } catch (err) {
-            console.log(err);
-        }
+        const res = await httpRequest.post('auth/login', data);
+        return res.data;
     },
 
     signup: async (data) => {
-        try {
-            const res = await httpRequest.post('auth/signup', data);
-            return res.data;
-        } catch (err) {
-            console.log(err);
-        }
+        const res = await httpRequest.post('auth/signup', data);
+        return res.data;
     },
 };
 

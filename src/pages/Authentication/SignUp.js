@@ -1,8 +1,10 @@
 import classNames from 'classnames/bind';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from '~/hooks';
 import { TextField, Button, Checkbox } from '~/components/Input';
 import { authService } from '~/services';
+import ToastComponent, { showtoast } from '~/components/Toast/Toast';
 
 import styles from './Authentication.module.scss';
 import { backgroundAuthenPage } from '~/images';
@@ -19,7 +21,29 @@ function SignUp() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
     } = useForm();
 
-    const onSubmit = (data) => console.log(authService.signup(data));
+    const [disabledBtn, setDisabledBtn] = useState(false);
+
+    const onSubmit = (data) => {
+        const fetch = async () => {
+            const toastId = showtoast.loading('Đang đăng nhập...');
+            try {
+                setDisabledBtn(true);
+                const result = await authService.signup(data);
+                setDisabledBtn(false);
+                showtoast.update(toastId, result.message, 'success');
+            } catch (err) {
+                setDisabledBtn(false);
+                const data = err.response?.data;
+                if (data) {
+                    showtoast.update(toastId, data.message, 'error');
+                } else {
+                    showtoast.update(toastId, 'Lỗi đăng ký', 'error');
+                }
+            }
+        };
+
+        fetch();
+    };
 
     return (
         <div className={cx('container')} style={{ backgroundImage: 'url(' + backgroundAuthenPage + ')' }}>
@@ -95,11 +119,12 @@ function SignUp() {
                     </p>
                 )}
                 <div className={cx('footer')}>
-                    <Button type="submit" className={cx('submit-btn')} rounded primary>
+                    <Button disabled={disabledBtn} type="submit" className={cx('submit-btn')} rounded primary>
                         Đăng ký
                     </Button>
                 </div>
             </form>
+            <ToastComponent />
         </div>
     );
 }

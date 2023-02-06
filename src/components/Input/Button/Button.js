@@ -6,12 +6,20 @@ import styles from './Button.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Button({ to, href, children, primary, rounded, className, onClick, ...passProp }) {
+function Button({ disabled, to, href, children, primary, rounded, className, onClick, ...passProp }) {
     let Comp = 'button';
     const props = {
         onClick,
         ...passProp,
     };
+
+    if (disabled) {
+        Object.keys(props).forEach((key) => {
+            if (key.startsWith('on') && typeof props[key] === 'function') {
+                delete props[key];
+            }
+        });
+    }
 
     if (to) {
         props.to = to;
@@ -28,7 +36,7 @@ function Button({ to, href, children, primary, rounded, className, onClick, ...p
     });
 
     return (
-        <Comp className={classes} {...props}>
+        <Comp disabled={disabled} className={classes} {...props}>
             {children}
         </Comp>
     );
