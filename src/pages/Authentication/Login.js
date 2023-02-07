@@ -46,6 +46,8 @@ function login() {
                     console.log(err.message);
                     showtoast.update(toastId, 'Lỗi đăng nhập', 'error');
                 }
+            } finally {
+                setDisabled(false);
             }
         };
 

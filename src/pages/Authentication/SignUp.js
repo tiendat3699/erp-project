@@ -21,24 +21,25 @@ function SignUp() {
         // eslint-disable-next-line react-hooks/rules-of-hooks
     } = useForm();
 
-    const [disabledBtn, setDisabledBtn] = useState(false);
+    const [disabled, setDisabled] = useState(false);
 
     const onSubmit = (data) => {
+        if (disabled) return;
         const fetch = async () => {
             const toastId = showtoast.loading('Đang đăng nhập...');
             try {
-                setDisabledBtn(true);
+                setDisabled(true);
                 const result = await authService.signup(data);
-                setDisabledBtn(false);
                 showtoast.update(toastId, result.message, 'success');
             } catch (err) {
-                setDisabledBtn(false);
                 const data = err.response?.data;
                 if (data) {
                     showtoast.update(toastId, data.message, 'error');
                 } else {
                     showtoast.update(toastId, 'Lỗi đăng ký', 'error');
                 }
+            } finally {
+                setDisabled(false);
             }
         };
 
@@ -119,7 +120,7 @@ function SignUp() {
                     </p>
                 )}
                 <div className={cx('footer')}>
-                    <Button disabled={disabledBtn} type="submit" className={cx('submit-btn')} rounded primary>
+                    <Button disabled={disabled} type="submit" className={cx('submit-btn')} rounded primary>
                         Đăng ký
                     </Button>
                 </div>
