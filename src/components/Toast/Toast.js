@@ -25,7 +25,7 @@ const showtoast = {
 };
 
 function ToastComponent() {
-    return <ToastContainer />;
+    return <ToastContainer pauseOnFocusLoss={false} />;
 }
 
 export { options, showtoast };
