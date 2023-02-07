@@ -22,23 +22,24 @@ function login() {
         formState: { errors },
     } = useForm();
 
-    const [disabledBtn, setDisabledBtn] = useState(false);
+    const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
     const [cookie, setCookie] = useCookies();
 
     const onSubmit = (data) => {
+        if (disabled) return;
         const fetch = async () => {
             const toastId = showtoast.loading('Đang đăng nhập...');
             try {
-                setDisabledBtn(true);
+                setDisabled(true);
                 const result = await authService.login(data);
-                setDisabledBtn(false);
+                setDisabled(false);
                 setCookie('accessToken', result.accessToken);
                 showtoast.update(toastId, result.message, 'success');
                 navigate('/');
             } catch (err) {
                 const data = err.response?.data;
-                setDisabledBtn(false);
+                setDisabled(false);
                 if (data) {
                     showtoast.update(toastId, data.message, 'error');
                 } else {
@@ -53,7 +54,7 @@ function login() {
 
     return (
         <div className={cx('container')} style={{ backgroundImage: 'url(' + backgroundAuthenPage + ')' }}>
-            <form action="" className={cx('form')} onSubmit={handleSubmit(onSubmit)}>
+            <form className={cx('form')} onSubmit={handleSubmit(onSubmit)}>
                 <h1 className={cx('title')}>Đăng nhập</h1>
                 <p className={cx('hint-text')}>
                     Chưa có tài khoản? <Link to="/signup">Đăng ký</Link>
@@ -77,7 +78,7 @@ function login() {
                     <Link to="/forgetpass">Quên mật khẩu</Link>
                 </div>
                 <div className={cx('footer')}>
-                    <Button disabled={disabledBtn} type="submit" className={cx('submit-btn')} rounded primary>
+                    <Button disabled={disabled} type="submit" className={cx('submit-btn')} rounded primary>
                         Đăng nhập
                     </Button>
                 </div>
