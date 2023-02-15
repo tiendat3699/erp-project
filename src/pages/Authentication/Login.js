@@ -2,7 +2,6 @@
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 
 import { TextField, Button, Checkbox } from '~/components/Input';
 import { useForm } from '~/hooks';
@@ -24,7 +23,6 @@ function login() {
 
     const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
-    const [cookie, setCookie] = useCookies();
 
     const onSubmit = (data) => {
         if (disabled) return;
@@ -34,7 +32,6 @@ function login() {
                 setDisabled(true);
                 const result = await authService.login(data);
                 setDisabled(false);
-                setCookie('accessToken', result.accessToken);
                 showtoast.update(toastId, result.message, 'success');
                 navigate('/');
             } catch (err) {
