@@ -77,7 +77,7 @@ function login() {
                     <Link to="/forgetpass">Quên mật khẩu</Link>
                 </div>
                 <div className={cx('footer')}>
-                    <Button disabled={disabled} type="submit" className={cx('submit-btn')} rounded primary>
+                    <Button disabled={disabled} className={cx('submit-btn')} rounded primary>
                         Đăng nhập
                     </Button>
                 </div>

@@ -1,0 +1,14 @@
+.wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: var(--width-sidebar);
+    display: flex;
+    align-items: center;
+    height: var(--height-header);
+}
+.leftside {
+}
+.rightside {
+}

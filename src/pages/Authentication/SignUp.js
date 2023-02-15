@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '~/hooks';
 import { TextField, Button, Checkbox } from '~/components/Input';
 import { authService } from '~/services';
@@ -22,6 +22,7 @@ function SignUp() {
     } = useForm();
 
     const [disabled, setDisabled] = useState(false);
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
         if (disabled) return;
@@ -31,6 +32,7 @@ function SignUp() {
                 setDisabled(true);
                 const result = await authService.signup(data);
                 showtoast.update(toastId, result.message, 'success');
+                navigate('/login');
             } catch (err) {
                 const data = err.response?.data;
                 if (data) {
