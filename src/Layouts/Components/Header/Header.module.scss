@@ -58,8 +58,9 @@
             .notice {
                 position: absolute;
                 display: inline-flex;
-                padding: 0 6px;
+                padding: 0 4px;
                 min-width: 19px;
+                max-width: 26px;
                 height: 19px;
                 align-items: center;
                 justify-content: center;
@@ -70,6 +71,7 @@
                 font-size: 1.2rem;
                 font-weight: 600;
                 color: #fff;
+                border: 2px solid var(--secondary-color);
             }
         }
     }
