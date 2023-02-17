@@ -7,8 +7,70 @@
     display: flex;
     align-items: center;
     height: var(--height-header);
+    box-shadow: 5px 2px 4px rgb(32 78 198 / 4%);
 }
 .leftside {
+    margin-right: auto;
 }
 .rightside {
+    padding: 0 20px;
+
+    .control {
+        display: flex;
+        align-items: center;
+
+        .search {
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            position: relative;
+            border-color: transparent;
+            background-color: rgba(var(--primary-color-rbg), 0.1);
+            font-size: 2rem;
+            color: #333;
+            padding: 8px;
+            height: 40px;
+            width: 40px;
+
+            &.avatar {
+                padding: 0;
+                border-color: #ccc;
+            }
+
+            &:hover {
+                color: var(--primary-color);
+                border-color: var(--primary-color);
+            }
+
+            & ~ .btn {
+                margin-left: 8px;
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                object-fit: cover;
+                object-position: center;
+            }
+
+            .notice {
+                position: absolute;
+                display: inline-flex;
+                padding: 0 6px;
+                min-width: 19px;
+                height: 19px;
+                align-items: center;
+                justify-content: center;
+                top: -6px;
+                left: calc(100% - 15px);
+                background: var(--primary-color);
+                border-radius: 9999px;
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: #fff;
+            }
+        }
+    }
 }
