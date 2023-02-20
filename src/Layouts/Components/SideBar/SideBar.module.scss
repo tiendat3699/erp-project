@@ -1,0 +1,22 @@
+.wrapper {
+    width: var(--width-sidebar);
+    flex-grow: 0;
+
+    .logo {
+        padding: 4px 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: var(--height-header);
+
+        img {
+            height: 100%;
+            object-fit: cover;
+            transition: all ease 0.3s;
+
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
+    }
+}

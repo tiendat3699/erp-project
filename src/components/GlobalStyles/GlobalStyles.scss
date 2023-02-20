@@ -27,4 +27,45 @@ body {
     font-size: 1.6rem;
     line-height: 1.5;
     text-rendering: optimizespeed;
+    overflow: hidden overlay;
+}
+
+// scrollball css
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 10px;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+
+    &:hover {
+        border: 0;
+    }
+}
+
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: #f6f6f6;
+}
+
+// custom tippy tooltip
+
+body {
+    .tippy-box {
+        background-color: rgba(84, 84, 84, 0.92);
+    }
+
+    .tippy-content {
+        font-weight: 500;
+        padding: 8px 9px;
+    }
+
+    .tippy-box[data-placement^='bottom'] > .tippy-arrow:before {
+        top: -8px;
+        color: rgba(84, 84, 84, 0.9);
+    }
 }

@@ -4,14 +4,17 @@
     right: 0;
     bottom: 0;
     left: var(--width-sidebar);
+    z-index: 1000;
     display: flex;
     align-items: center;
     height: var(--height-header);
     box-shadow: 5px 2px 4px rgb(32 78 198 / 4%);
 }
+
 .leftside {
     margin-right: auto;
 }
+
 .rightside {
     padding: 0 20px;
 
