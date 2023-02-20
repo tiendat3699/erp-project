@@ -8,7 +8,7 @@ import { forwardRef } from 'react';
 const cx = classNames.bind(styles);
 
 const Button = forwardRef(
-    ({ disabled, to, href, children, primary, rounded, className, onClick, ...passProp }, ref) => {
+    ({ disabled, to, href, children, primary, rounded, leftIcon, rightIcon, className, onClick, ...passProp }, ref) => {
         let Comp = 'button';
         const props = {
             onClick,
@@ -39,7 +39,9 @@ const Button = forwardRef(
 
         return (
             <Comp ref={ref} disabled={disabled} className={classes} {...props}>
-                {children}
+                {leftIcon && <span className={cx('icon')}>{leftIcon}</span>}
+                <span className={cx('title')}>{children}</span>
+                {rightIcon && <span className={cx('icon')}>{rightIcon}</span>}
             </Comp>
         );
     },

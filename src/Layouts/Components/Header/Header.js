@@ -3,17 +3,42 @@ import Tippy from '@tippyjs/react';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faComment } from '@fortawesome/free-regular-svg-icons';
+import { faArrowRightToBracket, faBriefcase, faCircleQuestion, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '~/components/Input';
-import { Wrapper } from '~/components/Popper';
+import Menu from '~/components/Popper/Menu';
 
 import 'tippy.js/dist/tippy.css';
 import styles from './Header.module.scss';
 
 const cx = classNames.bind(styles);
 
+const userMenu = [
+    {
+        icon: <FontAwesomeIcon icon={faUser} />,
+        title: 'Hồ sơ cá nhân',
+        to: '/:user',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faBriefcase} />,
+        title: 'Quản lý công việc',
+        to: '/:user',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+        title: 'Trợ giúp',
+        to: '/:user',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faArrowRightToBracket} />,
+        title: 'Đăng xuất',
+        to: '/:user',
+        separate: true,
+    },
+];
+
 function Header() {
-    const [chatNotice, setChatNotice] = useState([]);
-    const [notifyNotice, setNotifyNotice] = useState([]);
+    const [chatQueue, setChatQueue] = useState([]);
+    const [notifyQueue, setNotifyQueue] = useState([]);
 
     return (
         <header className={cx('wrapper')}>
@@ -25,28 +50,28 @@ function Header() {
                     <Tippy content="Thông báo" delay={[200, 0]}>
                         <Button rounded className={cx('btn')}>
                             <FontAwesomeIcon icon={faBell} />
-                            {chatNotice.length > 0 && (
-                                <span className={cx('notice')}>
-                                    {chatNotice.length <= 9 ? chatNotice.length : '9+'}
-                                </span>
+                            {chatQueue.length > 0 && (
+                                <span className={cx('Queue')}>{chatQueue.length <= 9 ? chatQueue.length : '9+'}</span>
                             )}
                         </Button>
                     </Tippy>
                     <Tippy content="Tin nhắn" delay={[200, 0]}>
                         <Button rounded className={cx('btn')}>
                             <FontAwesomeIcon icon={faComment} />
-                            {notifyNotice.length > 0 && (
-                                <span className={cx('notice')}>
-                                    {notifyNotice.length <= 9 ? notifyNotice.length : '9+'}
+                            {notifyQueue.length > 0 && (
+                                <span className={cx('Queue')}>
+                                    {notifyQueue.length <= 9 ? notifyQueue.length : '9+'}
                                 </span>
                             )}
                         </Button>
                     </Tippy>
-                    <Tippy content="Tài khoản" delay={[200, 0]}>
-                        <Button rounded className={cx('btn', 'avatar')}>
-                            <img src="https://avatars.githubusercontent.com/u/96950844?s=40&v=4" alt="" />
-                        </Button>
-                    </Tippy>
+                    <Menu items={userMenu}>
+                        <Tippy content="Tài khoản" delay={[200, 0]}>
+                            <Button rounded className={cx('btn', 'avatar')}>
+                                <img src="https://avatars.githubusercontent.com/u/96950844?s=40&v=4" alt="" />
+                            </Button>
+                        </Tippy>
+                    </Menu>
                 </div>
             </div>
         </header>

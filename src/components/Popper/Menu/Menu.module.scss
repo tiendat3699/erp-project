@@ -1,0 +1,35 @@
+.menu-list {
+    width: 190px;
+}
+
+.menu-popper {
+    padding-bottom: 8px;
+}
+
+.menu-item {
+    position: relative;
+    justify-content: start;
+    border: none;
+    background-color: transparent;
+    border-radius: 0;
+    color: #000;
+    font-size: 1.4rem;
+
+    // &:not(:disabled) {
+    //     &:hover {
+    //         color: var(--primary-color);
+    //         background-color: transparent;
+    //     }
+    // }
+
+    &.separate::before {
+        position: absolute;
+        content: '';
+        background-color: rgba(22, 24, 35, 0.12);
+        top: 0;
+        right: 12px;
+        left: 12px;
+        height: 1px;
+        // border-top: 1px solid rgba(22, 24, 35, 0.12);
+    }
+}
