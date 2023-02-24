@@ -44,7 +44,7 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('leftside')}>
-                <h2>Header</h2>
+                <h2 className={cx('title')}>Header</h2>
             </div>
             <div className={cx('rightside')}>
                 <div className={cx('control')}>

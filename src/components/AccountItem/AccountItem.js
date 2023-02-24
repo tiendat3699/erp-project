@@ -12,6 +12,7 @@ function AccountItem() {
             </div>
             <div className={cx('info')}>
                 <p className={cx('name')}>Đinh Tiến Đạt</p>
+                <p className={cx('username')}>Tiendat</p>
                 <span className={cx('tag')}>Admin</span>
             </div>
         </div>
