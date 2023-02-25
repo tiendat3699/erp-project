@@ -1,0 +1,11 @@
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chart-container {
+    min-width: 300px;
+    flex: 1;
+    height: 350px;
+}

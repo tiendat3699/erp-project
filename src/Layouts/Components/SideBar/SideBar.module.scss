@@ -9,6 +9,7 @@
     border-right: 1px solid rgba(var(--primary-color-rbg), 0.1);
     overflow-x: hidden;
     transition: all ease 0.3s;
+    flex-shrink: 0;
 
     &.collapse {
         width: 60px;
