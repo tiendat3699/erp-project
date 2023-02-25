@@ -4,14 +4,15 @@
 }
 
 .container {
-    margin-top: var(--height-header);
+    // margin-top: var(--height-header);
     display: flex;
-    // flex-direction: column;
+    flex-wrap: wrap;
     flex: 1;
     // overflow-y: auto;
 }
 
 .content {
+    justify-self: flex-start;
     flex: 1;
     background-color: #f6f6f6;
     height: 10000px;

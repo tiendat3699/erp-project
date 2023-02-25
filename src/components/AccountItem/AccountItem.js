@@ -1,22 +1,27 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
 import styles from './AccountItem.module.scss';
 
 const cx = classNames.bind(styles);
 
-function AccountItem() {
+function AccountItem({ data }) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('avatar')}>
-                <img src="https://avatars.githubusercontent.com/u/96950844?s=40&v=4" alt="" />
+                <img src={data.img} alt="" />
             </div>
             <div className={cx('info')}>
-                <p className={cx('name')}>Đinh Tiến Đạt</p>
-                <p className={cx('username')}>Tiendat</p>
-                <span className={cx('tag')}>Admin</span>
+                <p className={cx('name')}>{data.name}</p>
+                <p className={cx('username')}>{data.userName}</p>
+                <span className={cx('tag')}>{data.role}</span>
             </div>
         </div>
     );
 }
+
+AccountItem.propTypes = {
+    data: PropTypes.object.isRequired,
+};
 
 export default AccountItem;

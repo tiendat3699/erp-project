@@ -1,10 +1,7 @@
 .wrapper {
-    position: fixed;
+    position: sticky;
     top: 0;
-    right: 0;
-    bottom: 0;
-    left: var(--width-sidebar);
-    z-index: 1000;
+    width: 100%;
     display: flex;
     align-items: center;
     height: var(--height-header);
@@ -21,13 +18,41 @@
 
 .rightside {
     padding: 0 20px;
-
     .control {
         display: flex;
         align-items: center;
 
         .search {
+            display: flex;
+            align-items: center;
             font-size: 1.2rem;
+            margin-right: 16px;
+            background-color: #f2f2f2;
+            border-radius: 999px;
+            overflow: hidden;
+            padding-left: 16px;
+            height: 28px;
+
+            input {
+                width: 100px;
+                height: 100%;
+                font-size: 1.2rem;
+                background-color: transparent;
+                border: none;
+                outline: none;
+                transition: all ease 0.2s;
+
+                &:focus {
+                    width: 250px;
+                }
+            }
+
+            button {
+                padding: 6px 10px;
+                cursor: pointer;
+                border: none;
+                outline: none;
+            }
         }
 
         .btn {

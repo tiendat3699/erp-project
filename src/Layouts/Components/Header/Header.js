@@ -4,7 +4,13 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faComment } from '@fortawesome/free-regular-svg-icons';
-import { faArrowRightToBracket, faBriefcase, faCircleQuestion, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+    faArrowRightToBracket,
+    faBriefcase,
+    faCircleQuestion,
+    faSearch,
+    faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import { Button } from '~/components/Input';
 import Menu from '~/components/Popper/Menu';
 
@@ -48,6 +54,12 @@ function Header() {
             </div>
             <div className={cx('rightside')}>
                 <div className={cx('control')}>
+                    <div className={cx('search')}>
+                        <input type="text" placeholder="Nhập để tìm kiếm" />
+                        <button>
+                            <FontAwesomeIcon icon={faSearch} />
+                        </button>
+                    </div>
                     <Tippy content="Thông báo" delay={[200, 0]}>
                         <Button rounded className={cx('btn')}>
                             <FontAwesomeIcon icon={faBell} />
