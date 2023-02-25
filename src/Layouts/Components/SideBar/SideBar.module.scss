@@ -1,6 +1,9 @@
 .wrapper {
+    position: --webkit-sticky;
+    position: sticky;
+    top: 0;
     width: var(--width-sidebar);
-    flex-grow: 0;
+    height: 100vh;
 
     .logo {
         padding: 4px 8px;
@@ -18,6 +21,40 @@
             &:hover {
                 transform: scale(1.2);
             }
+        }
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+        padding-top: 24px;
+    }
+
+    .menu-item {
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #808080;
+        height: 42px;
+        font-weight: 600;
+        font-size: 1.4rem;
+        transition: ease 0.2s;
+        transition-property: color, background-color;
+
+        &:hover,
+        &.active {
+            background-color: rgba(var(--primary-color-rbg), 0.1);
+            color: var(--primary-color);
+        }
+
+        &.active {
+            border-right: 2px solid var(--primary-color);
+        }
+
+        .item-icon {
+            margin-right: 20px;
+            font-size: 1.8rem;
         }
     }
 }

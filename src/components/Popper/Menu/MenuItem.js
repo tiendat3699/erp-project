@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { Button } from '~/components/Input';
 
@@ -12,5 +13,9 @@ function MenuItem({ data }) {
         </Button>
     );
 }
+
+MenuItem.propTypes = {
+    data: PropTypes.object.isRequired,
+};
 
 export default MenuItem;

@@ -49,8 +49,11 @@ const TextField = forwardRef(
 TextField.propTypes = {
     placeholder: PropTypes.string,
     label: PropTypes.string,
+    hideBtn: PropTypes.bool,
+    hidedfield: PropTypes.bool,
     name: PropTypes.string.isRequired,
     message: PropTypes.string,
+    className: PropTypes.string,
 };
 
 export default TextField;
