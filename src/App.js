@@ -1,7 +1,9 @@
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import { publicRoutes, privateRoutes } from '~/routes';
 import PrivateRoute from '~/components/PrivateRoute';
+import Page from './components/Page';
 
 function App() {
     return (
@@ -16,7 +18,7 @@ function App() {
                     {/* private router */}
                     <Route element={<PrivateRoute />}>
                         {privateRoutes.map((route, index) => {
-                            const Page = route.component;
+                            const Comp = route.component;
                             const Layout = route.layout ?? Fragment;
                             return (
                                 <Route
@@ -24,7 +26,9 @@ function App() {
                                     path={route.path}
                                     element={
                                         <Layout>
-                                            <Page />
+                                            <Page title={route.title}>
+                                                <Comp />
+                                            </Page>
                                         </Layout>
                                     }
                                 />

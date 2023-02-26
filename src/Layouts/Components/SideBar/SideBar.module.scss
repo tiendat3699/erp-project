@@ -2,6 +2,7 @@
     position: --webkit-sticky;
     position: sticky;
     top: 0;
+    z-index: 10;
     width: var(--width-sidebar);
     height: 100vh;
     background-color: #fff;
@@ -106,6 +107,7 @@
     }
 
     .menu-item {
+        position: relative;
         display: flex;
         align-items: center;
         text-decoration: none;
@@ -122,8 +124,15 @@
             color: var(--primary-color);
         }
 
-        &.active {
-            border-right: 3px solid var(--primary-color);
+        &.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary-color);
+            z-index: 1;
         }
 
         .item-icon {

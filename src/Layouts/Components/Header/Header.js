@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faComment } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -46,11 +46,12 @@ const userMenu = [
 function Header() {
     const [chatQueue, setChatQueue] = useState([]);
     const [notifyQueue, setNotifyQueue] = useState([]);
+    const title = useSelector((state) => state.pageTitle);
 
     return (
         <header className={cx('wrapper')}>
             <div className={cx('leftside')}>
-                <h2 className={cx('title')}>Header</h2>
+                <h2 className={cx('title')}>{title}</h2>
             </div>
             <div className={cx('rightside')}>
                 <div className={cx('control')}>

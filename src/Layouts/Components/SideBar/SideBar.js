@@ -2,13 +2,14 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAnglesLeft, faFolderOpen, faPager, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 
 import AccountItem from '~/components/AccountItem';
 import MenuItem from './MenuItem';
 import { logo } from '~/images';
 
 import styles from './SideBar.module.scss';
+import { privateRoutes } from '~/routes';
 
 const cx = classNames.bind(styles);
 
@@ -55,9 +56,11 @@ function SideBar() {
                 <AccountItem data={user} />
             </div>
             <div className={cx('menu')}>
-                <MenuItem title={hide ? '' : 'Tổng quan'} to="/" icon={<FontAwesomeIcon icon={faPager} />} />
-                <MenuItem title={hide ? '' : 'Dự án'} to="/projects" icon={<FontAwesomeIcon icon={faFolderOpen} />} />
-                <MenuItem title={hide ? '' : 'Khách hàng'} to="/customer" icon={<FontAwesomeIcon icon={faUsers} />} />
+                {privateRoutes.map((route, index) => (
+                    <MenuItem key={index} title={hide ? '' : route.title} to={route.path} icon={route.icon} />
+                ))}
+                {/* <MenuItem title={hide ? '' : 'Dự án'} to="/projects" icon={<FontAwesomeIcon icon={faFolderOpen} />} />
+                <MenuItem title={hide ? '' : 'Khách hàng'} to="/customer" icon={<FontAwesomeIcon icon={faUsers} />} /> */}
             </div>
         </aside>
     );

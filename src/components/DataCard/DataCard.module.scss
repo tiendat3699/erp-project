@@ -1,0 +1,37 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    height: 100%;
+    min-height: 100px;
+    min-width: 200px;
+    box-shadow: 3px 5px 6px rgb(32 78 198 / 10%);
+
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 43px;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        box-shadow: 2px 4px 7px rgb(158 193 246 / 25%);
+        margin-right: 16px;
+        font-size: 1.8rem;
+        color: var(--primary-color);
+    }
+
+    .info {
+        line-height: 1.6rem;
+        .value {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .title {
+            color: #808080;
+            font-size: 1.4rem;
+        }
+    }
+}

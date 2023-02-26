@@ -10,24 +10,53 @@ Chart.register(CategoryScale, LinearScale, BarElement, Legend, Tooltip, Colors, 
 
 const cx = classNames.bind(styles);
 
-function BarChart({ id, data }) {
+function BarChart({ id, data, title, ticksFormatter, tooltipFormatter, horizontal = false }) {
+    const defaultOption = {
+        borderWidth: 2,
+        borderRadius: 2,
+        borderSkipped: 'start',
+    };
+
+    const dataChart = {
+        labels: data.labels,
+        datasets: data.datasets.map((data) => ({ ...data, ...defaultOption })),
+    };
+
+    const axis = horizontal ? 'y' : 'x';
+
     const options = {
         responsive: true,
         maintainAspectRatio: false,
+        indexAxis: axis,
+        scales: {
+            [axis]: {
+                ticks: {
+                    callback: ticksFormatter,
+                },
+            },
+        },
         plugins: {
             title: {
-                display: true,
-                text: 'Custom Chart Title',
+                display: !!title,
+                text: title,
                 padding: {
                     top: 10,
-                    bottom: 30,
+                    bottom: 10,
+                },
+                color: '#005295',
+                font: { size: '16px' },
+            },
+
+            tooltip: {
+                callbacks: {
+                    label: tooltipFormatter,
                 },
             },
         },
     };
     return (
         <div className={cx('wrapper')}>
-            <Bar id={id} data={data} options={options} />
+            <Bar id={id} data={dataChart} options={options} />
         </div>
     );
 }
@@ -35,6 +64,10 @@ function BarChart({ id, data }) {
 BarChart.propTypes = {
     id: PropTypes.string,
     data: PropTypes.object.isRequired,
+    title: PropTypes.string,
+    ticksFormatter: PropTypes.func,
+    tooltipFormatter: PropTypes.func,
+    Horizontal: PropTypes.bool,
 };
 
 export default BarChart;
