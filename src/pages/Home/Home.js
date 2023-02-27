@@ -53,16 +53,16 @@ function Home() {
     return (
         <div className={cx('wrapper')}>
             <Row space={2} className={cx('section')}>
-                <Col lg={6} xl={3}>
+                <Col md={6} xl={3}>
                     <DataCard icon={<FontAwesomeIcon icon={faUsers} />} title="Khách hàng" value="12" />
                 </Col>
-                <Col lg={6} xl={3}>
+                <Col md={6} xl={3}>
                     <DataCard icon={<FontAwesomeIcon icon={faUserTie} />} title="Nhân viên" value="50" />
                 </Col>
-                <Col lg={6} xl={3}>
+                <Col md={6} xl={3}>
                     <DataCard icon={<FontAwesomeIcon icon={faBriefcase} />} title="Dự án" value="12" />
                 </Col>
-                <Col lg={6} xl={3}>
+                <Col md={6} xl={3}>
                     <DataCard icon={<FontAwesomeIcon icon={faHandshake} />} title="Đối tác" value="12" />
                 </Col>
             </Row>
