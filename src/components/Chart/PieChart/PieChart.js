@@ -3,14 +3,14 @@ import classNames from 'classnames/bind';
 
 import styles from '../Chart.module.scss';
 
-import { Bar } from 'react-chartjs-2';
-import { Chart, CategoryScale, LinearScale, BarController, BarElement, Legend, Tooltip, Colors, Title } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+import { Chart, PieController, ArcElement, Legend, Tooltip, Colors, Title } from 'chart.js';
 
-Chart.register(CategoryScale, LinearScale, BarController, BarElement, Legend, Tooltip, Colors, Title);
+Chart.register(PieController, ArcElement, Legend, Tooltip, Colors, Title);
 
 const cx = classNames.bind(styles);
 
-function BarChart({ id, data, title, ticksFormatter, tooltipFormatter, horizontal = false }) {
+function PieChart({ id, data, title, tooltipFormatter }) {
     const defaultOption = {
         borderWidth: 2,
         borderRadius: 2,
@@ -22,23 +22,10 @@ function BarChart({ id, data, title, ticksFormatter, tooltipFormatter, horizonta
         datasets: data.datasets.map((data) => ({ ...data, ...defaultOption })),
     };
 
-    const axis = horizontal ? 'y' : 'x';
-
     const options = {
         responsive: true,
         maintainAspectRatio: false,
-        indexAxis: axis,
-        scales: {
-            [axis]: {
-                ticks: {
-                    callback: ticksFormatter,
-                },
-            },
-        },
         plugins: {
-            legend: {
-                align: 'end',
-            },
             title: {
                 display: !!title,
                 text: title,
@@ -59,18 +46,16 @@ function BarChart({ id, data, title, ticksFormatter, tooltipFormatter, horizonta
     };
     return (
         <div className={cx('wrapper')}>
-            <Bar id={id} data={dataChart} options={options} />
+            <Pie id={id} data={dataChart} options={options} />
         </div>
     );
 }
 
-BarChart.propTypes = {
+PieChart.propTypes = {
     id: PropTypes.string,
     data: PropTypes.object.isRequired,
     title: PropTypes.string,
-    ticksFormatter: PropTypes.func,
     tooltipFormatter: PropTypes.func,
-    Horizontal: PropTypes.bool,
 };
 
-export default BarChart;
+export default PieChart;

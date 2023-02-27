@@ -1,12 +1,12 @@
 import classNames from 'classnames/bind';
-
-import ContentBlock from '~/components/ContentBlock';
-import BarChart from '~/components/Chart/BarChart';
-
-import styles from './Home.module.scss';
-import DataCard from '~/components/DataCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase, faHandshake, faUsers, faUserTie } from '@fortawesome/free-solid-svg-icons';
+
+import ContentBlock from '~/components/ContentBlock';
+import { BarChart, DoughnutChart, LineChart, PieChart } from '~/components/Chart';
+import DataCard from '~/components/DataCard';
+
+import styles from './Home.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -21,6 +21,16 @@ function Home() {
             {
                 label: 'Small Radius',
                 data: [5, 2, 15],
+            },
+        ],
+    };
+
+    const dataPie = {
+        labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
+        datasets: [
+            {
+                label: 'Dataset 1',
+                data: [1, 5, 6, 7, 8],
             },
         ],
     };
@@ -44,7 +54,13 @@ function Home() {
                     <BarChart data={data} title="Chart3" />
                 </ContentBlock>
                 <ContentBlock className={cx('chart-block')}>
-                    <BarChart data={data} horizontal />
+                    <LineChart data={data} title="line chart" />
+                </ContentBlock>
+                <ContentBlock className={cx('chart-block')}>
+                    <PieChart data={dataPie} title="Pie chart" />
+                </ContentBlock>
+                <ContentBlock className={cx('chart-block')}>
+                    <DoughnutChart data={dataPie} title="DoughnutChart" />
                 </ContentBlock>
             </div>
         </div>

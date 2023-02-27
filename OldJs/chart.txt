@@ -1,0 +1,346 @@
+function configCharBar({ labels, data }) {
+    this.type = "bar";
+    this.data = {
+        labels: labels,
+        datasets: [
+            {
+                axis: "y",
+                fill: false,
+                borderSkipped: false,
+                backgroundColor: ["#F1C329", "#7B73DB"],
+                borderRadius: "6",
+                data: data,
+            },
+        ],
+    };
+    this.plugins = [ChartDataLabels];
+    this.options = {
+        barThickness: 16,
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: "y",
+        plugins: {
+            legend: false, // Hide legend
+            tooltip: {
+                callbacks: {
+                    label: ({ raw }) => raw.toLocaleString() + "đ",
+                },
+            },
+            datalabels: {
+                color: "#000",
+                align: "right",
+                anchor: "start",
+                offset: 4,
+                font: {
+                    size: "11px",
+                    weight: "600",
+                },
+                formatter: (value) => value.toLocaleString() + "đ",
+            },
+        },
+
+        scales: {
+            y: {
+                grid: {
+                    display: false,
+                },
+            },
+            x: {
+                beginAtZero: true,
+                grid: {
+                    drawBorder: false,
+                },
+                ticks: {
+                    callback: (value) => value.toLocaleString() + "đ",
+                },
+            },
+        },
+    };
+}
+
+function configCharDoughnut({ labels, data }) {
+    this.type = "doughnut";
+    this.data = {
+        labels: labels,
+        datasets: [
+            {
+                data: data,
+                backgroundColor: ["#204EC6", "#00C7BE"],
+            },
+        ],
+    };
+    this.plugins = [ChartDataLabels];
+    this.options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "60%",
+        plugins: {
+            legend: {
+                labels: {
+                    usePointStyle: true,
+                    boxWidth: 14,
+                },
+                position: "bottom",
+            },
+            tooltip: {
+                callbacks: {
+                    label: ({ label, raw }) => `${label}: ${raw.toLocaleString()}đ`,
+                },
+            },
+            datalabels: {
+                color: "#000",
+                font: {
+                    size: "11px",
+                    weight: "600",
+                },
+                formatter: (value, { dataset }) => {
+                    const total = dataset.data.reduce(
+                        (result, curret) => result + curret,
+                        0
+                    );
+                    return `${((value / total) * 100).toFixed(2)}%`;
+                },
+            },
+        },
+    };
+}
+
+function configCharPie({ labels, data }) {
+    this.type = "pie";
+    this.data = {
+        labels: labels,
+        datasets: [
+            {
+                data: data,
+                backgroundColor: ["#204EC6", "#00C7BE"],
+            },
+        ],
+    };
+    this.plugins = [ChartDataLabels];
+    this.options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    usePointStyle: true,
+                    boxWidth: 0,
+                    generateLabels: (chart) => {
+                        const datasets = chart.data.datasets;
+                        return datasets[0].data.map((data, i) => ({
+                          text: `${i+1}.${chart.data.labels[i]}: ${data.toLocaleString()}đ`,
+                          fillStyle: datasets[0].backgroundColor[i],
+                        }))
+                    },
+                    
+                },
+                align:'start',
+                position: "top",
+            },
+            tooltip: {
+                callbacks: {
+                    label: ({ label, raw }) => `${label}: ${raw.toLocaleString()}đ`,
+                },
+            },
+            datalabels: {
+                color: "#000",
+                font: {
+                    size: "11px",
+                    weight: "600",
+                },
+                formatter: (value, { dataset }) => {
+                    const total = dataset.data.reduce(
+                        (result, curret) => result + curret,
+                        0
+                    );
+                    return `${((value / total) * 100).toFixed(2)}%`;
+                },
+            },
+        },
+    };
+}
+
+
+function configCharLine({ labels, data = [] }) {
+    this.type = "line";
+    this.data = {
+        labels: labels,
+        datasets: data.map(val => ({
+            data: val.data,
+            label: val.label,
+            backgroundColor: val.backgroundColor,
+            borderColor: val.borderColor,
+            borderRadius: "4",
+        }))
+    };
+    this.options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 100,
+                },
+                grid: {
+                    drawBorder: false,
+                },
+            },
+            x: {
+                grid: {
+                    display: false,
+                },
+            },
+        },
+        plugins: {
+            legend: {
+                align: "end",
+            },
+        },
+    };
+    this.plugins = [legendMargin];
+}
+
+function configCharBarLagre({ labels, data = [] }) {
+    this.type = "bar";
+    this.data = {
+        labels: labels,
+        datasets: data.map(val => ({
+            data: val.data,
+            label: val.label,
+            backgroundColor: val.backgroundColor,
+            borderColor: val.borderColor,
+            borderRadius: "4",
+        }))
+    };
+    this.options = {
+        barThickness: 18,
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 100,
+                },
+                grid: {
+                    drawBorder: false,
+                },
+            },
+            x: {
+                grid: {
+                    display: false,
+                },
+            },
+        },
+        plugins: {
+            legend: {
+                align: "end",
+            },
+        },
+    };
+    this.plugins = [legendMargin];
+}
+
+
+fetch('/wp-admin/admin-ajax.php?action=get-data-chart-action')
+.then(response=>response.json())
+.then(response=> {
+    if (response.success) {
+        const { cost, revenue, price } = response.data;
+        // doanh số
+        const configRevenueChart = new configCharBar({
+            labels: ["Thực tế", "Dự kiến"],
+            data: [revenue.actual, revenue.expected],
+        });
+        const myChartRevenue = new Chart(
+            document.getElementById("doanh-so"),
+            configRevenueChart
+        );
+
+        // chi phí
+        const configCostChart = new configCharBar({
+            labels: ["Dự án", "Khác"],
+            data: [cost.project, cost.other],
+        });
+        const myChartCost = new Chart(
+            document.getElementById("chi-phi"),
+            configCostChart
+        );
+
+        // công nợ
+        const configCongNoChart = new configCharBar({
+            labels: ["Số tiền", "Khoản thu", "Công nợ"],
+            data: [price.finish, revenue.actual, price.finish - revenue.actual],
+        });
+
+        const myChartCongNo = new Chart(
+            document.getElementById("cong-no"),
+            configCongNoChart
+        );
+
+        // Lợi nhuận gộp
+        const configLoiNhuanGopChart = new configCharBar({
+            labels: ["Doanh thu", "Chi phí", "Lợi nhuận gộp"],
+            data: [revenue.actual, cost.project, revenue.actual - cost.project],
+        });
+
+        const myChartLoiNhuanGop = new Chart(
+            document.getElementById("Loi-nhuan-gop"),
+            configLoiNhuanGopChart
+        );
+
+        // cơ cấu
+        const configCoCauChart = new configCharPie({
+            labels: ["Doanh thu", "Chi phi"],
+            data: [revenue.actual, cost.project],
+        });
+
+        const myChartCoCau = new Chart(
+            document.getElementById("co-cau"),
+            configCoCauChart
+        );
+
+        // data demo
+        const datasetsDemo = [
+            {
+                label: "Nhà đất bán",
+                backgroundColor: "#204EC6",
+                borderColor: "#204EC6",
+                data: [90, 400, 425, 400, 615, 715, 815],
+            },
+            {
+                data: [500, 600, 790, 650, 510, 615, 995],
+                label: "Nhà đất cho thuê",
+                borderColor: "#00C7BE",
+                backgroundColor: "#00C7BE",
+            },
+        ];
+
+        // doanh so
+        const configChartDoanhSo = new configCharLine({
+            labels:  ["10/8", "11/8", "12/8", "13/8", "14/8", "15/8", "16/8"],
+            data: datasetsDemo
+        })
+        const myChartLoiDoanhSo = new Chart(document.getElementById("doanh-thu"), configChartDoanhSo);
+
+        // thong so
+        const configCharThongSo = new configCharBarLagre({
+            labels:  ["10/8", "11/8", "12/8", "13/8", "14/8", "15/8", "16/8"],
+            data: datasetsDemo
+        })
+        const myChartLoiThongSo = new Chart(document.getElementById("Tong-so"), configCharThongSo);
+        
+    }
+})
+
+
+const legendMargin = {
+    id: "legendMargin",
+    beforeInit(chart, legend, option) {
+        const fitValue = chart.legend.fit;
+        chart.legend.fit = function fit() {
+            fitValue.bind(chart.legend)();
+            return (this.height += 30);
+        };
+    },
+};
