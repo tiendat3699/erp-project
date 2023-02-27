@@ -1,0 +1,75 @@
+@use 'sass:math';
+
+$grid-columns: 12;
+
+$breakPoints: (
+    'xs': 0,
+    'sm': 576px,
+    'md': 768px,
+    'lg': 992px,
+    'xl': 1200px,
+);
+
+$gridSpaces: (
+    '0': 0,
+    '1': 8px,
+    '2': 16px,
+    '3': 24px,
+    '4': 32px,
+    '8': 64px,
+    '12': 96px,
+);
+
+//container class
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+//row class
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+//col class
+
+.col {
+    position: relative;
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@each $key, $val in $breakPoints {
+    @media ((min-width: $val)) {
+        @for $i from 1 through $grid-columns {
+            $width: math.div($i * 100%, $grid-columns);
+            .col-#{$key}-#{$i} {
+                width: 100%;
+                flex: 0 0 $width;
+                max-width: $width;
+            }
+        }
+    }
+}
+
+//space class
+
+@each $key, $val in $gridSpaces {
+    .gap-#{$key} {
+        margin-right: -$val;
+        margin-left: -$val;
+
+        & > .col {
+            padding: $val;
+        }
+    }
+}

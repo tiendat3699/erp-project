@@ -10,7 +10,7 @@ Chart.register(DoughnutController, ArcElement, Legend, Tooltip, Colors, Title);
 
 const cx = classNames.bind(styles);
 
-function DoughnutChart({ id, data, title, tooltipFormatter }) {
+function DoughnutChart({ id, data, title, tooltipFormatter, legend = true }) {
     const defaultOption = {
         borderWidth: 2,
         borderRadius: 2,
@@ -26,6 +26,9 @@ function DoughnutChart({ id, data, title, tooltipFormatter }) {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
+            legend: {
+                display: legend,
+            },
             title: {
                 display: !!title,
                 text: title,
@@ -56,6 +59,7 @@ DoughnutChart.propTypes = {
     data: PropTypes.object.isRequired,
     title: PropTypes.string,
     tooltipFormatter: PropTypes.func,
+    legend: PropTypes.bool,
 };
 
 export default DoughnutChart;

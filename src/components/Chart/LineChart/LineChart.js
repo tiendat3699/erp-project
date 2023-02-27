@@ -21,7 +21,7 @@ Chart.register(CategoryScale, LinearScale, LineController, LineElement, PointEle
 
 const cx = classNames.bind(styles);
 
-function LineChart({ id, data, title, ticksFormatter, tooltipFormatter }) {
+function LineChart({ id, data, title, tooltipFormatter, legend }) {
     const defaultOption = {
         borderWidth: 2,
         borderRadius: 2,
@@ -36,15 +36,9 @@ function LineChart({ id, data, title, ticksFormatter, tooltipFormatter }) {
     const options = {
         responsive: true,
         maintainAspectRatio: false,
-        scales: {
-            x: {
-                ticks: {
-                    callback: ticksFormatter,
-                },
-            },
-        },
         plugins: {
             legend: {
+                display: legend,
                 align: 'end',
             },
             title: {
@@ -76,8 +70,8 @@ LineChart.propTypes = {
     id: PropTypes.string,
     data: PropTypes.object.isRequired,
     title: PropTypes.string,
-    ticksFormatter: PropTypes.func,
     tooltipFormatter: PropTypes.func,
+    legend: PropTypes.bool,
 };
 
 export default LineChart;

@@ -46,7 +46,7 @@ function SideBar() {
             <div className={cx('header')}>
                 <Link to="/" className={cx('logo', hideClass)}>
                     <img src={logo} alt="" />
-                    <span className={cx('title')}>Wemo Media</span>
+                    <span className={cx('title')}>ERP project</span>
                 </Link>
                 <button className={cx('collapse-btn')} onClick={handleCollapse}>
                     {<FontAwesomeIcon className={cx('icon')} icon={faAnglesLeft} rotation={collapse ? 180 : 0} />}

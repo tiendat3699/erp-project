@@ -4,13 +4,14 @@ import classNames from 'classnames/bind';
 import styles from '../Chart.module.scss';
 
 import { Bar } from 'react-chartjs-2';
+
 import { Chart, CategoryScale, LinearScale, BarController, BarElement, Legend, Tooltip, Colors, Title } from 'chart.js';
 
 Chart.register(CategoryScale, LinearScale, BarController, BarElement, Legend, Tooltip, Colors, Title);
 
 const cx = classNames.bind(styles);
 
-function BarChart({ id, data, title, ticksFormatter, tooltipFormatter, horizontal = false }) {
+function BarChart({ id, data, title, tooltipFormatter, horizontal = false, legend = true }) {
     const defaultOption = {
         borderWidth: 2,
         borderRadius: 2,
@@ -28,15 +29,9 @@ function BarChart({ id, data, title, ticksFormatter, tooltipFormatter, horizonta
         responsive: true,
         maintainAspectRatio: false,
         indexAxis: axis,
-        scales: {
-            [axis]: {
-                ticks: {
-                    callback: ticksFormatter,
-                },
-            },
-        },
         plugins: {
             legend: {
+                display: legend,
                 align: 'end',
             },
             title: {
@@ -68,9 +63,9 @@ BarChart.propTypes = {
     id: PropTypes.string,
     data: PropTypes.object.isRequired,
     title: PropTypes.string,
-    ticksFormatter: PropTypes.func,
     tooltipFormatter: PropTypes.func,
     Horizontal: PropTypes.bool,
+    length: PropTypes.bool,
 };
 
 export default BarChart;

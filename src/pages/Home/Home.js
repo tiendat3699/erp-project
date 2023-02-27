@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase, faHandshake, faUsers, faUserTie } from '@fortawesome/free-solid-svg-icons';
 
 import ContentBlock from '~/components/ContentBlock';
-import { BarChart, DoughnutChart, LineChart, PieChart } from '~/components/Chart';
 import DataCard from '~/components/DataCard';
+import { BarChart, DoughnutChart, LineChart, PieChart } from '~/components/Chart';
+import { Row, Col } from '~/components/GridSystem';
 
 import styles from './Home.module.scss';
 
@@ -12,7 +13,7 @@ const cx = classNames.bind(styles);
 
 function Home() {
     const data = {
-        labels: [1, 2, 5],
+        labels: ['tháng 1', 'tháng 2', 'tháng 3'],
         datasets: [
             {
                 label: 'Fully Rounded',
@@ -25,44 +26,85 @@ function Home() {
         ],
     };
 
-    const dataPie = {
-        labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
+    const dataDoughnut = {
+        labels: ['Mục 1', 'Mục 2'],
         datasets: [
             {
                 label: 'Dataset 1',
-                data: [1, 5, 6, 7, 8],
+                data: [10, 5],
+            },
+            {
+                label: 'Dataset 2',
+                data: [4, 10],
+            },
+        ],
+    };
+
+    const dataPie = {
+        labels: ['Mục 1', 'Mục 2', 'Mục 3'],
+        datasets: [
+            {
+                label: 'Dataset 1',
+                data: [10, 5, 6],
             },
         ],
     };
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('container')}>
-                <DataCard icon={<FontAwesomeIcon icon={faUsers} />} title="Khách hàng" value="12" />
-                <DataCard icon={<FontAwesomeIcon icon={faUserTie} />} title="Nhân viên" value="50" />
-                <DataCard icon={<FontAwesomeIcon icon={faBriefcase} />} title="Dự án" value="12" />
-                <DataCard icon={<FontAwesomeIcon icon={faHandshake} />} title="Đối tác" value="12" />
-            </div>
-            <div className={cx('container')}>
-                <ContentBlock className={cx('chart-block')}>
-                    <BarChart data={data} title="Chart1" />
-                </ContentBlock>
-                <ContentBlock className={cx('chart-block')}>
-                    <BarChart data={data} title="Chart2" />
-                </ContentBlock>
-                <ContentBlock className={cx('chart-block')}>
-                    <BarChart data={data} title="Chart3" />
-                </ContentBlock>
-                <ContentBlock className={cx('chart-block')}>
-                    <LineChart data={data} title="line chart" />
-                </ContentBlock>
-                <ContentBlock className={cx('chart-block')}>
-                    <PieChart data={dataPie} title="Pie chart" />
-                </ContentBlock>
-                <ContentBlock className={cx('chart-block')}>
-                    <DoughnutChart data={dataPie} title="DoughnutChart" />
-                </ContentBlock>
-            </div>
+            <Row space={2} className={cx('section')}>
+                <Col lg={6} xl={3}>
+                    <DataCard icon={<FontAwesomeIcon icon={faUsers} />} title="Khách hàng" value="12" />
+                </Col>
+                <Col lg={6} xl={3}>
+                    <DataCard icon={<FontAwesomeIcon icon={faUserTie} />} title="Nhân viên" value="50" />
+                </Col>
+                <Col lg={6} xl={3}>
+                    <DataCard icon={<FontAwesomeIcon icon={faBriefcase} />} title="Dự án" value="12" />
+                </Col>
+                <Col lg={6} xl={3}>
+                    <DataCard icon={<FontAwesomeIcon icon={faHandshake} />} title="Đối tác" value="12" />
+                </Col>
+            </Row>
+            <Row space={2} className={cx('section')}>
+                <Col xl={9}>
+                    <ContentBlock className={cx('chart-block')}>
+                        <BarChart data={data} title="BarChart 1" />
+                    </ContentBlock>
+                </Col>
+                <Col xl={3}>
+                    <ContentBlock className={cx('chart-block', 'sm')}>
+                        <BarChart data={data} title="BarChart 2" horizontal legend={false} />
+                    </ContentBlock>
+                    <ContentBlock className={cx('chart-block', 'sm')}>
+                        <BarChart data={data} title="BarChart 3" horizontal legend={false} />
+                    </ContentBlock>
+                </Col>
+            </Row>
+            <Row space={2} className={cx('section')}>
+                <Col xl={9}>
+                    <ContentBlock className={cx('chart-block')}>
+                        <BarChart data={data} title="BarChart 4" />
+                    </ContentBlock>
+                </Col>
+                <Col xl={3}>
+                    <ContentBlock className={cx('chart-block')}>
+                        <PieChart data={dataPie} title="PieChart" />
+                    </ContentBlock>
+                </Col>
+            </Row>
+            <Row space={2} className={cx('section')}>
+                <Col xl={9}>
+                    <ContentBlock className={cx('chart-block')}>
+                        <LineChart data={data} title="LineChart" />
+                    </ContentBlock>
+                </Col>
+                <Col xl={3}>
+                    <ContentBlock className={cx('chart-block')}>
+                        <DoughnutChart data={dataDoughnut} title="DoughnutChart" />
+                    </ContentBlock>
+                </Col>
+            </Row>
         </div>
     );
 }
