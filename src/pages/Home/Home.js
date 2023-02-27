@@ -5,6 +5,7 @@ import { faBriefcase, faHandshake, faUsers, faUserTie } from '@fortawesome/free-
 import ContentBlock from '~/components/ContentBlock';
 import DataCard from '~/components/DataCard';
 import { BarChart, DoughnutChart, LineChart, PieChart } from '~/components/Chart';
+import Table from '~/components/Table';
 import { Row, Col } from '~/components/GridSystem';
 
 import styles from './Home.module.scss';
@@ -18,10 +19,28 @@ function Home() {
             {
                 label: 'Fully Rounded',
                 data: [1, 10, 5],
+                fill: true,
             },
             {
                 label: 'Small Radius',
                 data: [5, 2, 15],
+                fill: true,
+            },
+        ],
+    };
+
+    const dataLine = {
+        labels: ['tháng 1', 'tháng 2', 'tháng 3', 'tháng 4', 'tháng 5', 'tháng 6'],
+        datasets: [
+            {
+                label: 'Fully Rounded',
+                data: [1, 10, 5, 1, 5, 16],
+                fill: true,
+            },
+            {
+                label: 'Small Radius',
+                data: [5, 2, 15, 5, 6, 1],
+                fill: true,
             },
         ],
     };
@@ -84,7 +103,7 @@ function Home() {
             <Row space={2} className={cx('section')}>
                 <Col xl={9}>
                     <ContentBlock className={cx('chart-block')}>
-                        <BarChart data={data} title="BarChart 4" />
+                        <LineChart data={dataLine} title="LineChart" />
                     </ContentBlock>
                 </Col>
                 <Col xl={3}>
@@ -96,7 +115,7 @@ function Home() {
             <Row space={2} className={cx('section')}>
                 <Col xl={9}>
                     <ContentBlock className={cx('chart-block')}>
-                        <LineChart data={data} title="LineChart" />
+                        <Table />
                     </ContentBlock>
                 </Col>
                 <Col xl={3}>

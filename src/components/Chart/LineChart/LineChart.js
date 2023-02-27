@@ -15,9 +15,21 @@ import {
     Tooltip,
     Colors,
     Title,
+    Filler,
 } from 'chart.js';
 
-Chart.register(CategoryScale, LinearScale, LineController, LineElement, PointElement, Legend, Tooltip, Colors, Title);
+Chart.register(
+    CategoryScale,
+    LinearScale,
+    LineController,
+    LineElement,
+    PointElement,
+    Legend,
+    Tooltip,
+    Colors,
+    Title,
+    Filler,
+);
 
 const cx = classNames.bind(styles);
 
@@ -26,6 +38,7 @@ function LineChart({ id, data, title, tooltipFormatter, legend }) {
         borderWidth: 2,
         borderRadius: 2,
         borderSkipped: 'start',
+        cubicInterpolationMode: 'monotone',
     };
 
     const dataChart = {
@@ -36,6 +49,10 @@ function LineChart({ id, data, title, tooltipFormatter, legend }) {
     const options = {
         responsive: true,
         maintainAspectRatio: false,
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
         plugins: {
             legend: {
                 display: legend,

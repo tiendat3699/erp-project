@@ -1,0 +1,27 @@
+.wrapper {
+    $border-color: #d9dee3;
+    width: 100%;
+    border-collapse: collapse;
+    color: #566a7f;
+    border: 1px solid $border-color;
+
+    thead {
+        font-weight: 500;
+        tr {
+            background-color: rgba(var(--primary-color-rgb), 0.1);
+            border-bottom: 1px solid $border-color;
+        }
+    }
+
+    tbody {
+        font-size: 1.4rem;
+        tr:not(:last-child) {
+            border-bottom: 1px solid $border-color;
+        }
+    }
+
+    td {
+        border: none;
+        padding: 10px 20px;
+    }
+}
