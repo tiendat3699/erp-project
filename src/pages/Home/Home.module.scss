@@ -1,18 +1,18 @@
 .wrapper {
+    $height-block: 400px;
+    $mt: 12px;
     .section {
         margin-bottom: 30px;
     }
 
     .chart-block {
-        $height: 400px;
-        $mt: 12px;
-        height: $height;
+        height: $height-block;
         &.sm {
-            height: calc($height / 2 - $mt/2);
+            height: calc($height-block / 2 - $mt/2);
         }
+    }
 
-        & ~ .chart-block {
-            margin-top: $mt;
-        }
+    .table-block {
+        min-height: $height-block;
     }
 }

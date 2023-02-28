@@ -8,8 +8,7 @@ function usePageTitle(title) {
     useEffect(() => {
         document.title = `${title} – ERP Project`;
         dispatch(setTitle(title));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [title]);
+    }, [dispatch, title]);
 }
 
 export default usePageTitle;

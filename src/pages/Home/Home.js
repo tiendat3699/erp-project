@@ -78,31 +78,85 @@ function Home() {
 
     const rows = [
         {
-            id: '#123',
+            id: '#1',
             name: 'Nguuyn',
             phone: 123124345,
             value: 3,
         },
         {
-            id: '#454',
+            id: '#2',
             name: 'phuong',
             phone: 123124345,
             value: 3,
         },
         {
-            id: '#786',
+            id: '#3',
             name: 'quta',
             phone: 123124345,
             value: 123,
         },
         {
-            id: '#343',
+            id: '#4',
             name: 'pádas',
             phone: 123124345,
             value: 3,
         },
         {
-            id: '#671',
+            id: '#5',
+            name: 'ádasfsdf',
+            phone: 123124345,
+            value: 13,
+        },
+        {
+            id: '#5',
+            name: 'ádasfsdf',
+            phone: 123124345,
+            value: 13,
+        },
+        {
+            id: '#5',
+            name: 'ádasfsdf',
+            phone: 123124345,
+            value: 13,
+        },
+        {
+            id: '#5',
+            name: 'ádasfsdf',
+            phone: 123124345,
+            value: 13,
+        },
+        {
+            id: '#5',
+            name: 'ádasfsdf',
+            phone: 123124345,
+            value: 13,
+        },
+        {
+            id: '#5',
+            name: 'ádasfsdf',
+            phone: 123124345,
+            value: 13,
+        },
+        {
+            id: '#5',
+            name: 'ádasfsdf',
+            phone: 123124345,
+            value: 13,
+        },
+        {
+            id: '#5',
+            name: 'ádasfsdf',
+            phone: 123124345,
+            value: 13,
+        },
+        {
+            id: '#5',
+            name: 'ádasfsdf',
+            phone: 123124345,
+            value: 13,
+        },
+        {
+            id: '#5',
             name: 'ádasfsdf',
             phone: 123124345,
             value: 13,
@@ -154,8 +208,8 @@ function Home() {
             </Row>
             <Row space={2} className={cx('section')}>
                 <Col xl={9}>
-                    <ContentBlock className={cx('chart-block')}>
-                        <Table title="Bảng" rows={rows} columns={columns} />
+                    <ContentBlock className={cx('table-block')}>
+                        <Table title="Bảng" rows={rows} columns={columns} pageSizeOptions={[4, -1]} />
                     </ContentBlock>
                 </Col>
                 <Col xl={3}>
