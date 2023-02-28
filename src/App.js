@@ -19,7 +19,7 @@ function App() {
                     <Route element={<PrivateRoute />}>
                         {privateRoutes.map((route, index) => {
                             const Comp = route.component;
-                            const Layout = route.layout ?? Fragment;
+                            const Layout = route.layout || Fragment;
                             return (
                                 <Route
                                     key={index}

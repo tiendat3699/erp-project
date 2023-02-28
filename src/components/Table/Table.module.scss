@@ -1,9 +1,17 @@
 .wrapper {
     $border-color: #d9dee3;
-    width: 100%;
-    border-collapse: collapse;
-    color: #566a7f;
-    border: 1px solid $border-color;
+    .title {
+        text-align: center;
+        padding: 8px 0px 16px;
+        color: var(--primary-color);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #566a7f;
+        border: 1px solid $border-color;
+    }
 
     thead {
         font-weight: 500;
@@ -18,10 +26,48 @@
         tr:not(:last-child) {
             border-bottom: 1px solid $border-color;
         }
+
+        tr {
+            transition: all ease 0.1s;
+        }
+
+        tr:hover {
+            cursor: pointer;
+            background-color: rgba(var(--secondary-color-rgb), 0.05);
+        }
     }
 
     td {
         border: none;
         padding: 10px 20px;
+    }
+
+    .pagination {
+        display: flex;
+        align-items: center;
+        padding: 4px 0;
+
+        .control {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 25px;
+                height: 25px;
+                font-size: 1.3rem;
+                border: none;
+                border-radius: 4px;
+                outline: none;
+                background-color: #f2f2f2;
+                cursor: pointer;
+
+                & ~ button {
+                    margin-left: 4px;
+                }
+            }
+        }
     }
 }

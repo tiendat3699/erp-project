@@ -42,7 +42,7 @@ function BarChart({ id, data, title, tooltipFormatter, horizontal = false, legen
                     bottom: 10,
                 },
                 color: '#005295',
-                font: { size: '16px' },
+                font: { size: '16px', family: 'IBM Plex Sans, sans-serif' },
             },
 
             tooltip: {

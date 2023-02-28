@@ -69,6 +69,46 @@ function Home() {
         ],
     };
 
+    const columns = [
+        { id: 'id', headerName: 'ID', width: 80 },
+        { id: 'name', headerName: 'Tên' },
+        { id: 'phone', headerName: 'SĐT' },
+        { id: 'value', headerName: 'Giá trị', width: 120 },
+    ];
+
+    const rows = [
+        {
+            id: '#123',
+            name: 'Nguuyn',
+            phone: 123124345,
+            value: 3,
+        },
+        {
+            id: '#454',
+            name: 'phuong',
+            phone: 123124345,
+            value: 3,
+        },
+        {
+            id: '#786',
+            name: 'quta',
+            phone: 123124345,
+            value: 123,
+        },
+        {
+            id: '#343',
+            name: 'pádas',
+            phone: 123124345,
+            value: 3,
+        },
+        {
+            id: '#671',
+            name: 'ádasfsdf',
+            phone: 123124345,
+            value: 13,
+        },
+    ];
+
     return (
         <div className={cx('wrapper')}>
             <Row space={2} className={cx('section')}>
@@ -115,7 +155,7 @@ function Home() {
             <Row space={2} className={cx('section')}>
                 <Col xl={9}>
                     <ContentBlock className={cx('chart-block')}>
-                        <Table />
+                        <Table title="Bảng" rows={rows} columns={columns} />
                     </ContentBlock>
                 </Col>
                 <Col xl={3}>
