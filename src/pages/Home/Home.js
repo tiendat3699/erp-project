@@ -14,29 +14,85 @@ import styles from './Home.module.scss';
 
 const cx = classNames.bind(styles);
 
+const columns = [
+    {
+        id: 'id',
+        headerName: 'ID',
+        width: 60,
+    },
+    {
+        id: 'name',
+        headerName: 'Tên',
+        width: 200,
+    },
+    {
+        id: 'phone',
+        headerName: 'Số điện thoại',
+    },
+    {
+        id: 'email',
+        headerName: 'Email',
+    },
+];
+
+const data = {
+    labels: ['tháng 1', 'tháng 2', 'tháng 3'],
+    datasets: [
+        {
+            label: 'Fully Rounded',
+            data: [1, 10, 5],
+            fill: true,
+        },
+        {
+            label: 'Small Radius',
+            data: [5, 2, 15],
+            fill: true,
+        },
+    ],
+};
+
+const dataLine = {
+    labels: ['tháng 1', 'tháng 2', 'tháng 3', 'tháng 4', 'tháng 5', 'tháng 6'],
+    datasets: [
+        {
+            label: 'Fully Rounded',
+            data: [1, 10, 5, 1, 5, 16],
+            fill: true,
+        },
+        {
+            label: 'Small Radius',
+            data: [5, 2, 15, 5, 6, 1],
+            fill: true,
+        },
+    ],
+};
+
+const dataDoughnut = {
+    labels: ['Mục 1', 'Mục 2'],
+    datasets: [
+        {
+            label: 'Dataset 1',
+            data: [10, 5],
+        },
+        {
+            label: 'Dataset 2',
+            data: [4, 10],
+        },
+    ],
+};
+
+const dataPie = {
+    labels: ['Mục 1', 'Mục 2', 'Mục 3'],
+    datasets: [
+        {
+            label: 'Dataset 1',
+            data: [10, 5, 6],
+        },
+    ],
+};
+
 function Home() {
     const [rows, setRows] = useState([]);
-
-    const columns = [
-        {
-            id: 'id',
-            headerName: 'ID',
-            width: 60,
-        },
-        {
-            id: 'name',
-            headerName: 'Tên',
-            width: 200,
-        },
-        {
-            id: 'phone',
-            headerName: 'Số điện thoại',
-        },
-        {
-            id: 'email',
-            headerName: 'Email',
-        },
-    ];
 
     useEffect(() => {
         const fetch = async () => {
@@ -58,62 +114,6 @@ function Home() {
 
         fetch();
     }, []);
-
-    const data = {
-        labels: ['tháng 1', 'tháng 2', 'tháng 3'],
-        datasets: [
-            {
-                label: 'Fully Rounded',
-                data: [1, 10, 5],
-                fill: true,
-            },
-            {
-                label: 'Small Radius',
-                data: [5, 2, 15],
-                fill: true,
-            },
-        ],
-    };
-
-    const dataLine = {
-        labels: ['tháng 1', 'tháng 2', 'tháng 3', 'tháng 4', 'tháng 5', 'tháng 6'],
-        datasets: [
-            {
-                label: 'Fully Rounded',
-                data: [1, 10, 5, 1, 5, 16],
-                fill: true,
-            },
-            {
-                label: 'Small Radius',
-                data: [5, 2, 15, 5, 6, 1],
-                fill: true,
-            },
-        ],
-    };
-
-    const dataDoughnut = {
-        labels: ['Mục 1', 'Mục 2'],
-        datasets: [
-            {
-                label: 'Dataset 1',
-                data: [10, 5],
-            },
-            {
-                label: 'Dataset 2',
-                data: [4, 10],
-            },
-        ],
-    };
-
-    const dataPie = {
-        labels: ['Mục 1', 'Mục 2', 'Mục 3'],
-        datasets: [
-            {
-                label: 'Dataset 1',
-                data: [10, 5, 6],
-            },
-        ],
-    };
 
     return (
         <div className={cx('wrapper')}>
