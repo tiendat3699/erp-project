@@ -132,12 +132,12 @@ function Home() {
                 </Col>
             </Row>
             <Row space={2} className={cx('section')}>
-                <Col xl={9}>
+                <Col xl={8}>
                     <ContentBlock className={cx('chart-block')}>
                         <BarChart data={data} title="BarChart 1" />
                     </ContentBlock>
                 </Col>
-                <Col xl={3}>
+                <Col xl={4}>
                     <ContentBlock className={cx('chart-block', 'sm')}>
                         <BarChart data={data} title="BarChart 2" horizontal legend={false} />
                     </ContentBlock>
@@ -147,24 +147,24 @@ function Home() {
                 </Col>
             </Row>
             <Row space={2} className={cx('section')}>
-                <Col xl={9}>
+                <Col xl={8}>
                     <ContentBlock className={cx('chart-block')}>
                         <LineChart data={dataLine} title="LineChart" />
                     </ContentBlock>
                 </Col>
-                <Col xl={3}>
+                <Col xl={4}>
                     <ContentBlock className={cx('chart-block')}>
                         <PieChart data={dataPie} title="PieChart" />
                     </ContentBlock>
                 </Col>
             </Row>
             <Row space={2} className={cx('section')}>
-                <Col xl={9}>
+                <Col xl={8}>
                     <ContentBlock className={cx('table-block')}>
                         <Table title="Bảng" rows={rows} columns={columns} />
                     </ContentBlock>
                 </Col>
-                <Col xl={3}>
+                <Col xl={4}>
                     <ContentBlock className={cx('chart-block')}>
                         <DoughnutChart data={dataDoughnut} title="DoughnutChart" />
                     </ContentBlock>

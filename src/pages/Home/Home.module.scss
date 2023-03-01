@@ -10,6 +10,10 @@
         &.sm {
             height: calc($height-block / 2 - $mt/2);
         }
+
+        & ~ .chart-block {
+            margin-top: $mt;
+        }
     }
 
     .table-block {
