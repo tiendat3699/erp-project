@@ -68,7 +68,7 @@ function SignUp() {
                     })}
                     name="email"
                     placeholder="Email"
-                    message={errors.mail_account?.message}
+                    message={errors.email?.message}
                 />
                 <TextField
                     {...register('username', {
