@@ -1,11 +1,13 @@
 import classNames from 'classnames/bind';
+import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase, faHandshake, faUsers, faUserTie } from '@fortawesome/free-solid-svg-icons';
 
+import { httpRequest } from '~/utils';
 import ContentBlock from '~/components/ContentBlock';
 import DataCard from '~/components/DataCard';
-import { BarChart, DoughnutChart, LineChart, PieChart } from '~/components/Chart';
 import Table from '~/components/Table';
+import { BarChart, DoughnutChart, LineChart, PieChart } from '~/components/Chart';
 import { Row, Col } from '~/components/GridSystem';
 
 import styles from './Home.module.scss';
@@ -13,6 +15,50 @@ import styles from './Home.module.scss';
 const cx = classNames.bind(styles);
 
 function Home() {
+    const [rows, setRows] = useState([]);
+
+    const columns = [
+        {
+            id: 'id',
+            headerName: 'ID',
+            width: 60,
+        },
+        {
+            id: 'name',
+            headerName: 'Tên',
+            width: 200,
+        },
+        {
+            id: 'phone',
+            headerName: 'Số điện thoại',
+        },
+        {
+            id: 'email',
+            headerName: 'Email',
+        },
+    ];
+
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const res = await httpRequest.get('https://jsonplaceholder.typicode.com/users');
+                const data = res.data.map((el) => {
+                    const result = {};
+                    columns.forEach((column) => {
+                        const key = column.id;
+                        result[key] = el[key];
+                    });
+                    return result;
+                });
+                setRows(data);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+        fetch();
+    }, []);
+
     const data = {
         labels: ['tháng 1', 'tháng 2', 'tháng 3'],
         datasets: [
@@ -69,100 +115,6 @@ function Home() {
         ],
     };
 
-    const columns = [
-        { id: 'id', headerName: 'ID', width: 80 },
-        { id: 'name', headerName: 'Tên' },
-        { id: 'phone', headerName: 'SĐT' },
-        { id: 'value', headerName: 'Giá trị', width: 120 },
-    ];
-
-    const rows = [
-        {
-            id: '#1',
-            name: 'Nguuyn',
-            phone: 123124345,
-            value: 3,
-        },
-        {
-            id: '#2',
-            name: 'phuong',
-            phone: 123124345,
-            value: 3,
-        },
-        {
-            id: '#3',
-            name: 'quta',
-            phone: 123124345,
-            value: 123,
-        },
-        {
-            id: '#4',
-            name: 'pádas',
-            phone: 123124345,
-            value: 3,
-        },
-        {
-            id: '#5',
-            name: 'ádasfsdf',
-            phone: 123124345,
-            value: 13,
-        },
-        {
-            id: '#5',
-            name: 'ádasfsdf',
-            phone: 123124345,
-            value: 13,
-        },
-        {
-            id: '#5',
-            name: 'ádasfsdf',
-            phone: 123124345,
-            value: 13,
-        },
-        {
-            id: '#5',
-            name: 'ádasfsdf',
-            phone: 123124345,
-            value: 13,
-        },
-        {
-            id: '#5',
-            name: 'ádasfsdf',
-            phone: 123124345,
-            value: 13,
-        },
-        {
-            id: '#5',
-            name: 'ádasfsdf',
-            phone: 123124345,
-            value: 13,
-        },
-        {
-            id: '#5',
-            name: 'ádasfsdf',
-            phone: 123124345,
-            value: 13,
-        },
-        {
-            id: '#5',
-            name: 'ádasfsdf',
-            phone: 123124345,
-            value: 13,
-        },
-        {
-            id: '#5',
-            name: 'ádasfsdf',
-            phone: 123124345,
-            value: 13,
-        },
-        {
-            id: '#5',
-            name: 'ádasfsdf',
-            phone: 123124345,
-            value: 13,
-        },
-    ];
-
     return (
         <div className={cx('wrapper')}>
             <Row space={2} className={cx('section')}>
@@ -209,7 +161,7 @@ function Home() {
             <Row space={2} className={cx('section')}>
                 <Col xl={9}>
                     <ContentBlock className={cx('table-block')}>
-                        <Table title="Bảng" rows={rows} columns={columns} pageSizeOptions={[4, -1]} />
+                        <Table title="Bảng" rows={rows} columns={columns} />
                     </ContentBlock>
                 </Col>
                 <Col xl={3}>

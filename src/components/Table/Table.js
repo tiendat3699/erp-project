@@ -15,17 +15,13 @@ import {
 const cx = classNames.bind(style);
 
 function Table({ title, rows = [], columns = [], pageSizeOptions = [] }) {
-    const [pageSize, setPageSize] = useState(pageSizeOptions[0] || 5);
+    const [pageSize, setPageSize] = useState(pageSizeOptions[0]?.value || pageSizeOptions[0] || 5);
     const [page, setPage] = useState(1);
-    const [sliceRow, setSliceRow] = useState([0, pageSize]);
     const maxPage = Math.ceil(rows.length / pageSize);
-
-    useEffect(() => {
-        const displayedRow = page * pageSize;
-        const startIndex = (page - 1) * pageSize;
-        const lastIndex = displayedRow > rows.length ? rows.length : displayedRow;
-        setSliceRow([startIndex, lastIndex]);
-    }, [page, pageSize, rows]);
+    const displayedRow = page * pageSize;
+    const startIndex = (page - 1) * pageSize;
+    const lastIndex = displayedRow > rows.length ? rows.length : displayedRow;
+    const displayRow = rows.slice(startIndex, lastIndex);
 
     const handlePagination = (numberPage) => {
         if (numberPage >= 1 && numberPage <= maxPage) {
@@ -54,11 +50,16 @@ function Table({ title, rows = [], columns = [], pageSizeOptions = [] }) {
     };
 
     const RenderPaginationPageSize = () => {
-        return pageSizeOptions.map((option, index) => {
-            const size = option === -1 ? rows.length : option;
+        return pageSizeOptions.map((pageSizeOption) => {
+            let size = pageSizeOption === -1 ? rows.length : pageSizeOption;
+            let label = size;
+            if (typeof pageSizeOption === 'object') {
+                size = pageSizeOption.value === -1 ? rows.length : pageSizeOption.value;
+                label = pageSizeOption.label;
+            }
             return (
-                <option value={size} key={index}>
-                    {size}
+                <option value={size} key={size}>
+                    {label}
                 </option>
             );
         });
@@ -78,11 +79,11 @@ function Table({ title, rows = [], columns = [], pageSizeOptions = [] }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {rows.slice(sliceRow[0], sliceRow[1]).map((row, index) => {
+                    {displayRow.map((row, index) => {
                         return (
                             <tr key={index}>
                                 {columns.map((column) => (
-                                    <td key={column.id}>{row[column.id]}</td>
+                                    <td key={rows.id || column.id}>{row[column.id]}</td>
                                 ))}
                             </tr>
                         );
@@ -91,7 +92,7 @@ function Table({ title, rows = [], columns = [], pageSizeOptions = [] }) {
             </table>
             <div className={cx('pagination')}>
                 <span className={cx('displayed-rows')}>
-                    {sliceRow[0] + 1} - {sliceRow[1]} of {rows.length}
+                    {startIndex + 1} - {lastIndex} of {rows.length}
                 </span>
                 <div className={cx('control')}>
                     {pageSizeOptions.length > 0 && (
