@@ -2,10 +2,10 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { unwrapResult } from '@reduxjs/toolkit';
 
 import { useForm } from '~/hooks';
-import { login } from '~/actions/authAction';
+import { authService } from '~/services';
+import { login } from '~/store/auth';
 import { TextField, Button, Checkbox } from '~/components/Input';
 import ToastComponent, { showtoast } from '~/components/Toast/';
 
@@ -42,12 +42,18 @@ function Login() {
             const toastId = showtoast.loading('Đang đăng nhập...');
             try {
                 setDisabled(true);
-                const res = await dispatch(login(data));
-                const result = unwrapResult(res);
-                showtoast.update(toastId, result.message, 'success');
+                const res = await authService.login(data);
+                showtoast.update(toastId, res.message, 'success');
+                dispatch(login(res));
                 setSuccess(true);
             } catch (err) {
-                showtoast.update(toastId, err, 'error');
+                let message;
+                if (err.response && err.response.data.message) {
+                    message = err.response.data.message;
+                } else {
+                    message = err.message;
+                }
+                showtoast.update(toastId, message, 'error');
             } finally {
                 setDisabled(false);
             }

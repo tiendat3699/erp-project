@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import pageReducer from '~/app/pageSlice';
-import authReducer from '~/app/authSlice';
+import auth from './auth';
 
 const rootReducer = {
     page: pageReducer,
-    auth: authReducer,
+    auth: auth,
 };
 
 const store = configureStore({ reducer: rootReducer });
