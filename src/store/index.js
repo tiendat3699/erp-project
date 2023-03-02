@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { combineReducers } from 'redux';
 
-import pageTitleReducer from '~/reducers/pageTitleReducer';
-import authReducer from '~/reducers/authReducer';
+import pageReducer from '~/app/pageSlice';
+import authReducer from '~/app/authSlice';
 
-const reducer = combineReducers({ pageTitle: pageTitleReducer, auth: authReducer });
+const rootReducer = {
+    page: pageReducer,
+    auth: authReducer,
+};
 
-const store = configureStore({ reducer });
+const store = configureStore({ reducer: rootReducer });
 
 export default store;

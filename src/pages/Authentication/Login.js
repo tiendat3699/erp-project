@@ -1,11 +1,12 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
 
-import { TextField, Button, Checkbox } from '~/components/Input';
 import { useForm } from '~/hooks';
-import { authService } from '~/services';
+import { login } from '~/actions/authAction';
+import { TextField, Button, Checkbox } from '~/components/Input';
 import ToastComponent, { showtoast } from '~/components/Toast/';
 
 import styles from './Authentication.module.scss';
@@ -13,7 +14,7 @@ import { backgroundAuthenPage } from '~/images';
 
 const cx = classNames.bind(styles);
 
-function login() {
+function Login() {
     const {
         rules,
         register,
@@ -22,7 +23,18 @@ function login() {
     } = useForm();
 
     const [disabled, setDisabled] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (success) {
+            setTimeout(() => {
+                navigate('/');
+            }, 1000);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [success]);
 
     const onSubmit = (data) => {
         if (disabled) return;
@@ -30,19 +42,12 @@ function login() {
             const toastId = showtoast.loading('Đang đăng nhập...');
             try {
                 setDisabled(true);
-                const result = await authService.login(data);
-                setDisabled(false);
+                const res = await dispatch(login(data));
+                const result = unwrapResult(res);
                 showtoast.update(toastId, result.message, 'success');
-                navigate('/');
+                setSuccess(true);
             } catch (err) {
-                const data = err.response?.data;
-                setDisabled(false);
-                if (data) {
-                    showtoast.update(toastId, data.message, 'error');
-                } else {
-                    console.log(err.message);
-                    showtoast.update(toastId, 'Lỗi đăng nhập', 'error');
-                }
+                showtoast.update(toastId, err, 'error');
             } finally {
                 setDisabled(false);
             }
@@ -87,4 +92,4 @@ function login() {
     );
 }
 
-export default login;
+export default Login;

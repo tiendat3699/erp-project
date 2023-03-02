@@ -1,9 +1,12 @@
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+
 import { useForm } from '~/hooks';
+import { signup } from '~/actions/authAction';
 import { TextField, Button, Checkbox } from '~/components/Input';
-import { authService } from '~/services';
 import ToastComponent, { showtoast } from '~/components/Toast/Toast';
 
 import styles from './Authentication.module.scss';
@@ -22,7 +25,18 @@ function SignUp() {
     } = useForm();
 
     const [disabled, setDisabled] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (success) {
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [success]);
 
     const onSubmit = (data) => {
         if (disabled) return;
@@ -30,18 +44,12 @@ function SignUp() {
             const toastId = showtoast.loading('Đang đăng nhập...');
             try {
                 setDisabled(true);
-                const result = await authService.signup(data);
+                const res = await dispatch(signup(data));
+                const result = unwrapResult(res);
                 showtoast.update(toastId, result.message, 'success');
-                navigate('/login');
+                setSuccess(true);
             } catch (err) {
-                const data = err.response?.data;
-                if (data) {
-                    showtoast.update(toastId, data.message, 'error');
-                } else {
-                    showtoast.update(toastId, 'Lỗi đăng ký', 'error');
-                }
-            } finally {
-                setDisabled(false);
+                showtoast.update(toastId, err, 'error');
             }
         };
 

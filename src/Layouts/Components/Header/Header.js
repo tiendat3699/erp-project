@@ -46,8 +46,7 @@ const userMenu = [
 function Header() {
     const [chatQueue, setChatQueue] = useState([]);
     const [notifyQueue, setNotifyQueue] = useState([]);
-    const title = useSelector((state) => state.pageTitle);
-
+    const { title } = useSelector((state) => state.page);
     return (
         <header className={cx('wrapper')}>
             <div className={cx('leftside')}>

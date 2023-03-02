@@ -1,25 +1,28 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { authService } from '~/services';
 
-export const actionType = {
-    LOGIN_SUCCESS: 'LOGIN_SUCCESS',
-    LOGIN_FAIL: 'LOGIN_FAIL',
-    SIGNUP_SUCCESS: 'SIGNUP_SUCCESS',
-    SIGNUP_FAIL: 'SIGNUP_FAIL',
-};
-
-export const signup = (data) => {
-    return async () => {
-        try {
-            const result = await authService.signup(data);
-            return {
-                type: actionType.SIGNUP_SUCCESS,
-                payload: result,
-            };
-        } catch (e) {
-            return {
-                type: actionType.SIGNUP_FAIL,
-                payload: { error: e },
-            };
+export const signup = createAsyncThunk('auth/signup', async (data, { rejectWithValue }) => {
+    try {
+        const result = await authService.signup(data);
+        return result;
+    } catch (err) {
+        if (err.response && err.response.data.message) {
+            return rejectWithValue(err.response.data.message);
+        } else {
+            return rejectWithValue(err.message);
         }
-    };
-};
+    }
+});
+
+export const login = createAsyncThunk('auth/login', async (data, { rejectWithValue }) => {
+    try {
+        const result = await authService.login(data);
+        return result;
+    } catch (err) {
+        if (err.response && err.response.data.message) {
+            return rejectWithValue(err.response.data.message);
+        } else {
+            return rejectWithValue(err.message);
+        }
+    }
+});
