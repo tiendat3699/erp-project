@@ -6,9 +6,9 @@ const pageSilde = createSlice({
         title: 'ERP',
     },
     reducers: {
-        setTile: (state, action) => ({ ...state, title: action.payload }),
+        setTitle: (state, action) => ({ ...state, title: action.payload }),
     },
 });
 
-export const { setTile } = pageSilde.actions;
+export const { setTitle } = pageSilde.actions;
 export default pageSilde.reducer;

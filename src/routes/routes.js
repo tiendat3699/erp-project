@@ -9,10 +9,24 @@ import Partners from '~/pages/Partners';
 import { Login, SignUp, ForgetPass, ResetPass } from '~/pages/Authentication';
 
 const publicRoutes = [
-    { path: '/login', component: Login },
-    { path: '/signup', component: SignUp },
-    { path: '/forgetpass', component: ForgetPass },
-    { path: '/resetpass', component: ResetPass },
+    {
+        path: '/login',
+        component: Login,
+        title: 'Đăng nhập',
+    },
+    {
+        path: '/signup',
+        component: SignUp,
+        title: 'Đăng ký',
+    },
+    {
+        path: '/forgetpass',
+        component: ForgetPass,
+    },
+    {
+        path: '/resetpass',
+        component: ResetPass,
+    },
 ];
 
 const privateRoutes = [

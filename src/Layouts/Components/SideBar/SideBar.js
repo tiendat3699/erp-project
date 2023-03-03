@@ -10,12 +10,14 @@ import { logo } from '~/images';
 
 import styles from './SideBar.module.scss';
 import { privateRoutes } from '~/routes';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
 function SideBar() {
     const [collapse, setCollapse] = useState(false);
     const [hide, setHide] = useState(false);
+    const { user } = useSelector((state) => state.auth);
 
     useEffect(() => {
         if (!collapse) {
@@ -32,13 +34,6 @@ function SideBar() {
 
     const hideClass = {
         hide,
-    };
-
-    const user = {
-        img: 'https://avatars.githubusercontent.com/u/96950844?s=40&v=4',
-        name: 'Đinh Tiến Đạt',
-        userName: 'TienDat',
-        role: 'Admin',
     };
 
     return (

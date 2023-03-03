@@ -1,7 +1,6 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 import { useForm } from '~/hooks';
 import { authService } from '~/services';
@@ -40,20 +39,15 @@ function SignUp() {
         if (disabled) return;
         const fetch = async () => {
             const toastId = showtoast.loading('Đang đăng nhập...');
-            try {
-                setDisabled(true);
-                const res = await authService.signup(data);
+            setDisabled(true);
+            const res = await authService.signup(data);
+            if (res.isError) {
+                showtoast.update(toastId, res.message, 'error');
+            } else {
                 showtoast.update(toastId, res.message, 'success');
                 setSuccess(true);
-            } catch (err) {
-                let message;
-                if (err.response && err.response.data.message) {
-                    message = err.response.data.message;
-                } else {
-                    message = err.message;
-                }
-                showtoast.update(toastId, message, 'error');
             }
+            setDisabled(true);
         };
 
         fetch();

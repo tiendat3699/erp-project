@@ -9,11 +9,11 @@ function AccountItem({ data }) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('avatar')}>
-                <img src={data.img} alt="" />
+                <img src={data.avatar_url} alt="" />
             </div>
             <div className={cx('info')}>
-                <p className={cx('name')}>{data.name}</p>
-                <p className={cx('username')}>{data.userName}</p>
+                <p className={cx('name')}>{data.fullname}</p>
+                <p className={cx('username')}>{data.username}</p>
                 <span className={cx('tag')}>{data.role}</span>
             </div>
         </div>

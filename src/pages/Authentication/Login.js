@@ -33,30 +33,22 @@ function Login() {
                 navigate('/');
             }, 1000);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [success]);
+    }, [navigate, success]);
 
     const onSubmit = (data) => {
         if (disabled) return;
         const fetch = async () => {
             const toastId = showtoast.loading('Đang đăng nhập...');
-            try {
-                setDisabled(true);
-                const res = await authService.login(data);
+            setDisabled(true);
+            const res = await authService.login(data);
+            if (res.isError) {
+                showtoast.update(toastId, res.message, 'error');
+            } else {
                 showtoast.update(toastId, res.message, 'success');
                 dispatch(login(res));
                 setSuccess(true);
-            } catch (err) {
-                let message;
-                if (err.response && err.response.data.message) {
-                    message = err.response.data.message;
-                } else {
-                    message = err.message;
-                }
-                showtoast.update(toastId, message, 'error');
-            } finally {
-                setDisabled(false);
             }
+            setDisabled(false);
         };
 
         fetch();

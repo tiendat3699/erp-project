@@ -4,7 +4,7 @@ const authSlice = createSlice({
     name: 'auth',
     initialState: {
         isLoggedIn: false,
-        user: {},
+        user: null,
         error: '',
         message: '',
     },

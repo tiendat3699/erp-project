@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setTile } from '~/app/pageSlice';
+import { setTitle } from '~/store/page';
 
 function usePageTitle(title) {
     const dispatch = useDispatch();
     useEffect(() => {
         document.title = `${title} – ERP Project`;
-        dispatch(setTile(title));
+        dispatch(setTitle(title));
     }, [dispatch, title]);
 }
 

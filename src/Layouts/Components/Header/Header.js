@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faComment } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -14,39 +14,54 @@ import {
 import { Button } from '~/components/Input';
 import Menu from '~/components/Popper/Menu';
 
+import { authService } from '~/services';
+import { useNavigate } from 'react-router-dom';
+import { logOut } from '~/store/auth';
+
 import 'tippy.js/dist/tippy.css';
 import styles from './Header.module.scss';
 
 const cx = classNames.bind(styles);
 
-const userMenu = [
-    {
-        icon: <FontAwesomeIcon icon={faUser} />,
-        title: 'Hồ sơ cá nhân',
-        to: '/:user',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faBriefcase} />,
-        title: 'Quản lý công việc',
-        to: '/:user',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faCircleQuestion} />,
-        title: 'Trợ giúp',
-        to: '/:user',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faArrowRightToBracket} />,
-        title: 'Đăng xuất',
-        to: '/:user',
-        separate: true,
-    },
-];
-
 function Header() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const HandleLogOut = async () => {
+        await authService.logOut();
+        dispatch(logOut());
+        navigate('/login');
+    };
+
+    const userMenu = [
+        {
+            icon: <FontAwesomeIcon icon={faUser} />,
+            title: 'Hồ sơ cá nhân',
+            to: '/:user',
+        },
+        {
+            icon: <FontAwesomeIcon icon={faBriefcase} />,
+            title: 'Quản lý công việc',
+            to: '/:user',
+        },
+        {
+            icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+            title: 'Trợ giúp',
+            to: '/:user',
+        },
+        {
+            icon: <FontAwesomeIcon icon={faArrowRightToBracket} />,
+            title: 'Đăng xuất',
+            onClick: HandleLogOut,
+            separate: true,
+        },
+    ];
+
     const [chatQueue, setChatQueue] = useState([]);
     const [notifyQueue, setNotifyQueue] = useState([]);
     const { title } = useSelector((state) => state.page);
+    const { avatar_url } = useSelector((state) => state.auth.user);
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('leftside')}>
@@ -81,7 +96,7 @@ function Header() {
                     <Menu items={userMenu}>
                         <Tippy content="Tài khoản" delay={[200, 0]}>
                             <Button rounded className={cx('btn', 'avatar')}>
-                                <img src="https://avatars.githubusercontent.com/u/96950844?s=40&v=4" alt="" />
+                                <img src={avatar_url} alt="" />
                             </Button>
                         </Tippy>
                     </Menu>
