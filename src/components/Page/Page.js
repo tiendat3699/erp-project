@@ -11,31 +11,31 @@ function Page({ children, title = 'Erp Project', requriesAuth }) {
     usePageTitle(title);
 
     const auth = useSelector((state) => state.auth);
-    const [authentiacted, setAuthentiacted] = useState(auth.isLoggedIn);
+    const [authentiacted, setAuthentiacted] = useState(!requriesAuth || auth.isLoggedIn);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const HandelLogOut = async () => {
-            await authService.logOut();
-            setAuthentiacted(false);
-            dispatch(logOut());
-        };
-        const fetchUser = async () => {
-            const res = await authService.getCurrentUser();
-            if (res.isError) {
-                HandelLogOut();
-            } else {
-                dispatch(login(res));
-            }
-        };
-
-        fetchUser();
-    }, [dispatch]);
-
-    if (requriesAuth) {
-        if (!authentiacted) {
-            return <Navigate to="/login" />;
+        if (requriesAuth) {
+            const HandelLogOut = async () => {
+                await authService.logOut();
+                setAuthentiacted(false);
+                dispatch(logOut());
+            };
+            const fetchUser = async () => {
+                const res = await authService.getCurrentUser();
+                if (res.isError) {
+                    HandelLogOut();
+                } else {
+                    dispatch(login(res));
+                }
+            };
+            fetchUser();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    if (!authentiacted) {
+        return <Navigate to="/login" />;
     }
 
     return children;
