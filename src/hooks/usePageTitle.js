@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setTitle } from '~/store/page';
+import { setTitle } from '~/stores/page';
 
 function usePageTitle(title) {
     const dispatch = useDispatch();

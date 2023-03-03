@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { useForm } from '~/hooks';
 import { authService } from '~/services';
-import { login } from '~/store/auth';
+import { login } from '~/stores/auth';
 import { TextField, Button, Checkbox } from '~/components/Input';
 import ToastComponent, { showtoast } from '~/components/Toast/';
 
@@ -30,7 +30,7 @@ function Login() {
     useEffect(() => {
         if (success) {
             setTimeout(() => {
-                navigate('/');
+                navigate('/', { replace: true });
             }, 1000);
         }
     }, [navigate, success]);

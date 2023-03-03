@@ -16,7 +16,7 @@ import Menu from '~/components/Popper/Menu';
 
 import { authService } from '~/services';
 import { useNavigate } from 'react-router-dom';
-import { logOut } from '~/store/auth';
+import { logOut } from '~/stores/auth';
 
 import 'tippy.js/dist/tippy.css';
 import styles from './Header.module.scss';

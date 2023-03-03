@@ -5,13 +5,13 @@ import { Navigate } from 'react-router-dom';
 
 import { usePageTitle } from '~/hooks';
 import { authService } from '~/services';
-import { login, logOut } from '~/store/auth';
+import { login, logOut } from '~/stores/auth';
 
 function Page({ children, title = 'Erp Project', requriesAuth }) {
     usePageTitle(title);
 
-    const auth = useSelector((state) => state.auth);
-    const [authentiacted, setAuthentiacted] = useState(!requriesAuth || auth.isLoggedIn);
+    const { isLoggedIn } = useSelector((state) => state.auth);
+    const [authentiacted, setAuthentiacted] = useState(!requriesAuth || isLoggedIn);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -34,16 +34,13 @@ function Page({ children, title = 'Erp Project', requriesAuth }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    if (!authentiacted) {
-        return <Navigate to="/login" />;
-    }
-
-    return children;
+    return authentiacted ? children : <Navigate to="/login" replace />;
 }
 
 Page.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
+    requriesAuth: PropTypes.bool,
 };
 
 export default Page;
