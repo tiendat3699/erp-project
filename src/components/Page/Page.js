@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 import { usePageTitle } from '~/hooks';
-import { authService } from '~/services';
-import { login, logOut } from '~/stores/auth';
+import { authService, usersService } from '~/services';
+import { setUserInfo, logOut } from '~/stores/auth';
 
 function Page({ children, title = 'Erp Project', requriesAuth }) {
     usePageTitle(title);
 
-    const { isLoggedIn } = useSelector((state) => state.auth);
+    const { isLoggedIn, tokens } = useSelector((state) => state.auth);
     const [authentiacted, setAuthentiacted] = useState(!requriesAuth || isLoggedIn);
     const dispatch = useDispatch();
 
@@ -24,8 +24,8 @@ function Page({ children, title = 'Erp Project', requriesAuth }) {
 
             const fetchUser = async () => {
                 try {
-                    const res = await authService.getCurrentUser();
-                    dispatch(login(res));
+                    const res = await usersService.getCurrentUser(tokens.accessToken);
+                    dispatch(setUserInfo(res));
                 } catch (error) {
                     HandelLogOut();
                 }

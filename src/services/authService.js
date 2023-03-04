@@ -4,9 +4,7 @@ const authService = {
     login: async (data) => {
         try {
             const res = await httpRequest.post('auth/login', data);
-            if (res.data?.auth) {
-                return res.data;
-            }
+            return res.data;
         } catch (error) {
             if (error.response?.data) {
                 return Promise.reject(error.response.data);
@@ -29,21 +27,6 @@ const authService = {
         }
     },
 
-    getCurrentUser: async (token) => {
-        try {
-            const res = await httpRequest.post('auth/currentuser', token);
-            if (res.data.user) {
-                return res.data;
-            }
-        } catch (error) {
-            if (error.response?.data) {
-                return Promise.reject(error.response.data);
-            } else {
-                return Promise.reject({ message: error.message });
-            }
-        }
-    },
-
     logOut: async () => {
         try {
             const res = await httpRequest.delete('auth/logout');
@@ -57,9 +40,9 @@ const authService = {
         }
     },
 
-    refresh: async () => {
+    refresh: async (token) => {
         try {
-            const res = await httpRequest.get('auth/refresh');
+            const res = await httpRequest.get('auth/refresh', { headers: { 'x-access-token': token } });
             return res.data;
         } catch (error) {
             if (error.response?.data) {

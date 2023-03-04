@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { authService } from '~/services';
+import { login } from '~/stores/auth';
 
 //axiosIntance
 let refreshReques = null;
-let refreshing = false;
 
 const axiosIntance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -14,11 +15,12 @@ const axiosIntance = axios.create({
 axiosIntance.interceptors.response.use(
     (res) => res,
     async (error) => {
-        if (!refreshing && error.response.status === 401) {
-            refreshing = true;
-            refreshReques = refreshReques || authService.refresh();
-            await refreshReques;
-            refreshing = false;
+        if (error.response.status === 401) {
+            const dispatch = useDispatch();
+            const { tokens } = useSelector((state) => state.auth);
+            refreshReques = refreshReques || authService.refresh(tokens.refresToken);
+            const res = await refreshReques;
+            dispatch(login(res));
             return axios(error.config);
         }
 
