@@ -1,9 +1,18 @@
 .wrapper {
     $border-color: #d9dee3;
+
     .title {
         text-align: center;
         padding: 8px 0px 16px;
         color: var(--primary-color);
+    }
+
+    .table-container {
+        overflow-x: auto;
+
+        &::-webkit-scrollbar {
+            height: 10px;
+        }
     }
 
     table {

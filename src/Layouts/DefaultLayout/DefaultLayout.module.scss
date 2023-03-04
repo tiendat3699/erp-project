@@ -4,6 +4,7 @@
 }
 
 .content-wrapper {
+    width: calc(100% - var(--width-sidebar));
     display: flex;
     flex-direction: column;
     flex: 1;

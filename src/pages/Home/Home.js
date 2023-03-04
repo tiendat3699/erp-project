@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase, faHandshake, faUsers, faUserTie } from '@fortawesome/free-solid-svg-icons';
 
-import { httpRequest } from '~/utils';
 import ContentBlock from '~/components/ContentBlock';
 import DataCard from '~/components/DataCard';
 import Table from '~/components/Table';
 import { BarChart, DoughnutChart, LineChart, PieChart } from '~/components/Chart';
 import { Row, Col } from '~/components/GridSystem';
+import { usersService } from '~/services';
 
 import styles from './Home.module.scss';
 
@@ -16,22 +16,17 @@ const cx = classNames.bind(styles);
 
 const columns = [
     {
-        id: 'id',
-        headerName: 'ID',
-        width: 60,
-    },
-    {
-        id: 'name',
+        id: 'fullname',
         headerName: 'Tên',
-        width: 200,
-    },
-    {
-        id: 'phone',
-        headerName: 'Số điện thoại',
     },
     {
         id: 'email',
         headerName: 'Email',
+    },
+    {
+        id: 'role',
+        headerName: 'Role',
+        width: 100,
     },
 ];
 
@@ -92,13 +87,14 @@ const dataPie = {
 };
 
 function Home() {
+    const [users, setUser] = useState([]);
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        const fetch = async () => {
+        const fetchUsers = async () => {
             try {
-                const res = await httpRequest.get('https://jsonplaceholder.typicode.com/users');
-                const data = res.data.map((el) => {
+                const res = await usersService.getAll();
+                const data = res.map((el) => {
                     const result = {};
                     columns.forEach((column) => {
                         const key = column.id;
@@ -106,13 +102,14 @@ function Home() {
                     });
                     return result;
                 });
+                setUser(res);
                 setRows(data);
             } catch (e) {
                 console.log(e);
             }
         };
 
-        fetch();
+        fetchUsers();
     }, []);
 
     return (
@@ -122,7 +119,7 @@ function Home() {
                     <DataCard icon={<FontAwesomeIcon icon={faUsers} />} title="Khách hàng" value="12" />
                 </Col>
                 <Col md={6} xl={3}>
-                    <DataCard icon={<FontAwesomeIcon icon={faUserTie} />} title="Nhân viên" value="50" />
+                    <DataCard icon={<FontAwesomeIcon icon={faUserTie} />} title="Nhân viên" value={users.length} />
                 </Col>
                 <Col md={6} xl={3}>
                     <DataCard icon={<FontAwesomeIcon icon={faBriefcase} />} title="Dự án" value="12" />

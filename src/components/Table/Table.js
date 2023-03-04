@@ -14,7 +14,7 @@ import {
 
 const cx = classNames.bind(style);
 
-function Table({ title, rows = [], columns = [], pageSizeOptions = [] }) {
+function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [] }) {
     const [pageSize, setPageSize] = useState(pageSizeOptions[0]?.value || pageSizeOptions[0] || 5);
     const [page, setPage] = useState(1);
     const maxPage = Math.ceil(rows.length / pageSize);
@@ -68,28 +68,30 @@ function Table({ title, rows = [], columns = [], pageSizeOptions = [] }) {
     return (
         <div className={cx('wrapper')}>
             {!!title && <h4 className={cx('title')}>{title}</h4>}
-            <table>
-                <thead>
-                    <tr>
-                        {columns.map((column) => (
-                            <td key={column.id} style={{ width: column.width }}>
-                                {column.headerName}
-                            </td>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {displayRow.map((row, index) => {
-                        return (
-                            <tr key={index}>
-                                {columns.map((column) => (
-                                    <td key={rows.id || column.id}>{row[column.id]}</td>
-                                ))}
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+            <div className={cx('table-container')}>
+                <table style={{ minWidth: minWidth }}>
+                    <thead>
+                        <tr>
+                            {columns.map((column) => (
+                                <td key={column.id} style={{ width: column.width }}>
+                                    {column.headerName}
+                                </td>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {displayRow.map((row, index) => {
+                            return (
+                                <tr key={index}>
+                                    {columns.map((column) => (
+                                        <td key={rows.id || column.id}>{row[column.id]}</td>
+                                    ))}
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
             <div className={cx('pagination')}>
                 <span className={cx('displayed-rows')}>
                     {startIndex + 1} - {lastIndex} of {rows.length}
@@ -135,6 +137,7 @@ function Table({ title, rows = [], columns = [], pageSizeOptions = [] }) {
 
 Table.propTypes = {
     title: PropTypes.string,
+    minWidth: PropTypes.number,
     rows: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     pageSizeOptions: PropTypes.array,
