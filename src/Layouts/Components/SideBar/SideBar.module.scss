@@ -7,7 +7,7 @@
     height: 100vh;
     background-color: #fff;
     box-shadow: 5px 2px 4px rgb(32 78 198 / 1%);
-    border-right: 1px solid rgba(var(--primary-color-rbg), 0.1);
+    border-right: 1px solid rgba(var(--primary-color-rgb), 0.1);
     overflow-x: hidden;
     transition: all ease 0.3s;
     flex-shrink: 0;
@@ -121,7 +121,7 @@
 
         &:hover,
         &.active {
-            background-color: rgba(var(--primary-color-rbg), 0.1);
+            background-color: rgba(var(--primary-color-rgb), 0.1);
             color: var(--primary-color);
         }
 

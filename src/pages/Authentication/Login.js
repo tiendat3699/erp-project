@@ -1,11 +1,9 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 import { useForm } from '~/hooks';
 import { authService } from '~/services';
-import { login } from '~/stores/auth';
 import { TextField, Button, Checkbox } from '~/components/Input';
 import ToastComponent, { showtoast } from '~/components/Toast/';
 
@@ -24,7 +22,6 @@ function Login() {
 
     const [disabled, setDisabled] = useState(false);
     const [success, setSuccess] = useState(false);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,7 +40,6 @@ function Login() {
                 setDisabled(true);
                 const res = await authService.login(data);
                 showtoast.update(toastId, res.message, 'success');
-                dispatch(login(res));
                 setSuccess(true);
             } catch (error) {
                 showtoast.update(toastId, error.message, 'error');

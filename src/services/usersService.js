@@ -1,10 +1,13 @@
 import { httpRequest } from '~/utils';
+import store from '~/stores';
+import { setUserInfo } from '~/stores/auth';
 
 const usersService = {
-    getCurrentUser: async (token) => {
+    getCurrentUser: async () => {
         try {
-            const res = await httpRequest.get('users/me', { headers: { 'x-access-token': token } });
+            const res = await httpRequest.get('users/me');
             if (res.data.user) {
+                store.dispatch(setUserInfo(res.data));
                 return res.data;
             }
         } catch (error) {

@@ -1,27 +1,37 @@
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
 import { authService } from '~/services';
-import { login } from '~/stores/auth';
+import store from '~/stores';
 
 //axiosIntance
-let refreshReques = null;
+let refreshRequest = null;
 
-const axiosIntance = axios.create({
+const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
     withCredentials: true,
 });
 
 //handle refresh token
-axiosIntance.interceptors.response.use(
+axiosInstance.interceptors.request.use(
+    (req) => {
+        const token = store.getState().auth.tokens.accessToken;
+        if (token) {
+            req.headers['x-access-token'] = token;
+        }
+        return req;
+    },
+    (error) => {
+        return Promise.reject(error);
+    },
+);
+
+axiosInstance.interceptors.response.use(
     (res) => res,
     async (error) => {
-        if (error.response.status === 401) {
-            const dispatch = useDispatch();
-            const { tokens } = useSelector((state) => state.auth);
-            refreshReques = refreshReques || authService.refresh(tokens.refresToken);
-            const res = await refreshReques;
-            dispatch(login(res));
-            return axios(error.config);
+        if (error.response.status === 401 && !error.config._retry) {
+            error.config._retry = true;
+            refreshRequest = refreshRequest ? refreshRequest : authService.refresh();
+            const res = await refreshRequest;
+            return axiosInstance(error.config);
         }
 
         return Promise.reject(error);
@@ -30,17 +40,17 @@ axiosIntance.interceptors.response.use(
 
 const httpRequest = {
     post: async (path, options = {}) => {
-        const response = await axiosIntance.post(path, options);
+        const response = await axiosInstance.post(path, options);
         return response;
     },
 
     get: async (path, options = {}) => {
-        const response = await axiosIntance.get(path, options);
+        const response = await axiosInstance.get(path, options);
         return response;
     },
 
     delete: async (path, optons = {}) => {
-        const response = await axiosIntance.delete(path, optons);
+        const response = await axiosInstance.delete(path, optons);
         return response;
     },
 };

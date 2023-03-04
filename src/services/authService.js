@@ -1,9 +1,12 @@
 import { httpRequest } from '~/utils';
+import store from '~/stores';
+import { login, logOut } from '~/stores/auth';
 
 const authService = {
     login: async (data) => {
         try {
             const res = await httpRequest.post('auth/login', data);
+            store.dispatch(login(res.data));
             return res.data;
         } catch (error) {
             if (error.response?.data) {
@@ -30,6 +33,7 @@ const authService = {
     logOut: async () => {
         try {
             const res = await httpRequest.delete('auth/logout');
+            store.dispatch(logOut());
             return res.data;
         } catch (error) {
             if (error.response?.data) {
@@ -40,9 +44,11 @@ const authService = {
         }
     },
 
-    refresh: async (token) => {
+    refresh: async () => {
         try {
-            const res = await httpRequest.get('auth/refresh', { headers: { 'x-access-token': token } });
+            const refreshToken = store.getState().auth.tokens.refreshToken;
+            const res = await httpRequest.post('auth/refresh', { refreshToken: refreshToken });
+            store.dispatch(login(res.data));
             return res.data;
         } catch (error) {
             if (error.response?.data) {
