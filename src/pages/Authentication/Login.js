@@ -39,16 +39,17 @@ function Login() {
         if (disabled) return;
         const fetch = async () => {
             const toastId = showtoast.loading('Đang đăng nhập...');
-            setDisabled(true);
-            const res = await authService.login(data);
-            if (res.isError) {
-                showtoast.update(toastId, res.message, 'error');
-            } else {
+            try {
+                setDisabled(true);
+                const res = await authService.login(data);
                 showtoast.update(toastId, res.message, 'success');
                 dispatch(login(res));
                 setSuccess(true);
+            } catch (error) {
+                showtoast.update(toastId, error.message, 'error');
+            } finally {
+                setDisabled(false);
             }
-            setDisabled(false);
         };
 
         fetch();

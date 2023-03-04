@@ -39,15 +39,16 @@ function SignUp() {
         if (disabled) return;
         const fetch = async () => {
             const toastId = showtoast.loading('Đang đăng nhập...');
-            setDisabled(true);
-            const res = await authService.signup(data);
-            if (res.isError) {
-                showtoast.update(toastId, res.message, 'error');
-            } else {
+            try {
+                setDisabled(true);
+                const res = await authService.signup(data);
                 showtoast.update(toastId, res.message, 'success');
                 setSuccess(true);
+            } catch (error) {
+                showtoast.update(toastId, error.message, 'error');
+            } finally {
+                setDisabled(true);
             }
-            setDisabled(true);
         };
 
         fetch();

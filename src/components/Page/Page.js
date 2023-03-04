@@ -21,12 +21,13 @@ function Page({ children, title = 'Erp Project', requriesAuth }) {
                 setAuthentiacted(false);
                 dispatch(logOut());
             };
+
             const fetchUser = async () => {
-                const res = await authService.getCurrentUser();
-                if (res.isError) {
-                    HandelLogOut();
-                } else {
+                try {
+                    const res = await authService.getCurrentUser();
                     dispatch(login(res));
+                } catch (error) {
+                    HandelLogOut();
                 }
             };
             fetchUser();

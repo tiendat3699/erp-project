@@ -4,14 +4,14 @@ const authService = {
     login: async (data) => {
         try {
             const res = await httpRequest.post('auth/login', data);
-            if (res.data.auth) {
+            if (res.data?.auth) {
                 return res.data;
             }
         } catch (error) {
             if (error.response?.data) {
-                return error.response.data;
+                return Promise.reject(error.response.data);
             } else {
-                return { isError: true, message: error.message };
+                return Promise.reject({ message: error.message });
             }
         }
     },
@@ -22,9 +22,9 @@ const authService = {
             return res.data;
         } catch (error) {
             if (error.response?.data) {
-                return error.response.data;
+                return Promise.reject(error.response.data);
             } else {
-                return { isError: true, message: error.message };
+                return Promise.reject({ message: error.message });
             }
         }
     },
@@ -37,9 +37,9 @@ const authService = {
             }
         } catch (error) {
             if (error.response?.data) {
-                return error.response.data;
+                return Promise.reject(error.response.data);
             } else {
-                return { isError: true, message: error.message };
+                return Promise.reject({ message: error.message });
             }
         }
     },
@@ -50,9 +50,22 @@ const authService = {
             return res.data;
         } catch (error) {
             if (error.response?.data) {
-                return error.response.data;
+                return Promise.reject(error.response.data);
             } else {
-                return { isError: true, message: error.message };
+                return Promise.reject({ message: error.message });
+            }
+        }
+    },
+
+    refresh: async () => {
+        try {
+            const res = await httpRequest.get('auth/refresh');
+            return res.data;
+        } catch (error) {
+            if (error.response?.data) {
+                return Promise.reject(error.response.data);
+            } else {
+                return Promise.reject({ message: error.message });
             }
         }
     },
