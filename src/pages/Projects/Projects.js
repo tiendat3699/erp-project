@@ -11,45 +11,46 @@ const cx = classNames.bind(styles);
 
 const columns = [
     {
-        id: 'fullname',
+        id: 'name',
         headerName: 'Tên',
+        width: 200,
     },
     {
-        id: 'email',
-        headerName: 'Email',
+        id: 'customer',
+        headerName: 'Khách hàng',
     },
     {
-        id: 'role',
-        headerName: 'Role',
-        width: 100,
+        id: 'status',
+        headerName: 'Tình trạng',
+    },
+    {
+        id: 'users',
+        headerName: 'Người thực hiện',
+    },
+];
+
+const rows = [
+    {
+        name: 'Dự án Erp',
+        customer: 'Tiến Đạt Group',
+        status: 'Đang xử lý',
+        users: 'Tiến Đạt',
+    },
+    {
+        name: 'Dự án Erp',
+        customer: 'Tiến Đạt Group',
+        status: 'Đang xử lý',
+        users: 'Tiến Đạt',
+    },
+    {
+        name: 'Dự án Erp',
+        customer: 'Tiến Đạt Group',
+        status: 'Đang xử lý',
+        users: 'Tiến Đạt',
     },
 ];
 
 function Projects() {
-    const [users, setUser] = useState([]);
-    const [rows, setRows] = useState([]);
-
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const res = await usersService.getAll();
-                const data = res.map((el) => {
-                    const result = {};
-                    columns.forEach((column) => {
-                        const key = column.id;
-                        result[key] = el[key];
-                    });
-                    return result;
-                });
-                setUser(res);
-                setRows(data);
-            } catch (e) {
-                console.log(e);
-            }
-        };
-
-        fetchUsers();
-    }, []);
     return (
         <div className={cx('wrapper')}>
             <h3 className={cx('title')}>Danh sách dự án</h3>
