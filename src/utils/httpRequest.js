@@ -13,9 +13,10 @@ const axiosInstance = axios.create({
 //handle refresh token
 axiosInstance.interceptors.request.use(
     (req) => {
-        const token = store.getState().auth.tokens.accessToken;
+        const token = store.getState().auth.tokens;
         if (token) {
-            req.headers['x-access-token'] = token;
+            req.headers['x-access-token'] = token.accessToken;
+            req.headers['x-refresh-token'] = token.refreshToken;
         }
         return req;
     },

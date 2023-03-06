@@ -8,7 +8,23 @@ import { forwardRef } from 'react';
 const cx = classNames.bind(styles);
 
 const Button = forwardRef(
-    ({ disabled, to, href, children, primary, rounded, leftIcon, rightIcon, className, onClick, ...passProp }, ref) => {
+    (
+        {
+            disabled,
+            to,
+            href,
+            children,
+            primary,
+            rounded,
+            size = 'md',
+            leftIcon,
+            rightIcon,
+            className,
+            onClick,
+            ...passProp
+        },
+        ref,
+    ) => {
         let Comp = 'button';
         const props = {
             onClick,
@@ -32,9 +48,10 @@ const Button = forwardRef(
         }
 
         const classes = cx('wrapper', {
-            [className]: className,
             primary: primary,
             rounded: rounded,
+            [size]: size,
+            [className]: className,
         });
 
         return (

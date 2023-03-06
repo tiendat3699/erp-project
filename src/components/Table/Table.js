@@ -10,12 +10,14 @@ import {
     faBackwardStep,
     faCaretDown,
     faForwardStep,
+    faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import DragSroll from '~/components/DragScroll';
+import { Button } from '../Input';
 
 const cx = classNames.bind(style);
 
-function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [] }) {
+function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [], onAddMore }) {
     const [pageSize, setPageSize] = useState(pageSizeOptions[0]?.value || pageSizeOptions[0] || 5);
     const [page, setPage] = useState(1);
     const maxPage = Math.ceil(rows.length / pageSize);
@@ -81,18 +83,35 @@ function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [] 
                         </tr>
                     </thead>
                     <tbody>
-                        {displayRow.map((row, index) => {
-                            return (
-                                <tr key={index}>
-                                    {columns.map((column) => (
-                                        <td key={rows.id || column.id}>{row[column.id]}</td>
-                                    ))}
-                                </tr>
-                            );
-                        })}
+                        {rows.length > 0 &&
+                            displayRow.map((row, index) => {
+                                return (
+                                    <tr key={index}>
+                                        {columns.map((column) => (
+                                            <td key={rows.id || column.id}>{row[column.id]}</td>
+                                        ))}
+                                    </tr>
+                                );
+                            })}
                     </tbody>
                 </table>
             </DragSroll>
+            {rows.length === 0 && (
+                <div className={cx('empty')}>
+                    <p>Chưa có dữ liệu</p>
+                    {!!onAddMore && (
+                        <Button
+                            className={cx('addmore')}
+                            rounded
+                            size="sm"
+                            leftIcon={<FontAwesomeIcon icon={faPlusCircle} />}
+                            onClick={onAddMore}
+                        >
+                            Thêm
+                        </Button>
+                    )}
+                </div>
+            )}
             <div className={cx('pagination')}>
                 <span className={cx('displayed-rows')}>
                     {startIndex + 1} - {lastIndex} of {rows.length}
@@ -142,6 +161,7 @@ Table.propTypes = {
     rows: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     pageSizeOptions: PropTypes.array,
+    onAddMore: PropTypes.func,
 };
 
 export default Table;

@@ -1,0 +1,59 @@
+.wrapper {
+    --width: 300px;
+
+    &.sm {
+        --width: 100px;
+    }
+
+    &.md {
+        --width: 300px;
+    }
+
+    &.lg {
+        --width: 500px;
+    }
+
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    margin-right: 16px;
+    background-color: #f2f2f2;
+    border-radius: 999px;
+    overflow: hidden;
+    padding-left: 16px;
+    height: 30px;
+    border: 2px solid transparent;
+    transition: all ease 0.2s;
+
+    &.focus {
+        border-color: rgba(var(--primary-color-rgb), 0.8);
+    }
+
+    &.animation {
+        input {
+            transition: all ease 0.2s;
+        }
+    }
+
+    &.scaleOnFocus {
+        input:focus {
+            width: 200px;
+        }
+    }
+
+    input {
+        width: var(--width);
+        height: 100%;
+        font-size: 1.2rem;
+        background-color: transparent;
+        border: none;
+        outline: none;
+    }
+
+    button {
+        padding: 6px 10px;
+        cursor: pointer;
+        border: none;
+        outline: none;
+    }
+}

@@ -32,8 +32,8 @@ const authService = {
 
     logOut: async () => {
         try {
-            const res = await httpRequest.delete('auth/logout');
             store.dispatch(logOut());
+            const res = await httpRequest.delete('auth/logout');
             return res.data;
         } catch (error) {
             if (error.response?.data) {
@@ -46,8 +46,7 @@ const authService = {
 
     refresh: async () => {
         try {
-            const refreshToken = store.getState().auth.tokens.refreshToken;
-            const res = await httpRequest.post('auth/refresh', { refreshToken: refreshToken });
+            const res = await httpRequest.get('auth/refresh');
             store.dispatch(login(res.data));
             return res.data;
         } catch (error) {

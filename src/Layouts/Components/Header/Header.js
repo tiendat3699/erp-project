@@ -4,19 +4,14 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faComment } from '@fortawesome/free-regular-svg-icons';
-import {
-    faArrowRightToBracket,
-    faBriefcase,
-    faCircleQuestion,
-    faSearch,
-    faUser,
-} from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightToBracket, faBriefcase, faCircleQuestion, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '~/components/Input';
 import Menu from '~/components/Popper/Menu';
 
 import { authService } from '~/services';
 import { useNavigate } from 'react-router-dom';
 import { logOut } from '~/stores/auth';
+import Search from '~/components/Search';
 
 import 'tippy.js/dist/tippy.css';
 import styles from './Header.module.scss';
@@ -28,9 +23,9 @@ function Header() {
     const navigate = useNavigate();
 
     const HandleLogOut = async () => {
-        await authService.logOut();
         dispatch(logOut());
         navigate('/login');
+        await authService.logOut();
     };
 
     const userMenu = [
@@ -69,12 +64,7 @@ function Header() {
             </div>
             <div className={cx('rightside')}>
                 <div className={cx('control')}>
-                    <div className={cx('search')}>
-                        <input type="text" placeholder="Nhập để tìm kiếm" />
-                        <button>
-                            <FontAwesomeIcon icon={faSearch} />
-                        </button>
-                    </div>
+                    <Search size="sm" placeholder="Nhập để tìm kiếm" />
                     <Tippy content="Thông báo" delay={[200, 0]}>
                         <Button rounded className={cx('btn')}>
                             <FontAwesomeIcon icon={faBell} />

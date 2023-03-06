@@ -15,8 +15,8 @@ function Page({ children, title = 'Erp Project', requriesAuth }) {
     useEffect(() => {
         if (requriesAuth) {
             const HandelLogOut = async () => {
-                await authService.logOut();
                 setAuthentiacted(false);
+                await authService.logOut();
             };
 
             const fetchUser = async () => {

@@ -88,22 +88,12 @@ const dataPie = {
 
 function Home() {
     const [users, setUser] = useState([]);
-    const [rows, setRows] = useState([]);
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const res = await usersService.getAll();
-                const data = res.map((el) => {
-                    const result = {};
-                    columns.forEach((column) => {
-                        const key = column.id;
-                        result[key] = el[key];
-                    });
-                    return result;
-                });
                 setUser(res);
-                setRows(data);
             } catch (e) {
                 console.log(e);
             }
@@ -158,7 +148,7 @@ function Home() {
             <Row space={2} className={cx('section')}>
                 <Col xl={8}>
                     <ContentBlock className={cx('table-block')}>
-                        <Table title="Bảng" rows={rows} columns={columns} />
+                        <Table title="Bảng" rows={users} columns={columns} />
                     </ContentBlock>
                 </Col>
                 <Col xl={4}>

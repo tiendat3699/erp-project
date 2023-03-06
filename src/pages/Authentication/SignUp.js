@@ -30,7 +30,7 @@ function SignUp() {
         if (success) {
             setTimeout(() => {
                 navigate('/login');
-            }, 2000);
+            }, 1000);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [success]);

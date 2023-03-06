@@ -13,14 +13,10 @@
     background-color: transparent;
     border-radius: 0;
     color: #000;
-    font-size: 1.4rem;
 
-    // &:not(:disabled) {
-    //     &:hover {
-    //         color: var(--primary-color);
-    //         background-color: transparent;
-    //     }
-    // }
+    span {
+        font-size: 1.4rem;
+    }
 
     &.separate::before {
         position: absolute;
@@ -30,6 +26,5 @@
         right: 12px;
         left: 12px;
         height: 1px;
-        // border-top: 1px solid rgba(22, 24, 35, 0.12);
     }
 }
