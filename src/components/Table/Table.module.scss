@@ -8,14 +8,8 @@
     }
 
     .table-container {
-        overflow-x: auto;
+        overflow: auto;
         user-select: none;
-
-        &[scrolling] {
-            table {
-                cursor: grabbing;
-            }
-        }
 
         &::-webkit-scrollbar {
             height: 10px;
@@ -23,7 +17,6 @@
     }
 
     table {
-        cursor: grab;
         width: 100%;
         border-collapse: collapse;
         color: #566a7f;

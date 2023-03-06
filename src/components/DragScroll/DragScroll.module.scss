@@ -1,0 +1,6 @@
+.wrapper {
+    cursor: grab;
+    &.scrolling {
+        cursor: grabbing;
+    }
+}

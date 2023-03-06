@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import style from './Table.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,14 +11,11 @@ import {
     faCaretDown,
     faForwardStep,
 } from '@fortawesome/free-solid-svg-icons';
-import { useDragScroll } from '~/hooks';
+import DragSroll from '~/components/DragScroll';
 
 const cx = classNames.bind(style);
 
 function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [] }) {
-    const tableContainerRef = useRef();
-    useDragScroll(tableContainerRef);
-
     const [pageSize, setPageSize] = useState(pageSizeOptions[0]?.value || pageSizeOptions[0] || 5);
     const [page, setPage] = useState(1);
     const maxPage = Math.ceil(rows.length / pageSize);
@@ -72,7 +69,7 @@ function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [] 
     return (
         <div className={cx('wrapper')}>
             {!!title && <h4 className={cx('title')}>{title}</h4>}
-            <div ref={tableContainerRef} className={cx('table-container')}>
+            <DragSroll className={cx('table-container')}>
                 <table style={{ minWidth: minWidth }}>
                     <thead>
                         <tr>
@@ -95,7 +92,7 @@ function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [] 
                         })}
                     </tbody>
                 </table>
-            </div>
+            </DragSroll>
             <div className={cx('pagination')}>
                 <span className={cx('displayed-rows')}>
                     {startIndex + 1} - {lastIndex} of {rows.length}
