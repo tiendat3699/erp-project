@@ -5,16 +5,23 @@ import storage from 'redux-persist/lib/storage';
 import pageReducer from '~/stores/page';
 import authReducer from './auth';
 
-const persistConfig = {
+const authPersistConfig = {
     key: 'auth',
     version: 1,
     storage,
 };
 
-const authPersistReducer = persistReducer(persistConfig, authReducer);
+const pagePersistConfig = {
+    key: 'page',
+    version: 1,
+    storage,
+};
+
+const authPersistReducer = persistReducer(authPersistConfig, authReducer);
+const pagePersistReducer = persistReducer(pagePersistConfig, pageReducer);
 
 const rootReducer = {
-    page: pageReducer,
+    page: pagePersistReducer,
     auth: authPersistReducer,
 };
 

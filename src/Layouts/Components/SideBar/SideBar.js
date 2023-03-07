@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
@@ -7,16 +8,18 @@ import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 import AccountItem from '~/components/AccountItem';
 import MenuItem from './MenuItem';
 import { logo } from '~/images';
+import { privateRoutes } from '~/routes';
 
 import styles from './SideBar.module.scss';
-import { privateRoutes } from '~/routes';
-import { useSelector } from 'react-redux';
+import { setSibarCollapse } from '~/stores/page';
 
 const cx = classNames.bind(styles);
 
 function SideBar() {
-    const [collapse, setCollapse] = useState(false);
-    const [hide, setHide] = useState(false);
+    const { sideBarCollapse } = useSelector((state) => state.page);
+    const dispatch = useDispatch();
+    const [collapse, setCollapse] = useState(sideBarCollapse);
+    const [hide, setHide] = useState(sideBarCollapse);
     const { user } = useSelector((state) => state.auth);
 
     useEffect(() => {
@@ -30,6 +33,7 @@ function SideBar() {
     const handleCollapse = () => {
         setHide(true);
         setCollapse(!collapse);
+        dispatch(setSibarCollapse(!collapse));
     };
 
     const hideClass = {

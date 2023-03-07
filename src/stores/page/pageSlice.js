@@ -4,11 +4,13 @@ const pageSilde = createSlice({
     name: 'page',
     initialState: {
         title: 'ERP',
+        sideBarCollapse: false,
     },
     reducers: {
-        setTitle: (state, action) => ({ ...state, title: action.payload }),
+        setTitle: (state, { payload }) => ({ ...state, title: payload }),
+        setSibarCollapse: (state, { payload }) => ({ ...state, sideBarCollapse: payload }),
     },
 });
 
-export const { setTitle } = pageSilde.actions;
+export const { setTitle, setSibarCollapse } = pageSilde.actions;
 export default pageSilde.reducer;
