@@ -11,8 +11,8 @@ import ContentBlock from '~/components/ContentBlock';
 import Table from '~/components/Table';
 import Search from '~/components/Search';
 import Modal from '~/components/Modal';
-import { Button, TextField } from '~/components/Input';
-import ToastComponent, { showtoast } from '~/components/Toast/Toast';
+import { Button, TextField, Select } from '~/components/Input';
+import ToastComponent, { showtoast, toastType } from '~/components/Toast';
 
 import styles from './Projects.module.scss';
 import { Col, Row } from '~/components/GridSystem';
@@ -68,11 +68,11 @@ function Projects() {
                     users: [1, 2, 4],
                 };
                 const res = await httpRequest.post('/projects/store', data);
-                showtoast.update(toastId, res.data.message, 'success');
+                showtoast.update(toastId, res.data.message, toastType.SUCCESS);
                 setProjects((prevState) => [...prevState, res.data.project]);
                 setOpenModal(false);
             } catch (error) {
-                showtoast.update(toastId, error.message, 'error');
+                showtoast.update(toastId, error.message, toastType.ERROR);
                 console.log(error);
             } finally {
                 setDisabledModal(false);
@@ -111,7 +111,7 @@ function Projects() {
                 disabled={disabledModal}
                 title="Thêm mới dự án"
                 size="md"
-                isOpen={openModal}
+                isOpen={true}
                 onClose={() => setOpenModal(false)}
                 acceptBtnText="Lưu dự án"
                 onAcceptClick={handleSubmit}
@@ -123,13 +123,21 @@ function Projects() {
                                 <p className={cx('title')}>Thông tin dự án</p>
                             </Col>
                             <Col md={6}>
-                                <TextField size="sm" label="Tên dự án" placeholder="Nhập tên" />
-                                <TextField size="sm" label="Tên dự án" placeholder="Nhập tên" />
+                                <TextField name="name" size="sm" label="Tên dự án" placeholder="Nhập tên" />
+                                <Select
+                                    isMutil
+                                    size="sm"
+                                    name="customer"
+                                    label="khach hang"
+                                    placeholder="tesst"
+                                    options={[
+                                        { value: '1', label: '1' },
+                                        { value: '2', label: '2' },
+                                        { value: '3', label: '3' },
+                                    ]}
+                                />
                             </Col>
-                            <Col md={6}>
-                                <TextField size="sm" label="Tên dự án" placeholder="Nhập tên" />
-                                <TextField size="sm" label="Tên dự án" placeholder="Nhập tên" />
-                            </Col>
+                            <Col md={6}>tesst</Col>
                         </Row>
                     </div>
                 </div>

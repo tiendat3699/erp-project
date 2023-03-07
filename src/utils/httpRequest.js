@@ -30,7 +30,6 @@ axiosInstance.interceptors.response.use(
     async (error) => {
         const res = error.response;
         if (res?.status === 401 && res.data.error_code === 1 && !error.config._retry) {
-            console.log('ok');
             error.config._retry = true;
             refreshRequest = refreshRequest ? refreshRequest : authService.refresh();
             await refreshRequest;

@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '~/hooks';
 import { authService } from '~/services';
 import { TextField, Button, Checkbox } from '~/components/Input';
-import ToastComponent, { showtoast } from '~/components/Toast/Toast';
+import ToastComponent, { showtoast, toastType } from '~/components/Toast';
 
 import styles from './Authentication.module.scss';
 import { backgroundAuthenPage } from '~/images';
@@ -42,10 +42,10 @@ function SignUp() {
             try {
                 setDisabled(true);
                 const res = await authService.signup(data);
-                showtoast.update(toastId, res.message, 'success');
+                showtoast.update(toastId, res.message, 'success', toastType.SUCCESS);
                 setSuccess(true);
             } catch (error) {
-                showtoast.update(toastId, error.message, 'error');
+                showtoast.update(toastId, error.message, 'error', toastType.ERROR);
             } finally {
                 setDisabled(true);
             }

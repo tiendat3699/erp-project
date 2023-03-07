@@ -51,7 +51,7 @@ TextField.propTypes = {
     label: PropTypes.string,
     hideBtn: PropTypes.bool,
     hidedfield: PropTypes.bool,
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
     message: PropTypes.string,
     className: PropTypes.string,
     size: PropTypes.string,
