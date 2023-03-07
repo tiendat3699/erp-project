@@ -111,7 +111,7 @@ function Projects() {
                 disabled={disabledModal}
                 title="Thêm mới dự án"
                 size="md"
-                isOpen={true}
+                isOpen={openModal}
                 onClose={() => setOpenModal(false)}
                 acceptBtnText="Lưu dự án"
                 onAcceptClick={handleSubmit}
