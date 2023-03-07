@@ -39,7 +39,7 @@ function SideBar() {
     return (
         <aside className={cx('wrapper', { collapse })}>
             <div className={cx('header')}>
-                <Link to="/" className={cx('logo', hideClass)}>
+                <Link to="/" className={cx('logo', 'animation-show', hideClass)}>
                     <img src={logo} alt="" />
                     <span className={cx('title')}>ERP project</span>
                 </Link>
@@ -47,12 +47,12 @@ function SideBar() {
                     {<FontAwesomeIcon className={cx('icon')} icon={faAnglesLeft} rotation={collapse ? 180 : 0} />}
                 </button>
             </div>
-            <div className={cx('account', hideClass)}>
+            <div className={cx('account', 'animation-show', hideClass)}>
                 <AccountItem data={user} />
             </div>
             <div className={cx('menu')}>
-                {privateRoutes.map((route, index) => (
-                    <MenuItem key={index} title={hide ? '' : route.title} to={route.path} icon={route.icon} />
+                {privateRoutes.map((route) => (
+                    <MenuItem key={route.path} title={route.title} to={route.path} icon={route.icon} minimal={hide} />
                 ))}
                 {/* <MenuItem title={hide ? '' : 'Dự án'} to="/projects" icon={<FontAwesomeIcon icon={faFolderOpen} />} />
                 <MenuItem title={hide ? '' : 'Khách hàng'} to="/customer" icon={<FontAwesomeIcon icon={faUsers} />} /> */}

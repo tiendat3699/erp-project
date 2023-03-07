@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { logOut } from '~/stores/auth';
 import Search from '~/components/Search';
 
-import 'tippy.js/dist/tippy.css';
 import styles from './Header.module.scss';
 
 const cx = classNames.bind(styles);
