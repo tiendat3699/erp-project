@@ -10,6 +10,7 @@ const options = {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
+    limit: 5,
     transition: Slide,
     theme: 'colored',
 };
@@ -19,13 +20,13 @@ const showtoast = {
     info: (message) => toast.info(message, options),
     warn: (message) => toast.warn(message, options),
     error: (message) => toast.error(message, options),
-    loading: (message) => toast.loading(message, options),
+    loading: (message) => toast.loading(message, { ...options, closeOnClick: false }),
     update: (toastId, message, type = 'success') =>
         toast.update(toastId, { render: message, type: type, isLoading: false, ...options }),
 };
 
 function ToastComponent() {
-    return <ToastContainer pauseOnFocusLoss={false} />;
+    return <ToastContainer />;
 }
 
 export { options, showtoast };

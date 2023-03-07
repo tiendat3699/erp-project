@@ -1,4 +1,5 @@
 .wrapper {
+    -webkit-tap-highlight-color: transparent;
     user-select: none;
     display: flex;
     align-items: center;
@@ -41,7 +42,8 @@
     }
 
     &:not(:disabled) {
-        &:hover {
+        &:hover,
+        &:active {
             color: #fff;
             background-color: var(--primary-color);
         }
@@ -56,7 +58,8 @@
         background-color: var(--primary-color);
 
         &:not(:disabled) {
-            &:hover {
+            &:hover,
+            &:active {
                 color: var(--primary-color);
                 background-color: #fff;
             }

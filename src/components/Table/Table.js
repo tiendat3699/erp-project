@@ -114,7 +114,7 @@ function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [],
             )}
             <div className={cx('pagination')}>
                 <span className={cx('displayed-rows')}>
-                    {startIndex + 1} - {lastIndex} of {rows.length}
+                    {rows.length > 0 ? startIndex + 1 : 0} - {lastIndex} of {rows.length}
                 </span>
                 <div className={cx('control')}>
                     {pageSizeOptions.length > 0 && (

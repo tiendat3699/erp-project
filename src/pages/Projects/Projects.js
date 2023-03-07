@@ -11,9 +11,11 @@ import ContentBlock from '~/components/ContentBlock';
 import Table from '~/components/Table';
 import Search from '~/components/Search';
 import Modal from '~/components/Modal';
-import { Button } from '~/components/Input';
+import { Button, TextField } from '~/components/Input';
+import ToastComponent, { showtoast } from '~/components/Toast/Toast';
 
 import styles from './Projects.module.scss';
+import { Col, Row } from '~/components/GridSystem';
 
 const cx = classNames.bind(styles);
 
@@ -41,6 +43,7 @@ function Projects() {
     const [projects, setProjects] = useState([]);
     const { user } = useSelector((state) => state.auth);
     const [openModal, setOpenModal] = useState(false);
+    const [disabledModal, setDisabledModal] = useState(false);
 
     const { role } = user;
 
@@ -53,24 +56,31 @@ function Projects() {
         fetch();
     }, []);
 
-    // const handleSubmit = () => {
-    //     const fetch = async () => {
-    //         try {
-    //             const data = {
-    //                 name: 'dự án 1',
-    //                 customerId: 'bab12324',
-    //                 status: 'hoàn thành',
-    //                 users: [1, 2, 4],
-    //             };
-    //             const res = await httpRequest.post('/projects/store', data);
-    //             setProjects((prevState) => [...prevState, res.data]);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     };
+    const handleSubmit = () => {
+        const fetch = async () => {
+            const toastId = showtoast.loading('Đang xử lý...');
+            try {
+                setDisabledModal(true);
+                const data = {
+                    name: 'dự án 1',
+                    customerId: 'bab12324',
+                    status: 'hoàn thành',
+                    users: [1, 2, 4],
+                };
+                const res = await httpRequest.post('/projects/store', data);
+                showtoast.update(toastId, res.data.message, 'success');
+                setProjects((prevState) => [...prevState, res.data.project]);
+                setOpenModal(false);
+            } catch (error) {
+                showtoast.update(toastId, error.message, 'error');
+                console.log(error);
+            } finally {
+                setDisabledModal(false);
+            }
+        };
 
-    //     fetch();
-    // };
+        fetch();
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -97,9 +107,34 @@ function Projects() {
                     onAddMore={role === 'Admin' ? () => setOpenModal(true) : null}
                 />
             </ContentBlock>
-            <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-                Modal
+            <Modal
+                disabled={disabledModal}
+                title="Thêm mới dự án"
+                size="md"
+                isOpen={openModal}
+                onClose={() => setOpenModal(false)}
+                acceptBtnText="Lưu dự án"
+                onAcceptClick={handleSubmit}
+            >
+                <div className={cx('modal')}>
+                    <div className={cx('block-modal')}>
+                        <Row>
+                            <Col>
+                                <p className={cx('title')}>Thông tin dự án</p>
+                            </Col>
+                            <Col md={6}>
+                                <TextField size="sm" label="Tên dự án" placeholder="Nhập tên" />
+                                <TextField size="sm" label="Tên dự án" placeholder="Nhập tên" />
+                            </Col>
+                            <Col md={6}>
+                                <TextField size="sm" label="Tên dự án" placeholder="Nhập tên" />
+                                <TextField size="sm" label="Tên dự án" placeholder="Nhập tên" />
+                            </Col>
+                        </Row>
+                    </div>
+                </div>
             </Modal>
+            <ToastComponent />
         </div>
     );
 }

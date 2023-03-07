@@ -9,7 +9,7 @@ import styles from './TextField.module.scss';
 const cx = classNames.bind(styles);
 
 const TextField = forwardRef(
-    ({ name, placeholder, label, hideBtn, hidedfield, message, className, ...passProps }, ref) => {
+    ({ name, placeholder, label, hideBtn, hidedfield, message, className, size = 'md', ...passProps }, ref) => {
         const [hide, setHide] = useState(hidedfield ? true : false);
         const id = name + '_input';
         return (
@@ -23,7 +23,7 @@ const TextField = forwardRef(
                     <input
                         id={id}
                         name={name}
-                        className={cx('input', { invalid: message }, className)}
+                        className={cx('input', { invalid: message }, className, { [size]: size })}
                         type={hide ? 'password' : 'text'}
                         placeholder={placeholder}
                         ref={ref}
@@ -51,9 +51,10 @@ TextField.propTypes = {
     label: PropTypes.string,
     hideBtn: PropTypes.bool,
     hidedfield: PropTypes.bool,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     message: PropTypes.string,
     className: PropTypes.string,
+    size: PropTypes.string,
 };
 
 export default TextField;

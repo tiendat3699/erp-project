@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 9999;
+    z-index: 1050;
 
     &.open {
         .wrapper {
@@ -44,25 +44,97 @@
         border: 1px solid var(--primary-color);
 
         &.sm {
-            max-width: 400px;
+            max-width: min(400px, calc(100vw - 32px));
         }
         &.md {
-            max-width: 900px;
+            max-width: min(900px, calc(100vw - 32px));
         }
         &.lg {
-            max-width: 1200px;
+            max-width: min(1200px, calc(100vw - 32px));
         }
     }
 
     .header {
+        display: flex;
+        align-items: center;
         width: 100%;
+        padding: 16px 28px;
+        border-bottom: 1px solid #dee2e6;
+
+        .title {
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            margin-left: auto;
+            padding: 4px;
+            font-size: 2.4rem;
+            width: 40px;
+            height: 40px;
+            line-height: 0;
+            color: #888;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            transition: all linear 0.2s;
+
+            &:hover,
+            &:active {
+                color: var(--danger-color);
+            }
+        }
+    }
+
+    .body {
+        padding: 16px 36px;
+    }
+
+    .footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 12px;
+        border-top: 1px solid #dee2e6;
+
+        .btn ~ .btn {
+            margin-left: 8px;
+        }
+
+        .close {
+            &:hover {
+                background-color: var(--danger-color);
+                border-color: var(--danger-color);
+            }
+        }
+
+        .accept {
+            &:hover {
+                background-color: var(--success-color);
+                border-color: var(--success-color);
+                color: #fff;
+            }
+        }
+    }
+
+    .disabled-layout {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: #fff;
+        opacity: 0.5;
     }
 
     .overlay {
         width: 100%;
         height: 100%;
         background-color: #212529;
-        opacity: 0.3;
     }
 
     @keyframes show {
@@ -92,13 +164,13 @@
             opacity: 0;
         }
         100% {
-            opacity: 0.3;
+            opacity: 0.6;
         }
     }
 
     @keyframes fadeOut {
         0% {
-            opacity: 0.3;
+            opacity: 0.6;
         }
         100% {
             opacity: 0;
