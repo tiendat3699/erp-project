@@ -62,48 +62,43 @@ function SignUp() {
                     Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
                 </p>
                 <TextField
-                    {...register('fullname', { required: rules.required })}
-                    name="fullname"
+                    register={register('fullname', { required: rules.required })}
                     placeholder="Họ và tên của bạn"
                     message={errors.fullname?.message}
                 />
                 <TextField
-                    {...register('email', {
+                    register={register('email', {
                         required: rules.required,
                         pattern: rules.email,
                     })}
-                    name="email"
                     placeholder="Email"
                     message={errors.email?.message}
                 />
                 <TextField
-                    {...register('username', {
+                    register={register('username', {
                         required: rules.required,
                         pattern: rules.username,
                         minLength: rules.minLength(6),
                         maxLength: rules.maxLength(12),
                     })}
-                    name="username"
                     placeholder="Tên tài khoản"
                     message={errors.username?.message}
                 />
                 <TextField
-                    {...register('password', {
+                    register={register('password', {
                         required: rules.required,
                         minLength: rules.minLength(8),
                     })}
-                    name="password"
                     placeholder="Mật khẩu"
                     message={errors.password?.message}
                     hideBtn
                     hidedfield
                 />
                 <TextField
-                    {...register('repeat_password', {
+                    register={register('repeat_password', {
                         required: rules.required,
                         validate: (val) => rules.matchCheck(val, watch('password')),
                     })}
-                    name="repeat_password"
                     placeholder="Nhập lại mật khẩu"
                     message={errors.repeat_password?.message}
                     hideBtn
@@ -111,10 +106,9 @@ function SignUp() {
                 />
                 <div className={cx('bottom')}>
                     <Checkbox
-                        {...register('agreement', {
+                        register={register('agreement', {
                             required: true,
                         })}
-                        name="agreement"
                         error={errors.agreement}
                     />
                     <span className={cx('agree-text')}>

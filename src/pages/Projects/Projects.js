@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
@@ -16,6 +16,9 @@ import ToastComponent, { showtoast, toastType } from '~/components/Toast';
 
 import styles from './Projects.module.scss';
 import { Col, Row } from '~/components/GridSystem';
+import { userService } from '~/services';
+import { useForm } from '~/hooks';
+import { Controller } from 'react-hook-form';
 
 const cx = classNames.bind(styles);
 
@@ -41,32 +44,42 @@ const columns = [
 
 function Projects() {
     const [projects, setProjects] = useState([]);
-    const { user } = useSelector((state) => state.auth);
+    const [users, setUsers] = useState([]);
+    const user = useSelector((state) => state.auth.user, shallowEqual);
     const [openModal, setOpenModal] = useState(false);
     const [disabledModal, setDisabledModal] = useState(false);
+    const test = useForm();
+    const {
+        rules,
+        register,
+        handleSubmit,
+        formState: { errors },
+        control,
+    } = test;
 
     const { role } = user;
 
     useEffect(() => {
-        const fetch = async () => {
+        const fetchUser = async () => {
+            const res = await userService.getAll();
+            const users = res.map((user) => ({ value: user._id, label: `${user.fullname} (${user.username})` }));
+            setUsers(users);
+        };
+
+        const fetchProject = async () => {
             const res = await httpRequest.get('/projects/all');
             setProjects(res.data);
         };
 
-        fetch();
+        fetchUser();
+        fetchProject();
     }, []);
 
-    const handleSubmit = () => {
+    const onSubmit = (data) => {
         const fetch = async () => {
             const toastId = showtoast.loading('Đang xử lý...');
             try {
                 setDisabledModal(true);
-                const data = {
-                    name: 'dự án 1',
-                    customerId: 'bab12324',
-                    status: 'hoàn thành',
-                    users: [1, 2, 4],
-                };
                 const res = await httpRequest.post('/projects/store', data);
                 showtoast.update(toastId, res.data.message, toastType.SUCCESS);
                 setProjects((prevState) => [...prevState, res.data.project]);
@@ -79,7 +92,8 @@ function Projects() {
             }
         };
 
-        fetch();
+        // fetch();
+        console.log(data);
     };
 
     return (
@@ -114,7 +128,7 @@ function Projects() {
                 isOpen={openModal}
                 onClose={() => setOpenModal(false)}
                 acceptBtnText="Lưu dự án"
-                onAcceptClick={handleSubmit}
+                onAcceptClick={handleSubmit(onSubmit)}
             >
                 <div className={cx('modal')}>
                     <div className={cx('block-modal')}>
@@ -123,18 +137,29 @@ function Projects() {
                                 <p className={cx('title')}>Thông tin dự án</p>
                             </Col>
                             <Col md={6}>
-                                <TextField name="name" size="sm" label="Tên dự án" placeholder="Nhập tên" />
-                                <Select
-                                    isMutil
+                                <TextField
+                                    register={register('name', { required: rules.required })}
                                     size="sm"
+                                    label="Tên dự án"
+                                    placeholder="Nhập tên"
+                                    message={errors.name?.message}
+                                />
+                                <Controller
                                     name="customer"
-                                    label="khach hang"
-                                    placeholder="tesst"
-                                    options={[
-                                        { value: '1', label: '1' },
-                                        { value: '2', label: '2' },
-                                        { value: '3', label: '3' },
-                                    ]}
+                                    control={control}
+                                    rules={{ required: rules.required }}
+                                    render={({ field: { ref, ...restField } }) => (
+                                        <Select
+                                            isMutil
+                                            size="sm"
+                                            label="khach hang"
+                                            placeholder="tesst"
+                                            options={users}
+                                            message={errors.customer?.message}
+                                            inputRef={ref}
+                                            {...restField}
+                                        />
+                                    )}
                                 />
                             </Col>
                             <Col md={6}>tesst</Col>

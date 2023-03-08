@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 import { usePageTitle } from '~/hooks';
-import { authService, usersService } from '~/services';
+import { authService, userService } from '~/services';
 
 function Page({ children, title = 'Erp Project', requriesAuth }) {
     usePageTitle(title);
 
-    const { isLoggedIn } = useSelector((state) => state.auth);
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn, shallowEqual);
     const [authentiacted, setAuthentiacted] = useState(!requriesAuth || isLoggedIn);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ function Page({ children, title = 'Erp Project', requriesAuth }) {
 
             const fetchUser = async () => {
                 try {
-                    await usersService.getCurrentUser();
+                    await userService.getCurrentUser();
                 } catch (error) {
                     HandelLogOut();
                 }
@@ -30,7 +30,6 @@ function Page({ children, title = 'Erp Project', requriesAuth }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
     return authentiacted ? children : <Navigate to="/login" replace />;
 }
 

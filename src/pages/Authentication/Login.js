@@ -59,23 +59,17 @@ function Login() {
                     Chưa có tài khoản? <Link to="/signup">Đăng ký</Link>
                 </p>
                 <TextField
-                    {...register('username', { required: rules.required })}
-                    name="username"
+                    register={register('username', { required: rules.required })}
                     message={errors.username?.message}
                     placeholder="Tên tài khoản"
                 />
                 <TextField
-                    {...register('password', { required: rules.required })}
-                    name="password"
+                    register={register('password', { required: rules.required })}
                     placeholder="Mật khẩu"
                     message={errors.password?.message}
                     hideBtn
                     hidedfield
                 />
-                <div className={cx('space-btw-bottom')}>
-                    <Checkbox {...register('rememberme')} name="rememberme" labelRight="Ghi nhớ" />
-                    <Link to="/forgetpass">Quên mật khẩu</Link>
-                </div>
                 <div className={cx('footer')}>
                     <Button disabled={disabled} className={cx('submit-btn')} rounded primary>
                         Đăng nhập

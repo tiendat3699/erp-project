@@ -8,7 +8,7 @@ import DataCard from '~/components/DataCard';
 import Table from '~/components/Table';
 import { BarChart, DoughnutChart, LineChart, PieChart } from '~/components/Chart';
 import { Row, Col } from '~/components/GridSystem';
-import { usersService } from '~/services';
+import { userService } from '~/services';
 
 import styles from './Home.module.scss';
 
@@ -92,7 +92,7 @@ function Home() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await usersService.getAll();
+                const res = await userService.getAll();
                 setUser(res);
             } catch (e) {
                 console.log(e);

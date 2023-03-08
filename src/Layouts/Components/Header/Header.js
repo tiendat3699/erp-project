@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faComment } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRightToBracket, faBriefcase, faCircleQuestion, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -53,8 +53,8 @@ function Header() {
 
     const [chatQueue, setChatQueue] = useState([]);
     const [notifyQueue, setNotifyQueue] = useState([]);
-    const { title } = useSelector((state) => state.page);
-    const { avatar_url } = useSelector((state) => state.auth.user);
+    const title = useSelector((state) => state.page.title, shallowEqual);
+    const avatar_url = useSelector((state) => state.auth.user.avatar_url, shallowEqual);
 
     return (
         <header className={cx('wrapper')}>

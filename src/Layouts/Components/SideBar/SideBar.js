@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
@@ -16,11 +16,11 @@ import { setSibarCollapse } from '~/stores/page';
 const cx = classNames.bind(styles);
 
 function SideBar() {
-    const { sideBarCollapse } = useSelector((state) => state.page);
+    const sideBarCollapse = useSelector((state) => state.page.sideBarCollapse, shallowEqual);
     const dispatch = useDispatch();
     const [collapse, setCollapse] = useState(sideBarCollapse);
     const [hide, setHide] = useState(sideBarCollapse);
-    const { user } = useSelector((state) => state.auth);
+    const user = useSelector((state) => state.auth.user, shallowEqual);
 
     useEffect(() => {
         if (!collapse) {

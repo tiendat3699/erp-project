@@ -1,5 +1,4 @@
 import classNames from 'classnames/bind';
-import { forwardRef, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
@@ -7,12 +6,11 @@ import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import ReactSelect from 'react-select';
 
 import styles from './Select.module.scss';
+import { useRef } from 'react';
 
 const cx = classNames.bind(styles);
 
-const Select = forwardRef(({ name, label, message, size = 'md', placeholder, options, isMutil, disabled }, ref) => {
-    const [value, setValue] = useState('');
-
+function Select({ label, message, size = 'md', placeholder, options, isMutil, disabled, inputRef, ...pastProps }) {
     let height;
 
     switch (size) {
@@ -57,21 +55,17 @@ const Select = forwardRef(({ name, label, message, size = 'md', placeholder, opt
         return style;
     };
 
-    const handleSetValue = (val) => {
-        if (isMutil) {
-            const values = val.map((el) => el.value);
-            setValue(JSON.stringify(values));
-        } else {
-            setValue(val.value);
-        }
-    };
-
     return (
         <div className={cx('wrapper')}>
-            <input ref={ref} type="hidden" name={name} value={value} />
             {label && <label className={cx('label')}>{label}</label>}
             <ReactSelect
                 className={cx('selector', { invalid: message })}
+                options={options}
+                placeholder={placeholder}
+                isMulti={isMutil}
+                isDisabled={disabled}
+                ref={inputRef}
+                {...pastProps}
                 styles={{
                     control: (provided, state) => ({
                         ...provided,
@@ -81,11 +75,6 @@ const Select = forwardRef(({ name, label, message, size = 'md', placeholder, opt
                         boxShadow: boxShadowStyle(state.isFocused),
                     }),
                 }}
-                options={options}
-                placeholder={placeholder}
-                isMulti={isMutil}
-                isDisabled={disabled}
-                onChange={handleSetValue}
             />
             {message && (
                 <span className={cx('error-messgae')}>
@@ -95,6 +84,6 @@ const Select = forwardRef(({ name, label, message, size = 'md', placeholder, opt
             )}
         </div>
     );
-});
+}
 
 export default Select;

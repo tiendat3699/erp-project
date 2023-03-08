@@ -2,7 +2,7 @@ import { httpRequest } from '~/utils';
 import store from '~/stores';
 import { setUserInfo } from '~/stores/auth';
 
-const usersService = {
+const userService = {
     getCurrentUser: async () => {
         try {
             const res = await httpRequest.get('users/me');
@@ -31,4 +31,4 @@ const usersService = {
     },
 };
 
-export default usersService;
+export default userService;
