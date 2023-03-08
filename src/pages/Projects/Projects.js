@@ -19,6 +19,8 @@ import { Col, Row } from '~/components/GridSystem';
 import { userService } from '~/services';
 import { useForm } from '~/hooks';
 import { Controller } from 'react-hook-form';
+import AccountItem from '~/components/AccountItem';
+import { ImageChip } from '~/components/Input/Select';
 
 const cx = classNames.bind(styles);
 
@@ -62,7 +64,14 @@ function Projects() {
     useEffect(() => {
         const fetchUser = async () => {
             const res = await userService.getAll();
-            const users = res.map((user) => ({ value: user._id, label: `${user.fullname} (${user.username})` }));
+            const users = res.map((user) => ({
+                value: user._id,
+                label: user.fullname,
+                fullname: user.fullname,
+                username: user.username,
+                avatar_url: user.avatar_url,
+                image: user.avatar_url,
+            }));
             setUsers(users);
         };
 
@@ -145,18 +154,20 @@ function Projects() {
                                     message={errors.name?.message}
                                 />
                                 <Controller
-                                    name="customer"
+                                    name="users"
                                     control={control}
                                     rules={{ required: rules.required }}
-                                    render={({ field: { ref, ...restField } }) => (
+                                    render={({ field: { ref, ...restField }, fieldState }) => (
                                         <Select
                                             isMutil
                                             size="sm"
-                                            label="khach hang"
-                                            placeholder="tesst"
+                                            label="Nhân viên thực hiện"
+                                            placeholder="Chọn nhân viên"
                                             options={users}
-                                            message={errors.customer?.message}
+                                            message={fieldState.error?.message}
                                             inputRef={ref}
+                                            formatOptionLabel={(option) => <AccountItem data={option} minimal />}
+                                            components={{ MultiValue: ImageChip }}
                                             {...restField}
                                         />
                                     )}

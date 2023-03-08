@@ -6,7 +6,6 @@ import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import ReactSelect from 'react-select';
 
 import styles from './Select.module.scss';
-import { useRef } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -73,6 +72,12 @@ function Select({ label, message, size = 'md', placeholder, options, isMutil, di
                         borderRadius: 10,
                         borderColor: borderColorStyle(state.isFocused),
                         boxShadow: boxShadowStyle(state.isFocused),
+                    }),
+                    placeholder: (provided, state) => ({
+                        ...provided,
+                        fontFamily: 'IBM Plex Sans, sans-serif',
+                        fontSize: '1.5rem',
+                        paddingLeft: 4,
                     }),
                 }}
             />
