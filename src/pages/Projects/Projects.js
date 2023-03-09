@@ -14,14 +14,14 @@ import Modal from '~/components/Modal';
 import { Button, TextField, Select, DatePicker, Editor } from '~/components/Input';
 import ToastComponent, { showtoast, toastType } from '~/components/Toast';
 
-import styles from './Projects.module.scss';
 import { Col, Row } from '~/components/GridSystem';
 import { userService } from '~/services';
 import { useForm } from '~/hooks';
 import { Controller } from 'react-hook-form';
 import AccountItem from '~/components/AccountItem';
-import { DefaultChip, ImageChip } from '~/components/Input/Select';
-import ReactQuill from 'react-quill';
+import { ImageChip } from '~/components/Input/Select';
+
+import styles from './Projects.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -47,7 +47,6 @@ const columns = [
 
 function Projects() {
     const [data, setData] = useState({ projects: [], users: [], customers: [] });
-    const user = useSelector((state) => state.auth.user, shallowEqual);
     const [openModal, setOpenModal] = useState(false);
     const [disabledModal, setDisabledModal] = useState(false);
     const test = useForm();
@@ -59,6 +58,7 @@ function Projects() {
         control,
     } = test;
 
+    const user = useSelector((state) => state.auth.user, shallowEqual);
     const { role } = user;
 
     useEffect(() => {
@@ -91,6 +91,7 @@ function Projects() {
             description: data.description,
             start_date: date.startDate,
             end_date: date.endDate,
+            status: data.status,
             users: data.users,
         };
         const fetch = async () => {
@@ -180,8 +181,6 @@ function Projects() {
                                         />
                                     )}
                                 />
-                            </Col>
-                            <Col md={6}>
                                 <Controller
                                     name="users"
                                     control={control}
@@ -197,6 +196,27 @@ function Projects() {
                                             inputRef={ref}
                                             formatOptionLabel={(option) => <AccountItem data={option} minimal />}
                                             components={{ MultiValue: ImageChip }}
+                                            {...restField}
+                                        />
+                                    )}
+                                />
+                            </Col>
+                            <Col md={6}>
+                                <Controller
+                                    name="status"
+                                    control={control}
+                                    render={({ field: { ref, ...restField }, fieldState }) => (
+                                        <Select
+                                            size="sm"
+                                            label="Trạng thái"
+                                            placeholder="Chọn trạng thái"
+                                            options={[
+                                                { value: 'Progressing', label: 'Progressing' },
+                                                { value: 'Done', label: 'Done' },
+                                                { value: 'Cancel', label: 'Cancel' },
+                                            ]}
+                                            message={fieldState.error?.message}
+                                            inputRef={ref}
                                             {...restField}
                                         />
                                     )}

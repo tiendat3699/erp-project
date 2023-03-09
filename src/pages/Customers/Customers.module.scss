@@ -1,0 +1,15 @@
+.wrapper {
+    .title {
+        font-size: 2rem;
+        font-weight: 500;
+        margin-bottom: 16px;
+        padding-left: 16px;
+    }
+
+    .control {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 0 16px;
+    }
+}
