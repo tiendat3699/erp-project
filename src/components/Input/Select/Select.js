@@ -55,6 +55,15 @@ function Select({ label, message, size = 'md', placeholder, options, isMutil, di
         return style;
     };
 
+    const { value, onChange, ...rest } = pastProps;
+    const handelOnChange = (val) => {
+        if (Array.isArray(val)) {
+            return onChange(val.map((c) => c.value));
+        } else {
+            return onChange(val.value);
+        }
+    };
+
     return (
         <div className={cx('wrapper')}>
             {label && <label className={cx('label')}>{label}</label>}
@@ -65,7 +74,9 @@ function Select({ label, message, size = 'md', placeholder, options, isMutil, di
                 isMulti={isMutil}
                 isDisabled={disabled}
                 ref={inputRef}
-                {...pastProps}
+                value={options.find((c) => c.value === value)}
+                onChange={handelOnChange}
+                {...rest}
                 styles={{
                     control: (provided, state) => ({
                         ...provided,
@@ -74,7 +85,7 @@ function Select({ label, message, size = 'md', placeholder, options, isMutil, di
                         borderColor: borderColorStyle(state.isFocused),
                         boxShadow: boxShadowStyle(state.isFocused),
                     }),
-                    placeholder: (provided, state) => ({
+                    placeholder: (provided) => ({
                         ...provided,
                         fontFamily: 'IBM Plex Sans, sans-serif',
                         fontSize: '1.5rem',

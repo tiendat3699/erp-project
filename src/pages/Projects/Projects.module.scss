@@ -16,12 +16,16 @@
 
 .modal {
     .block-modal {
-        margin-bottom: 20px;
+        margin-bottom: 16px;
     }
 
     .title {
         font-weight: 700;
         color: var(--primary-color);
         margin-bottom: 8px;
+    }
+
+    .editor {
+        height: 250px;
     }
 }

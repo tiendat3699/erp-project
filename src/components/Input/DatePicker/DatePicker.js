@@ -11,6 +11,8 @@ import { Calendar, DateRange } from 'react-date-range';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 
 import styles from './DatePicker.module.scss';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
 const cx = classNames.bind(styles);
 
@@ -34,6 +36,7 @@ function DatePicker({ size = 'md', label, rangeSelector, className, message, reg
                         dateDisplayFormat="P"
                         locale={vi}
                         ranges={[rangeDate]}
+                        initialFocusedRange={[0, 1]}
                         onChange={(range) => setRangeDate(range.selection)}
                     />
                 ) : (
@@ -69,6 +72,7 @@ function DatePicker({ size = 'md', label, rangeSelector, className, message, reg
             trigger="click"
             placement="bottom-start"
             interactive
+            appendTo={document.body}
             render={renderDatePicker}
             onShow={() => setFocus(true)}
             onHide={() => setFocus(false)}

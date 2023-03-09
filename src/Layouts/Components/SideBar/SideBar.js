@@ -5,13 +5,15 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 
+import { setSibarCollapse } from '~/stores/page';
+
 import AccountItem from '~/components/AccountItem';
 import MenuItem from './MenuItem';
 import { logo } from '~/images';
 import { privateRoutes } from '~/routes';
 
 import styles from './SideBar.module.scss';
-import { setSibarCollapse } from '~/stores/page';
+import 'tippy.js/themes/light.css';
 
 const cx = classNames.bind(styles);
 

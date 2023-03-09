@@ -14,6 +14,7 @@ import { logOut } from '~/stores/auth';
 import Search from '~/components/Search';
 
 import styles from './Header.module.scss';
+import 'tippy.js/dist/tippy.css';
 
 const cx = classNames.bind(styles);
 

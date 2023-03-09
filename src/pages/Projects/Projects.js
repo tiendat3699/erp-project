@@ -11,7 +11,7 @@ import ContentBlock from '~/components/ContentBlock';
 import Table from '~/components/Table';
 import Search from '~/components/Search';
 import Modal from '~/components/Modal';
-import { Button, TextField, Select, DatePicker } from '~/components/Input';
+import { Button, TextField, Select, DatePicker, Editor } from '~/components/Input';
 import ToastComponent, { showtoast, toastType } from '~/components/Toast';
 
 import styles from './Projects.module.scss';
@@ -20,7 +20,8 @@ import { userService } from '~/services';
 import { useForm } from '~/hooks';
 import { Controller } from 'react-hook-form';
 import AccountItem from '~/components/AccountItem';
-import { ImageChip } from '~/components/Input/Select';
+import { DefaultChip, ImageChip } from '~/components/Input/Select';
+import ReactQuill from 'react-quill';
 
 const cx = classNames.bind(styles);
 
@@ -83,13 +84,25 @@ function Projects() {
     }, []);
 
     const onSubmit = (data) => {
+        const date = JSON.parse(data.date);
+        const reqData = {
+            name: data.name,
+            customerId: data.customer,
+            description: data.description,
+            start_date: date.startDate,
+            end_date: date.endDate,
+            users: data.users,
+        };
         const fetch = async () => {
             const toastId = showtoast.loading('Đang xử lý...');
             try {
                 setDisabledModal(true);
-                const res = await httpRequest.post('/projects/store', data);
+                const res = await httpRequest.post('/projects/store', reqData);
                 showtoast.update(toastId, res.data.message, toastType.SUCCESS);
-                setData((prevState) => ({ ...prevState, projects: [...prevState.projects, res.data] }));
+                setData((prevState) => {
+                    prevState.projects.push(res.data.project);
+                    return prevState;
+                });
                 setOpenModal(false);
             } catch (error) {
                 showtoast.update(toastId, error.message, toastType.ERROR);
@@ -99,8 +112,7 @@ function Projects() {
             }
         };
 
-        // fetch();
-        console.log(data);
+        fetch();
     };
 
     return (
@@ -157,7 +169,6 @@ function Projects() {
                                     rules={{ required: rules.required }}
                                     render={({ field: { ref, ...restField }, fieldState }) => (
                                         <Select
-                                            isMutil
                                             size="sm"
                                             label="Khách hàng"
                                             placeholder="Chọn Khách hàng"
@@ -165,19 +176,12 @@ function Projects() {
                                             message={fieldState.error?.message}
                                             inputRef={ref}
                                             formatOptionLabel={(option) => <AccountItem data={option} minimal />}
-                                            components={{ MultiValue: ImageChip }}
                                             {...restField}
                                         />
                                     )}
                                 />
                             </Col>
                             <Col md={6}>
-                                <DatePicker
-                                    register={register('date')}
-                                    size="sm"
-                                    label="Thời gian thực hiện"
-                                    rangeSelector
-                                />
                                 <Controller
                                     name="users"
                                     control={control}
@@ -197,8 +201,24 @@ function Projects() {
                                         />
                                     )}
                                 />
+                                <DatePicker
+                                    register={register('date')}
+                                    size="sm"
+                                    label="Thời gian thực hiện"
+                                    rangeSelector
+                                />
                             </Col>
                         </Row>
+                    </div>
+                    <div className={cx('block-modal')}>
+                        <p className={cx('title')}>Mô tả</p>
+                        <Controller
+                            name="description"
+                            control={control}
+                            render={({ field: { ref, ...restField } }) => (
+                                <Editor placeholder="Thêm mô tả..." {...restField} />
+                            )}
+                        />
                     </div>
                 </div>
             </Modal>
