@@ -62,11 +62,13 @@ function Login() {
                     register={register('username', { required: rules.required })}
                     message={errors.username?.message}
                     placeholder="Tên tài khoản"
+                    placementMessage="right"
                 />
                 <TextField
                     register={register('password', { required: rules.required })}
                     placeholder="Mật khẩu"
                     message={errors.password?.message}
+                    placementMessage="right"
                     hideBtn
                     hidedfield
                 />

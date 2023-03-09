@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
+import Tippy from '@tippyjs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,7 +11,18 @@ import styles from './Select.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Select({ label, message, size = 'md', placeholder, options, isMutil, disabled, inputRef, ...pastProps }) {
+function Select({
+    label,
+    message,
+    size = 'md',
+    placeholder,
+    options,
+    isMutil,
+    disabled,
+    inputRef,
+    placementMessage = 'bottom-end',
+    ...pastProps
+}) {
     let height;
 
     switch (size) {
@@ -67,38 +79,48 @@ function Select({ label, message, size = 'md', placeholder, options, isMutil, di
     return (
         <div className={cx('wrapper')}>
             {label && <label className={cx('label')}>{label}</label>}
-            <ReactSelect
-                className={cx('selector', { invalid: message })}
-                options={options}
-                placeholder={placeholder}
-                isMulti={isMutil}
-                isDisabled={disabled}
-                ref={inputRef}
-                value={options.find((c) => c.value === value)}
-                onChange={handelOnChange}
-                {...rest}
-                styles={{
-                    control: (provided, state) => ({
-                        ...provided,
-                        minHeight: height,
-                        borderRadius: 10,
-                        borderColor: borderColorStyle(state.isFocused),
-                        boxShadow: boxShadowStyle(state.isFocused),
-                    }),
-                    placeholder: (provided) => ({
-                        ...provided,
-                        fontFamily: 'IBM Plex Sans, sans-serif',
-                        fontSize: '1.5rem',
-                        paddingLeft: 4,
-                    }),
-                }}
-            />
-            {message && (
-                <span className={cx('error-messgae')}>
-                    <FontAwesomeIcon className={cx('error-icon')} icon={faTriangleExclamation} />
-                    {message}
-                </span>
-            )}
+            <Tippy
+                content={
+                    <span className={cx('error-messgae')}>
+                        <FontAwesomeIcon className={cx('error-icon')} icon={faTriangleExclamation} />
+                        {message}
+                    </span>
+                }
+                visible={!!message}
+                placement={placementMessage}
+                appendTo="parent"
+                theme="error"
+                offset={[0, 5]}
+            >
+                <div>
+                    <ReactSelect
+                        className={cx('selector', { invalid: message })}
+                        options={options}
+                        placeholder={placeholder}
+                        isMulti={isMutil}
+                        isDisabled={disabled}
+                        ref={inputRef}
+                        value={options.find((c) => c.value === value)}
+                        onChange={handelOnChange}
+                        {...rest}
+                        styles={{
+                            control: (provided, state) => ({
+                                ...provided,
+                                minHeight: height,
+                                borderRadius: 10,
+                                borderColor: borderColorStyle(state.isFocused),
+                                boxShadow: boxShadowStyle(state.isFocused),
+                            }),
+                            placeholder: (provided) => ({
+                                ...provided,
+                                fontFamily: 'IBM Plex Sans, sans-serif',
+                                fontSize: '1.5rem',
+                                paddingLeft: 4,
+                            }),
+                        }}
+                    />
+                </div>
+            </Tippy>
         </div>
     );
 }
@@ -112,6 +134,7 @@ Select.propTypes = {
     isMutil: PropTypes.bool,
     disabled: PropTypes.bool,
     inputRef: PropTypes.func,
+    placementMessage: PropTypes.string,
 };
 
 export default Select;

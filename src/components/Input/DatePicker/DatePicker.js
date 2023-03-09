@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
-import Tippy from '@tippyjs/react/headless';
+import TippyHeadless from '@tippyjs/react/headless';
+import Tippy from '@tippyjs/react';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 
@@ -21,7 +22,15 @@ const selectionRange = {
     endDate: new Date(),
     key: 'selection',
 };
-function DatePicker({ size = 'md', label, rangeSelector, className, message, register }) {
+function DatePicker({
+    size = 'md',
+    label,
+    rangeSelector,
+    className,
+    message,
+    register,
+    placementMessage = 'bottom-end',
+}) {
     const [rangeDate, setRangeDate] = useState(selectionRange);
     const [date, setDate] = useState(new Date());
     const [focus, setFocus] = useState(false);
@@ -68,7 +77,7 @@ function DatePicker({ size = 'md', label, rangeSelector, className, message, reg
     };
 
     return (
-        <Tippy
+        <TippyHeadless
             trigger="click"
             placement="bottom-start"
             interactive
@@ -80,17 +89,25 @@ function DatePicker({ size = 'md', label, rangeSelector, className, message, reg
             <div className={cx('wrapper')}>
                 <input type="hidden" value={getValue(rangeSelector ? rangeDate : date)} {...register} />
                 {label && <label className={cx('label')}>{label}</label>}
-                <div className={cx('input', { [size]: size, focus, className })}>
-                    <p>{renderResult()}</p>
-                </div>
-                {message && (
-                    <span className={cx('error-messgae')}>
-                        <FontAwesomeIcon className={cx('error-icon')} icon={faTriangleExclamation} />
-                        {message}
-                    </span>
-                )}
+                <Tippy
+                    content={
+                        <span className={cx('error-messgae')}>
+                            <FontAwesomeIcon className={cx('error-icon')} icon={faTriangleExclamation} />
+                            {message}
+                        </span>
+                    }
+                    visible={!!message}
+                    placement={placementMessage}
+                    appendTo="parent"
+                    theme="error"
+                    offset={[0, 5]}
+                >
+                    <div className={cx('input', { [size]: size, focus, className })}>
+                        <p>{renderResult()}</p>
+                    </div>
+                </Tippy>
             </div>
-        </Tippy>
+        </TippyHeadless>
     );
 }
 
@@ -101,6 +118,7 @@ DatePicker.propTypes = {
     className: PropTypes.string,
     message: PropTypes.string,
     register: PropTypes.object,
+    placementMessage: PropTypes.string,
 };
 
 export default DatePicker;

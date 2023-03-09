@@ -71,6 +71,38 @@ body {
     }
 }
 
+.tippy-box[data-theme~='error'] {
+    font-size: 1.2rem;
+    font-weight: 500;
+    background-color: var(--danger-color);
+    color: #fff;
+
+    .tippy-content {
+        padding: 4px 8px;
+    }
+
+    &[data-placement^='top'] > .tippy-arrow::before {
+        bottom: -5px;
+        border-width: 6px 6px 0;
+        border-top-color: var(--danger-color);
+    }
+    &[data-placement^='bottom'] > .tippy-arrow::before {
+        top: -5px;
+        border-width: 0 6px 6px;
+        border-bottom-color: var(--danger-color);
+    }
+    &[data-placement^='left'] > .tippy-arrow::before {
+        right: -6px;
+        border-width: 6px 0 6px 6px;
+        border-left-color: var(--danger-color);
+    }
+    &[data-placement^='right'] > .tippy-arrow::before {
+        left: -6px;
+        border-width: 6px 6px 6px 0;
+        border-right-color: var(--danger-color);
+    }
+}
+
 //custom react quill
 .ql-editor {
     min-height: 250px;

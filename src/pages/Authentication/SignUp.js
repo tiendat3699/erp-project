@@ -65,6 +65,7 @@ function SignUp() {
                     register={register('fullname', { required: rules.required })}
                     placeholder="Họ và tên của bạn"
                     message={errors.fullname?.message}
+                    placementMessage="right"
                 />
                 <TextField
                     register={register('email', {
@@ -73,6 +74,7 @@ function SignUp() {
                     })}
                     placeholder="Email"
                     message={errors.email?.message}
+                    placementMessage="right"
                 />
                 <TextField
                     register={register('username', {
@@ -83,6 +85,7 @@ function SignUp() {
                     })}
                     placeholder="Tên tài khoản"
                     message={errors.username?.message}
+                    placementMessage="right"
                 />
                 <TextField
                     register={register('password', {
@@ -91,6 +94,7 @@ function SignUp() {
                     })}
                     placeholder="Mật khẩu"
                     message={errors.password?.message}
+                    placementMessage="right"
                     hideBtn
                     hidedfield
                 />
@@ -101,6 +105,7 @@ function SignUp() {
                     })}
                     placeholder="Nhập lại mật khẩu"
                     message={errors.repeat_password?.message}
+                    placementMessage="right"
                     hideBtn
                     hidedfield
                 />
