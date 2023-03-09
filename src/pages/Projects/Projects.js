@@ -11,7 +11,7 @@ import ContentBlock from '~/components/ContentBlock';
 import Table from '~/components/Table';
 import Search from '~/components/Search';
 import Modal from '~/components/Modal';
-import { Button, TextField, Select } from '~/components/Input';
+import { Button, TextField, Select, DatePicker } from '~/components/Input';
 import ToastComponent, { showtoast, toastType } from '~/components/Toast';
 
 import styles from './Projects.module.scss';
@@ -45,8 +45,7 @@ const columns = [
 ];
 
 function Projects() {
-    const [projects, setProjects] = useState([]);
-    const [users, setUsers] = useState([]);
+    const [data, setData] = useState({ projects: [], users: [], customers: [] });
     const user = useSelector((state) => state.auth.user, shallowEqual);
     const [openModal, setOpenModal] = useState(false);
     const [disabledModal, setDisabledModal] = useState(false);
@@ -62,9 +61,10 @@ function Projects() {
     const { role } = user;
 
     useEffect(() => {
-        const fetchUser = async () => {
-            const res = await userService.getAll();
-            const users = res.map((user) => ({
+        const fetch = async () => {
+            const [projectRes, userRes] = await Promise.all([httpRequest.get('/projects/all'), userService.getAll()]);
+
+            const users = userRes.map((user) => ({
                 value: user._id,
                 label: user.fullname,
                 fullname: user.fullname,
@@ -72,16 +72,14 @@ function Projects() {
                 avatar_url: user.avatar_url,
                 image: user.avatar_url,
             }));
-            setUsers(users);
-        };
 
-        const fetchProject = async () => {
-            const res = await httpRequest.get('/projects/all');
-            setProjects(res.data);
+            setData((prevState) => ({
+                ...prevState,
+                projects: projectRes.data,
+                users: users,
+            }));
         };
-
-        fetchUser();
-        fetchProject();
+        fetch();
     }, []);
 
     const onSubmit = (data) => {
@@ -91,7 +89,7 @@ function Projects() {
                 setDisabledModal(true);
                 const res = await httpRequest.post('/projects/store', data);
                 showtoast.update(toastId, res.data.message, toastType.SUCCESS);
-                setProjects((prevState) => [...prevState, res.data.project]);
+                setData((prevState) => ({ ...prevState, projects: [...prevState.projects, res.data] }));
                 setOpenModal(false);
             } catch (error) {
                 showtoast.update(toastId, error.message, toastType.ERROR);
@@ -123,7 +121,7 @@ function Projects() {
                     )}
                 </div>
                 <Table
-                    rows={projects}
+                    rows={data.projects}
                     columns={columns}
                     minWidth={600}
                     pageSizeOptions={[10, 15, 20]}
@@ -154,16 +152,16 @@ function Projects() {
                                     message={errors.name?.message}
                                 />
                                 <Controller
-                                    name="users"
+                                    name="customer"
                                     control={control}
                                     rules={{ required: rules.required }}
                                     render={({ field: { ref, ...restField }, fieldState }) => (
                                         <Select
                                             isMutil
                                             size="sm"
-                                            label="Nhân viên thực hiện"
-                                            placeholder="Chọn nhân viên"
-                                            options={users}
+                                            label="Khách hàng"
+                                            placeholder="Chọn Khách hàng"
+                                            options={data.users}
                                             message={fieldState.error?.message}
                                             inputRef={ref}
                                             formatOptionLabel={(option) => <AccountItem data={option} minimal />}
@@ -173,7 +171,33 @@ function Projects() {
                                     )}
                                 />
                             </Col>
-                            <Col md={6}>tesst</Col>
+                            <Col md={6}>
+                                <DatePicker
+                                    register={register('date')}
+                                    size="sm"
+                                    label="Thời gian thực hiện"
+                                    rangeSelector
+                                />
+                                <Controller
+                                    name="users"
+                                    control={control}
+                                    rules={{ required: rules.required }}
+                                    render={({ field: { ref, ...restField }, fieldState }) => (
+                                        <Select
+                                            isMutil
+                                            size="sm"
+                                            label="Nhân viên thực hiện"
+                                            placeholder="Chọn nhân viên"
+                                            options={data.users}
+                                            message={fieldState.error?.message}
+                                            inputRef={ref}
+                                            formatOptionLabel={(option) => <AccountItem data={option} minimal />}
+                                            components={{ MultiValue: ImageChip }}
+                                            {...restField}
+                                        />
+                                    )}
+                                />
+                            </Col>
                         </Row>
                     </div>
                 </div>

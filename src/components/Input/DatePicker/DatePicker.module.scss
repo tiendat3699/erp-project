@@ -1,0 +1,55 @@
+.wrapper {
+    user-select: none;
+    font-size: 1.5rem;
+    margin: 8px 0;
+    .input {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        border-radius: 10px;
+        padding-left: 16px;
+        padding-right: 16px;
+        border: 1px solid #555;
+
+        &.focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+
+        &.sm {
+            height: 36px;
+        }
+
+        &.md {
+            height: 40px;
+        }
+
+        &.lg {
+            height: 50px;
+        }
+    }
+
+    .label {
+        display: inline-block;
+        font-size: 1.4rem;
+        font-weight: 500;
+        margin-left: 8px;
+        margin-bottom: 4px;
+    }
+
+    .error-messgae {
+        font-size: 1.3rem;
+        font-weight: 500;
+        padding: 0 8px;
+        color: var(--danger-color);
+    }
+
+    .error-icon {
+        margin-right: 4px;
+    }
+}
+
+.date-popper {
+    padding: 0;
+    overflow: hidden;
+}

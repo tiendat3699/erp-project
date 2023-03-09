@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -90,5 +91,16 @@ function Select({ label, message, size = 'md', placeholder, options, isMutil, di
         </div>
     );
 }
+
+Select.propTypes = {
+    label: PropTypes.string,
+    message: PropTypes.string,
+    size: PropTypes.string,
+    placeholder: PropTypes.string,
+    options: PropTypes.array.isRequired,
+    isMutil: PropTypes.bool,
+    disabled: PropTypes.bool,
+    inputRef: PropTypes.func,
+};
 
 export default Select;

@@ -8,8 +8,11 @@ import { persistStore } from 'redux-persist';
 
 import store from './stores';
 import GlobalStyles from '~/components/GlobalStyles';
+//lib style
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
