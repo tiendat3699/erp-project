@@ -57,38 +57,40 @@ function Modal({
     return createPortal(
         <>
             {open && (
-                <div className={cx('root', { open, closing })}>
-                    <div className={cx('wrapper', classes)}>
-                        <div className={cx('header')}>
-                            <p className={cx('title')}>{title}</p>
-                            <button className={cx('close-btn')} onClick={closeModalHandler}>
-                                <FontAwesomeIcon icon={faXmark} />
-                            </button>
+                <>
+                    <div className={cx('root', { open, closing })}>
+                        <div className={cx('wrapper', classes)}>
+                            <div className={cx('header')}>
+                                <p className={cx('title')}>{title}</p>
+                                <button className={cx('close-btn')} onClick={closeModalHandler}>
+                                    <FontAwesomeIcon icon={faXmark} />
+                                </button>
+                            </div>
+                            <div className={cx('body')}>{children}</div>
+                            <div className={cx('footer')}>
+                                <Button
+                                    disabled={disabled}
+                                    className={cx('btn', 'close')}
+                                    size="md"
+                                    onClick={closeModalHandler}
+                                >
+                                    Đóng
+                                </Button>
+                                <Button
+                                    disabled={disabled}
+                                    className={cx('btn', 'accept')}
+                                    size="md"
+                                    primary
+                                    onClick={onAcceptClick}
+                                >
+                                    {acceptBtnText}
+                                </Button>
+                            </div>
+                            {disabled && <div className={cx('disabled-layout')}></div>}
                         </div>
-                        <div className={cx('body')}>{children}</div>
-                        <div className={cx('footer')}>
-                            <Button
-                                disabled={disabled}
-                                className={cx('btn', 'close')}
-                                size="md"
-                                onClick={closeModalHandler}
-                            >
-                                Đóng
-                            </Button>
-                            <Button
-                                disabled={disabled}
-                                className={cx('btn', 'accept')}
-                                size="md"
-                                primary
-                                onClick={onAcceptClick}
-                            >
-                                {acceptBtnText}
-                            </Button>
-                        </div>
-                        {disabled && <div className={cx('disabled-layout')}></div>}
                     </div>
-                    <div className={cx('overlay')} onClick={closeModalHandler}></div>
-                </div>
+                    <div className={cx('overlay', { open, closing })} onClick={closeModalHandler}></div>
+                </>
             )}
         </>,
         document.querySelector('body'),

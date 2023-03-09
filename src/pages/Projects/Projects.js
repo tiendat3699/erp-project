@@ -155,8 +155,6 @@ function Projects() {
                         <Row>
                             <Col>
                                 <p className={cx('title')}>Thông tin dự án</p>
-                            </Col>
-                            <Col md={6}>
                                 <TextField
                                     register={register('name', { required: rules.required })}
                                     size="sm"
@@ -164,6 +162,8 @@ function Projects() {
                                     placeholder="Nhập tên"
                                     message={errors.name?.message}
                                 />
+                            </Col>
+                            <Col md={6}>
                                 <Controller
                                     name="customer"
                                     control={control}
