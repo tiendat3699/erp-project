@@ -26,17 +26,10 @@ function Modal({
     const [closing, setClosing] = useState(false);
 
     useEffect(() => {
-        if (isOpen === false) {
-            setClosing(true);
-            setTimeout(() => {
-                setOpen(false);
-                setClosing(false);
-                onClose();
-            }, 300);
-        } else {
+        if (!closing) {
             setOpen(isOpen);
         }
-    }, [isOpen, onClose]);
+    }, [closing, isOpen]);
 
     const closeModalHandler = () => {
         if (!disabled) {
@@ -53,13 +46,12 @@ function Modal({
         [size]: size,
         className,
     });
-
     return createPortal(
         <>
             {open && (
                 <>
-                    <div className={cx('root', { open, closing })}>
-                        <div className={cx('wrapper', classes)}>
+                    <div className={cx('root', { open, closing })} onMouseUp={closeModalHandler}>
+                        <div className={cx('wrapper', classes)} onMouseUp={(e) => e.stopPropagation()}>
                             <div className={cx('header')}>
                                 <p className={cx('title')}>{title}</p>
                                 <button className={cx('close-btn')} onClick={closeModalHandler}>
@@ -89,7 +81,7 @@ function Modal({
                             {disabled && <div className={cx('disabled-layout')}></div>}
                         </div>
                     </div>
-                    <div className={cx('overlay', { open, closing })} onClick={closeModalHandler}></div>
+                    <div className={cx('overlay', { open, closing })}></div>
                 </>
             )}
         </>,

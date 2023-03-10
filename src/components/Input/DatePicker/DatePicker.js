@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TippyHeadless from '@tippyjs/react/headless';
 import Tippy from '@tippyjs/react';
 import { format } from 'date-fns';
@@ -28,12 +28,34 @@ function DatePicker({
     rangeSelector,
     className,
     message,
-    register,
+    inputRef,
     placementMessage = 'bottom-end',
+    ...props
 }) {
     const [rangeDate, setRangeDate] = useState(selectionRange);
     const [date, setDate] = useState(new Date());
     const [focus, setFocus] = useState(false);
+
+    const { value, onChange, ...restProps } = props;
+
+    const handleChange = (data) => {
+        let date = data;
+        if (rangeSelector) {
+            date = data.selection;
+            setRangeDate(date);
+        } else {
+            setDate(date);
+        }
+        onChange(date);
+    };
+
+    useEffect(() => {
+        if (rangeSelector) {
+            onChange(rangeDate);
+        } else {
+            onChange(date);
+        }
+    }, [date, onChange, rangeDate, rangeSelector]);
 
     const renderDatePicker = (attr) => (
         <div {...attr}>
@@ -46,10 +68,12 @@ function DatePicker({
                         locale={vi}
                         ranges={[rangeDate]}
                         initialFocusedRange={[0, 1]}
-                        onChange={(range) => setRangeDate(range.selection)}
+                        onChange={handleChange}
+                        ref={inputRef}
+                        {...restProps}
                     />
                 ) : (
-                    <Calendar date={date} locale={vi} onChange={(date) => setDate(date)} />
+                    <Calendar date={date} locale={vi} onChange={handleChange} ref={inputRef} {...restProps} />
                 )}
             </PopperWrapper>
         </div>
@@ -57,8 +81,9 @@ function DatePicker({
 
     const renderResult = () => {
         if (rangeSelector) {
-            const startDate = format(rangeDate.startDate, 'P', { locale: vi });
-            const endDate = format(rangeDate.endDate, 'P', { locale: vi });
+            const date = value || rangeDate;
+            const startDate = format(date.startDate, 'P', { locale: vi });
+            const endDate = format(date.endDate, 'P', { locale: vi });
             return (
                 <span>
                     Từ
@@ -68,12 +93,8 @@ function DatePicker({
                 </span>
             );
         } else {
-            return format(date, 'P', { locale: vi });
+            return format(value || date, 'P', { locale: vi });
         }
-    };
-
-    const getValue = (date) => {
-        return JSON.stringify(date);
     };
 
     return (
@@ -87,7 +108,6 @@ function DatePicker({
             onHide={() => setFocus(false)}
         >
             <div className={cx('wrapper')}>
-                <input type="hidden" value={getValue(rangeSelector ? rangeDate : date)} {...register} />
                 {label && <label className={cx('label')}>{label}</label>}
                 <Tippy
                     content={

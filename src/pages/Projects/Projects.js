@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { shallowEqual, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,38 +25,44 @@ import styles from './Projects.module.scss';
 
 const cx = classNames.bind(styles);
 
-const columns = [
-    {
-        id: 'name',
-        headerName: 'Tên',
-        width: 200,
-    },
-    {
-        id: 'customerId',
-        headerName: 'Khách hàng',
-    },
-    {
-        id: 'status',
-        headerName: 'Tình trạng',
-    },
-    {
-        id: 'users',
-        headerName: 'Người thực hiện',
-    },
-];
+const tableOptions = {
+    columns: [
+        {
+            id: 'name',
+            headerName: 'Tên',
+            width: 200,
+        },
+        {
+            id: 'customerId',
+            headerName: 'Khách hàng',
+        },
+        {
+            id: 'status',
+            headerName: 'Tình trạng',
+        },
+        {
+            id: 'users',
+            headerName: 'Người thực hiện',
+        },
+    ],
+
+    pageSizeOptions: [10, 15, 20],
+};
 
 function Projects() {
-    const [data, setData] = useState({ projects: [], users: [], customers: [] });
+    const [users, setUsers] = useState([]);
+    const [projects, setProjects] = useState([]);
+    // const [customers, setCustomers] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [disabledModal, setDisabledModal] = useState(false);
-    const test = useForm();
     const {
         rules,
         register,
         handleSubmit,
+        reset,
         formState: { errors },
         control,
-    } = test;
+    } = useForm();
 
     const user = useSelector((state) => state.auth.user, shallowEqual);
     const { role } = user;
@@ -74,47 +80,67 @@ function Projects() {
                 image: user.avatar_url,
             }));
 
-            setData((prevState) => ({
-                ...prevState,
-                projects: projectRes.data,
-                users: users,
-            }));
+            setUsers(users);
+            setProjects(projectRes.data);
         };
         fetch();
     }, []);
 
     const onSubmit = (data) => {
-        const date = JSON.parse(data.date);
         const reqData = {
             name: data.name,
             customerId: data.customer,
             description: data.description,
-            start_date: date.startDate,
-            end_date: date.endDate,
+            start_date: data.date.startDate,
+            end_date: data.date.endDate,
             status: data.status,
             users: data.users,
         };
+
+        setOpenModal(false);
+
         const fetch = async () => {
             const toastId = showtoast.loading('Đang xử lý...');
             try {
                 setDisabledModal(true);
                 const res = await httpRequest.post('/projects/store', reqData);
                 showtoast.update(toastId, res.data.message, toastType.SUCCESS);
-                setData((prevState) => {
-                    prevState.projects.push(res.data.project);
-                    return prevState;
-                });
+                setProjects((prevState) => [...prevState, res.data.project]);
+
                 setOpenModal(false);
             } catch (error) {
                 showtoast.update(toastId, error.message, toastType.ERROR);
-                console.log(error);
             } finally {
+                reset({});
                 setDisabledModal(false);
             }
         };
 
         fetch();
     };
+
+    const handleCLickRow = useCallback(
+        (row) => {
+            reset({
+                name: row.name,
+                customer: row.customerId,
+                users: row.users,
+                status: row.status,
+                date: { startDate: new Date(row.start_date), endDate: new Date(row.end_date) },
+            });
+            setOpenModal(true);
+        },
+        [reset],
+    );
+
+    const handleCloseModal = () => {
+        reset({});
+        setOpenModal(false);
+    };
+
+    const handleAddMore = useCallback(() => {
+        setOpenModal(true);
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -134,20 +160,21 @@ function Projects() {
                     )}
                 </div>
                 <Table
-                    rows={data.projects}
-                    columns={columns}
+                    rows={projects}
+                    columns={tableOptions.columns}
                     minWidth={600}
-                    pageSizeOptions={[10, 15, 20]}
-                    onAddMore={role === 'Admin' ? () => setOpenModal(true) : null}
+                    pageSizeOptions={tableOptions.pageSizeOptions}
+                    onAddMore={handleAddMore}
+                    onClickRow={handleCLickRow}
                 />
             </ContentBlock>
             <Modal
-                disabled={disabledModal}
-                title="Thêm mới dự án"
                 size="md"
-                isOpen={openModal}
-                onClose={() => setOpenModal(false)}
+                title="Thêm mới dự án"
                 acceptBtnText="Lưu dự án"
+                disabled={disabledModal}
+                isOpen={openModal}
+                onClose={handleCloseModal}
                 onAcceptClick={handleSubmit(onSubmit)}
             >
                 <div className={cx('modal')}>
@@ -173,7 +200,7 @@ function Projects() {
                                             size="sm"
                                             label="Khách hàng"
                                             placeholder="Chọn Khách hàng"
-                                            options={data.users}
+                                            options={users}
                                             message={fieldState.error?.message}
                                             inputRef={ref}
                                             formatOptionLabel={(option) => <AccountItem data={option} minimal />}
@@ -191,7 +218,7 @@ function Projects() {
                                             size="sm"
                                             label="Nhân viên thực hiện"
                                             placeholder="Chọn nhân viên"
-                                            options={data.users}
+                                            options={users}
                                             message={fieldState.error?.message}
                                             inputRef={ref}
                                             formatOptionLabel={(option) => <AccountItem data={option} minimal />}
@@ -217,15 +244,23 @@ function Projects() {
                                             ]}
                                             message={fieldState.error?.message}
                                             inputRef={ref}
+                                            defaultValue={{ value: 'Progressing', label: 'Progressing' }}
                                             {...restField}
                                         />
                                     )}
                                 />
-                                <DatePicker
-                                    register={register('date')}
-                                    size="sm"
-                                    label="Thời gian thực hiện"
-                                    rangeSelector
+                                <Controller
+                                    name="date"
+                                    control={control}
+                                    render={({ field: { ref, ...restField } }) => (
+                                        <DatePicker
+                                            size="sm"
+                                            label="Thời gian thực hiện"
+                                            rangeSelector
+                                            inputRef={ref}
+                                            {...restField}
+                                        />
+                                    )}
                                 />
                             </Col>
                         </Row>

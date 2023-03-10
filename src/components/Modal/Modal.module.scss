@@ -15,7 +15,7 @@
     }
 
     &.closing {
-        animation: fadeOut ease 0.3s;
+        animation: fadeOut ease 0.5s;
         animation-fill-mode: forwards;
     }
 }

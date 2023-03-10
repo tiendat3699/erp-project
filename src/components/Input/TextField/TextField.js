@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -58,12 +58,6 @@ function TextField({
                     )}
                 </div>
             </Tippy>
-            {/* {message && (
-                <span className={cx('error-messgae')}>
-                    <FontAwesomeIcon className={cx('error-icon')} icon={faTriangleExclamation} />
-                    {message}
-                </span>
-            )} */}
         </div>
     );
 }
@@ -78,6 +72,7 @@ TextField.propTypes = {
     size: PropTypes.string,
     register: PropTypes.object,
     placementMessage: PropTypes.string,
+    defaultValue: PropTypes.any,
 };
 
 export default TextField;

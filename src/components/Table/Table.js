@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
 import style from './Table.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,12 +12,11 @@ import {
     faForwardStep,
     faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import DragSroll from '~/components/DragScroll';
 import { Button } from '../Input';
 
 const cx = classNames.bind(style);
 
-function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [], onAddMore }) {
+function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [], onAddMore, onClickRow }) {
     const [pageSize, setPageSize] = useState(pageSizeOptions[0]?.value || pageSizeOptions[0] || 5);
     const [page, setPage] = useState(1);
     const maxPage = Math.ceil(rows.length / pageSize);
@@ -67,10 +66,13 @@ function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [],
             );
         });
     };
+
+    console.log('k');
+
     return (
         <div className={cx('wrapper')}>
             {!!title && <h4 className={cx('title')}>{title}</h4>}
-            <DragSroll className={cx('table-container')}>
+            <div className={cx('table-container')}>
                 <table style={{ minWidth: minWidth }}>
                     <thead>
                         <tr>
@@ -85,7 +87,7 @@ function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [],
                         {rows.length > 0 &&
                             displayRow.map((row, index) => {
                                 return (
-                                    <tr key={index}>
+                                    <tr key={index} onClick={(e) => onClickRow(row, e)}>
                                         {columns.map((column) => (
                                             <td key={rows.id || column.id}>{row[column.id]}</td>
                                         ))}
@@ -94,7 +96,7 @@ function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [],
                             })}
                     </tbody>
                 </table>
-            </DragSroll>
+            </div>
             {rows.length === 0 && (
                 <div className={cx('empty')}>
                     <p>Chưa có dữ liệu</p>
@@ -161,6 +163,7 @@ Table.propTypes = {
     columns: PropTypes.array.isRequired,
     pageSizeOptions: PropTypes.array,
     onAddMore: PropTypes.func,
+    onClickRow: PropTypes.func,
 };
 
-export default Table;
+export default memo(Table);

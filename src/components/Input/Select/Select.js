@@ -8,6 +8,7 @@ import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import ReactSelect from 'react-select';
 
 import styles from './Select.module.scss';
+import { el } from 'date-fns/locale';
 
 const cx = classNames.bind(styles);
 
@@ -76,6 +77,14 @@ function Select({
         }
     };
 
+    const handelSetValue = () => {
+        if (Array.isArray(value)) {
+            return value.map((val) => options.find((c) => c.value === val));
+        } else {
+            return options.find((c) => c.value === value);
+        }
+    };
+
     return (
         <div className={cx('wrapper')}>
             {label && <label className={cx('label')}>{label}</label>}
@@ -100,7 +109,7 @@ function Select({
                         isMulti={isMutil}
                         isDisabled={disabled}
                         ref={inputRef}
-                        value={options.find((c) => c.value === value)}
+                        value={handelSetValue()}
                         onChange={handelOnChange}
                         {...rest}
                         styles={{
