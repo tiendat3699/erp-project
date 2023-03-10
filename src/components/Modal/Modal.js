@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useImperativeHandle, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,21 +15,16 @@ function Modal({
     title,
     children,
     size = 'sm',
-    isOpen = false,
     onClose,
     onAcceptClick,
     acceptBtnText = 'Lưu',
     disabled = false,
     className,
+    staticBackDrop,
+    modalRef,
 }) {
-    const [open, setOpen] = useState(isOpen);
+    const [open, setOpen] = useState(false);
     const [closing, setClosing] = useState(false);
-
-    useEffect(() => {
-        if (!closing) {
-            setOpen(isOpen);
-        }
-    }, [closing, isOpen]);
 
     const closeModalHandler = () => {
         if (!disabled) {
@@ -42,6 +37,17 @@ function Modal({
         }
     };
 
+    useImperativeHandle(modalRef, () => ({
+        open() {
+            if (!closing) {
+                setOpen(true);
+            }
+        },
+        close() {
+            closeModalHandler();
+        },
+    }));
+
     const classes = cx({
         [size]: size,
         className,
@@ -50,7 +56,10 @@ function Modal({
         <>
             {open && (
                 <>
-                    <div className={cx('root', { open, closing })} onMouseUp={closeModalHandler}>
+                    <div
+                        className={cx('root', { open, closing })}
+                        onMouseUp={() => staticBackDrop || closeModalHandler}
+                    >
                         <div className={cx('wrapper', classes)} onMouseUp={(e) => e.stopPropagation()}>
                             <div className={cx('header')}>
                                 <p className={cx('title')}>{title}</p>
@@ -93,12 +102,13 @@ Modal.propTypes = {
     title: PropTypes.string,
     children: PropTypes.node.isRequired,
     size: PropTypes.string,
-    isOpen: PropTypes.bool,
     onClose: PropTypes.func,
     onAcceptClick: PropTypes.func.isRequired,
     acceptBtnText: PropTypes.string,
     disabled: PropTypes.bool,
     className: PropTypes.string,
+    staticBackDrop: PropTypes.bool,
+    modalRef: PropTypes.object,
 };
 
 export default Modal;

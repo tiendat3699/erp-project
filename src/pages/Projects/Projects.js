@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { shallowEqual, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -53,7 +53,7 @@ function Projects() {
     const [users, setUsers] = useState([]);
     const [projects, setProjects] = useState([]);
     // const [customers, setCustomers] = useState([]);
-    const [openModal, setOpenModal] = useState(false);
+    const modalRef = useRef();
     const [disabledModal, setDisabledModal] = useState(false);
     const {
         rules,
@@ -97,7 +97,7 @@ function Projects() {
             users: data.users,
         };
 
-        setOpenModal(false);
+        modalRef.current.close();
 
         const fetch = async () => {
             const toastId = showtoast.loading('Đang xử lý...');
@@ -107,7 +107,7 @@ function Projects() {
                 showtoast.update(toastId, res.data.message, toastType.SUCCESS);
                 setProjects((prevState) => [...prevState, res.data.project]);
 
-                setOpenModal(false);
+                modalRef.current.close();
             } catch (error) {
                 showtoast.update(toastId, error.message, toastType.ERROR);
             } finally {
@@ -128,18 +128,18 @@ function Projects() {
                 status: row.status,
                 date: { startDate: new Date(row.start_date), endDate: new Date(row.end_date) },
             });
-            setOpenModal(true);
+            modalRef.current.open();
         },
         [reset],
     );
 
     const handleCloseModal = () => {
         reset({});
-        setOpenModal(false);
+        modalRef.current.close();
     };
 
     const handleAddMore = useCallback(() => {
-        setOpenModal(true);
+        modalRef.current.open();
     }, []);
 
     return (
@@ -153,7 +153,7 @@ function Projects() {
                             primary
                             size="sm"
                             leftIcon={<FontAwesomeIcon icon={faPlusCircle} />}
-                            onClick={() => setOpenModal(true)}
+                            onClick={() => modalRef.current.open()}
                         >
                             Thêm mới
                         </Button>
@@ -172,8 +172,9 @@ function Projects() {
                 size="md"
                 title="Thêm mới dự án"
                 acceptBtnText="Lưu dự án"
+                modalRef={modalRef}
+                staticBackDrop
                 disabled={disabledModal}
-                isOpen={openModal}
                 onClose={handleCloseModal}
                 onAcceptClick={handleSubmit(onSubmit)}
             >
