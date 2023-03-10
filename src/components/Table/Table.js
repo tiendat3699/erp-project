@@ -67,8 +67,6 @@ function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [],
         });
     };
 
-    console.log('k');
-
     return (
         <div className={cx('wrapper')}>
             {!!title && <h4 className={cx('title')}>{title}</h4>}

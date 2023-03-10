@@ -127,18 +127,14 @@ function Projects() {
                 users: row.users,
                 status: row.status,
                 date: { startDate: new Date(row.start_date), endDate: new Date(row.end_date) },
+                description: row.description,
             });
             modalRef.current.open();
         },
         [reset],
     );
 
-    const handleCloseModal = () => {
-        reset({});
-        modalRef.current.close();
-    };
-
-    const handleAddMore = useCallback(() => {
+    const handleOpenModal = useCallback(() => {
         modalRef.current.open();
     }, []);
 
@@ -153,7 +149,7 @@ function Projects() {
                             primary
                             size="sm"
                             leftIcon={<FontAwesomeIcon icon={faPlusCircle} />}
-                            onClick={() => modalRef.current.open()}
+                            onClick={handleOpenModal}
                         >
                             Thêm mới
                         </Button>
@@ -164,18 +160,17 @@ function Projects() {
                     columns={tableOptions.columns}
                     minWidth={600}
                     pageSizeOptions={tableOptions.pageSizeOptions}
-                    onAddMore={handleAddMore}
+                    onAddMore={handleOpenModal}
                     onClickRow={handleCLickRow}
                 />
             </ContentBlock>
             <Modal
                 size="md"
-                title="Thêm mới dự án"
-                acceptBtnText="Lưu dự án"
+                title="Thêm dự án"
                 modalRef={modalRef}
                 staticBackDrop
                 disabled={disabledModal}
-                onClose={handleCloseModal}
+                onClose={() => reset({})}
                 onAcceptClick={handleSubmit(onSubmit)}
             >
                 <div className={cx('modal')}>
@@ -187,7 +182,7 @@ function Projects() {
                                     register={register('name', { required: rules.required })}
                                     size="sm"
                                     label="Tên dự án"
-                                    placeholder="Nhập tên"
+                                    placeholder="Nhập tên..."
                                     message={errors.name?.message}
                                 />
                             </Col>

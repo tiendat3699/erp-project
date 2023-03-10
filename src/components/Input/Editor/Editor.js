@@ -30,7 +30,7 @@ function Editor({ options, placeholder, ...props }) {
             toolbar: {
                 container: [
                     [{ header: [1, 2, 3, 4, 6, false] }],
-                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                    ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code'],
                     [{ script: 'sub' }, { script: 'super' }],
                     [{ color: [] }, { background: [] }],
                     [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }, { align: [] }],
