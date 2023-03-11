@@ -56,11 +56,8 @@ function Modal({
         <>
             {open && (
                 <>
-                    <div
-                        className={cx('root', { open, closing })}
-                        onMouseUp={() => staticBackDrop || closeModalHandler}
-                    >
-                        <div className={cx('wrapper', classes)} onMouseUp={(e) => e.stopPropagation()}>
+                    <div className={cx('root', { open, closing })}>
+                        <div className={cx('wrapper', classes)}>
                             <div className={cx('header')}>
                                 <p className={cx('title')}>{title}</p>
                                 <button className={cx('close-btn')} onClick={closeModalHandler}>
@@ -89,8 +86,11 @@ function Modal({
                             </div>
                             {disabled && <div className={cx('disabled-layout')}></div>}
                         </div>
+                        <div
+                            className={cx('overlay', { open, closing })}
+                            onClick={() => staticBackDrop || closeModalHandler()}
+                        ></div>
                     </div>
-                    <div className={cx('overlay', { open, closing })}></div>
                 </>
             )}
         </>,
