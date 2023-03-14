@@ -79,7 +79,7 @@ function Select({
 
     const handelSetValue = () => {
         if (Array.isArray(value)) {
-            return value.map((val) => options.find((c) => c.value === val));
+            return options.filter((c) => value.includes(c.value));
         } else {
             return options.find((c) => c.value === value);
         }
