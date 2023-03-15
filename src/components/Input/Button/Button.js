@@ -65,6 +65,7 @@ const Button = forwardRef(
 );
 
 Button.propTypes = {
+    disabled: PropTypes.bool,
     to: PropTypes.string,
     href: PropTypes.string,
     children: PropTypes.node.isRequired,

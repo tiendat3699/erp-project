@@ -7,6 +7,13 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import styles from './Checkbox.module.scss';
 const cx = classNames.bind(styles);
 
+Checkbox.propTypes = {
+    labelLeft: PropTypes.string,
+    labelRight: PropTypes.string,
+    error: PropTypes.object,
+    register: PropTypes.object,
+};
+
 function Checkbox({ labelLeft, labelRight, error, register }) {
     const id = register ? register?.name + '_checkbox' : undefined;
     const [checked, setCheck] = useState(false);

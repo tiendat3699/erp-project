@@ -22,6 +22,17 @@ const selectionRange = {
     endDate: new Date(),
     key: 'selection',
 };
+
+DatePicker.propTypes = {
+    size: PropTypes.string,
+    label: PropTypes.string,
+    rangeSelector: PropTypes.bool,
+    className: PropTypes.string,
+    message: PropTypes.string,
+    inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    placementMessage: PropTypes.string,
+};
+
 function DatePicker({
     size = 'md',
     label,
