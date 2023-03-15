@@ -107,7 +107,9 @@ function Customers() {
         modalRef.current.open();
     }, []);
 
-    const onSubmit = () => {};
+    const onSubmit = (data) => {
+        console.log(data);
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -182,10 +184,11 @@ function Customers() {
                                     message={errors.address?.message}
                                 />
                             </Col>
-                            <Col>
-                                <File />
-                            </Col>
                         </Row>
+                    </div>
+                    <div className={cx('block-modal')}>
+                        <p className={cx('title')}>Chọn Avatar</p>
+                        <File register={register('files')} accept="image/jpeg, image/jpg, image/png" />
                     </div>
                 </div>
             </Modal>

@@ -137,7 +137,6 @@ DatePicker.propTypes = {
     rangeSelector: PropTypes.bool,
     className: PropTypes.string,
     message: PropTypes.string,
-    register: PropTypes.object,
     placementMessage: PropTypes.string,
 };
 
