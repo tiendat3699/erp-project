@@ -8,6 +8,7 @@ import { faFile, faFileAudio, faFileImage, faFileVideo, faTrashCan } from '@fort
 import styles from './File.module.scss';
 import { useRef, useState } from 'react';
 import { formatFileSize } from '~/utils';
+import { el } from 'date-fns/locale';
 
 const cx = classNames.bind(styles);
 
@@ -39,6 +40,19 @@ function File({ multiple, accept, className, register = {} }) {
             }
             return valid;
         });
+
+        if (!e.nativeEvent.detail?.deleteFile && multiple) {
+            const container = new DataTransfer();
+            const newList = [...files, ...newFiles].map((el) => {
+                container.items.add(el);
+                return el;
+            });
+            inputRef.current.files = container.files;
+            onChange(e);
+            setFiles(newList);
+            return;
+        }
+
         onChange(e);
         setFiles(newFiles);
     };
@@ -49,7 +63,7 @@ function File({ multiple, accept, className, register = {} }) {
         files.forEach((el) => container.items.add(el));
         container.items.remove(indexRemove);
         inputRef.current.files = container.files;
-        inputRef.current.dispatchEvent(new Event('change', { bubbles: true }));
+        inputRef.current.dispatchEvent(new CustomEvent('change', { bubbles: true, detail: { deleteFile: true } }));
     };
 
     const RenderListFile = () => {
