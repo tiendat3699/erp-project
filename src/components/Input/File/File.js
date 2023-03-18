@@ -8,7 +8,6 @@ import { faFile, faFileAudio, faFileImage, faFileVideo, faTrashCan } from '@fort
 import styles from './File.module.scss';
 import { useRef, useState } from 'react';
 import { formatFileSize } from '~/utils';
-import { el } from 'date-fns/locale';
 
 const cx = classNames.bind(styles);
 
@@ -68,29 +67,21 @@ function File({ multiple, accept, className, register = {} }) {
 
     const RenderListFile = () => {
         return files.map((file, index) => {
-            let icon = faFile;
+            let icon;
             if (file.type.match('image.*')) {
                 icon = faFileImage;
-            }
-
-            if (file.type.match('video.*')) {
+            } else if (file.type.match('video.*')) {
                 icon = faFileVideo;
-            }
-
-            if (file.type.match('audio.*')) {
+            } else if (file.type.match('audio.*')) {
                 icon = faFileAudio;
-            }
-
-            if (file.type.match('/pdf')) {
+            } else if (file.type.match('/pdf')) {
                 icon = faFilePdf;
-            }
-
-            if (file.type.match('document')) {
+            } else if (file.type.match('document')) {
                 icon = faFileWord;
-            }
-
-            if (file.type.match('sheet')) {
+            } else if (file.type.match('sheet')) {
                 icon = faFileExcel;
+            } else {
+                icon = faFile;
             }
 
             return (
