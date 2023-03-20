@@ -14,7 +14,7 @@ function AccountItem({ data, minimal }) {
             <div className={cx('info')}>
                 <p className={cx('name')}>{data.fullname}</p>
                 <p className={cx('username')}>{data.username}</p>
-                {!minimal ?? <span className={cx('tag')}>{data.role}</span>}
+                {!minimal && <span className={cx('tag')}>{data.role}</span>}
             </div>
         </div>
     );
