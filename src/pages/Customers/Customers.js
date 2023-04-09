@@ -188,7 +188,7 @@ function Customers() {
                     </div>
                     <div className={cx('block-modal')}>
                         <p className={cx('title')}>Chọn Avatar</p>
-                        <File register={register('files')} accept="image/jpeg, image/jpg, image/png" />
+                        <File register={register('avatar')} accept="image/jpeg, image/jpg, image/png" />
                     </div>
                 </div>
             </Modal>

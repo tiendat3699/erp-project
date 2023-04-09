@@ -15,7 +15,7 @@ import { Button, TextField, Select, DatePicker, Editor } from '~/components/Inpu
 import ToastComponent, { showtoast, toastType } from '~/components/Toast';
 
 import { Col, Row } from '~/components/GridSystem';
-import { userService } from '~/services';
+import { userService, projectService } from '~/services';
 import { useForm } from '~/hooks';
 import { Controller } from 'react-hook-form';
 import AccountItem from '~/components/AccountItem';
@@ -69,7 +69,7 @@ function Projects() {
 
     useEffect(() => {
         const fetch = async () => {
-            const [projectRes, userRes] = await Promise.all([httpRequest.get('/projects/all'), userService.getAll()]);
+            const [projectRes, userRes] = await Promise.all([projectService.getAll(), userService.getAll()]);
 
             const users = userRes.map((user) => ({
                 value: user._id,
@@ -81,7 +81,7 @@ function Projects() {
             }));
 
             setUsers(users);
-            setProjects(projectRes.data);
+            setProjects(projectRes);
         };
         fetch();
     }, []);
@@ -103,9 +103,9 @@ function Projects() {
             const toastId = showtoast.loading('Đang xử lý...');
             try {
                 setDisabledModal(true);
-                const res = await httpRequest.post('/projects/store', reqData);
-                showtoast.update(toastId, res.data.message, toastType.SUCCESS);
-                setProjects((prevState) => [...prevState, res.data.project]);
+                const res = await projectService.store(reqData);
+                showtoast.update(toastId, res.message, toastType.SUCCESS);
+                setProjects((prevState) => [...prevState, res.project]);
 
                 modalRef.current.close();
             } catch (error) {
