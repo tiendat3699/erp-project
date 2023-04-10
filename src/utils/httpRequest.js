@@ -42,18 +42,18 @@ axiosInstance.interceptors.response.use(
 );
 
 const httpRequest = {
-    post: async (path, options = {}) => {
-        const response = await axiosInstance.post(path, options);
+    post: async (path, options = {}, config = {}) => {
+        const response = await axiosInstance.post(path, options, config);
         return response;
     },
 
-    get: async (path, options = {}) => {
-        const response = await axiosInstance.get(path, options);
+    get: async (path, options = {}, config = {}) => {
+        const response = await axiosInstance.get(path, options, config);
         return response;
     },
 
-    delete: async (path, optons = {}) => {
-        const response = await axiosInstance.delete(path, optons);
+    delete: async (path, options = {}, config = {}) => {
+        const response = await axiosInstance.delete(path, options, config);
         return response;
     },
 };

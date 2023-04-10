@@ -11,6 +11,7 @@ import Table from '~/components/Table';
 import Search from '~/components/Search';
 import Modal from '~/components/Modal';
 import ToastComponent from '~/components/Toast/Toast';
+import { customerService } from '~/services';
 import { Button, File, TextField } from '~/components/Input';
 import { Col, Row } from '~/components/GridSystem';
 
@@ -108,7 +109,31 @@ function Customers() {
     }, []);
 
     const onSubmit = (data) => {
-        console.log(data);
+        const reqData = {
+            name: data.name,
+            phone: data.phone,
+            email: data.email,
+            address: data.address,
+            avatar: data.avatar[0],
+        };
+
+        modalRef.current.close();
+
+        const fetch = async () => {
+            try {
+                setDisabledModal(true);
+                const res = await customerService.store(reqData);
+                console.log(res);
+                modalRef.current.close();
+            } catch (error) {
+                console.log(error);
+            } finally {
+                reset({});
+                setDisabledModal(false);
+            }
+        };
+
+        fetch();
     };
 
     return (
@@ -193,6 +218,10 @@ function Customers() {
                 </div>
             </Modal>
             <ToastComponent />
+            <form action="http://localhost:8080/api/customers/store" method="post" enctype="multipart/form-data">
+                <input type="file" name="avatar" />
+                <input type="submit" name="" id="" />
+            </form>
         </div>
     );
 }
