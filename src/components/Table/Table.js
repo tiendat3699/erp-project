@@ -13,10 +13,35 @@ import {
     faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../Input';
+import { faEdit, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(style);
 
-function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [], onAddMore, onClickRow }) {
+Table.propTypes = {
+    title: PropTypes.string,
+    minWidth: PropTypes.number,
+    rows: PropTypes.array.isRequired,
+    columns: PropTypes.array.isRequired,
+    pageSizeOptions: PropTypes.array,
+    onAddMore: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onClickRow: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    btnControl: PropTypes.bool,
+    onClickEdit: PropTypes.func,
+    onClickDelete: PropTypes.func,
+};
+
+function Table({
+    title,
+    minWidth,
+    rows = [],
+    columns = [],
+    pageSizeOptions = [],
+    onAddMore,
+    onClickRow,
+    btnControl,
+    onClickEdit,
+    onClickDelete,
+}) {
     const [pageSize, setPageSize] = useState(pageSizeOptions[0]?.value || pageSizeOptions[0] || 5);
     const [page, setPage] = useState(1);
     const maxPage = Math.ceil(rows.length / pageSize);
@@ -79,16 +104,33 @@ function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [],
                                     {column.headerName}
                                 </td>
                             ))}
+                            {btnControl && <td className={cx('edit-table')}></td>}
                         </tr>
                     </thead>
                     <tbody>
                         {rows.length > 0 &&
                             displayRow.map((row, index) => {
                                 return (
-                                    <tr key={index} onClick={(e) => onClickRow(row, e)}>
+                                    <tr
+                                        className={cx('row')}
+                                        key={index}
+                                        onClick={(e) => onClickRow && onClickRow(row, e)}
+                                    >
                                         {columns.map((column) => (
                                             <td key={rows.id || column.id}>{row[column.id]}</td>
                                         ))}
+                                        {btnControl && (
+                                            <td className={cx('edit-table')}>
+                                                <div className={cx('btn-control')}>
+                                                    <Button size="sm">
+                                                        <FontAwesomeIcon icon={faEdit} />
+                                                    </Button>
+                                                    <Button size="sm" danger>
+                                                        <FontAwesomeIcon icon={faTrashCan} />
+                                                    </Button>
+                                                </div>
+                                            </td>
+                                        )}
                                     </tr>
                                 );
                             })}
@@ -153,15 +195,5 @@ function Table({ title, minWidth, rows = [], columns = [], pageSizeOptions = [],
         </div>
     );
 }
-
-Table.propTypes = {
-    title: PropTypes.string,
-    minWidth: PropTypes.number,
-    rows: PropTypes.array.isRequired,
-    columns: PropTypes.array.isRequired,
-    pageSizeOptions: PropTypes.array,
-    onAddMore: PropTypes.func,
-    onClickRow: PropTypes.func,
-};
 
 export default memo(Table);

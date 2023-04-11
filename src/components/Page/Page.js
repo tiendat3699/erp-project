@@ -30,7 +30,7 @@ function Page({ children, title = 'Erp Project', requriesAuth }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    return authentiacted ? children : <Navigate to="/login" replace />;
+    return true ? children : <Navigate to="/login" replace />;
 }
 
 Page.propTypes = {

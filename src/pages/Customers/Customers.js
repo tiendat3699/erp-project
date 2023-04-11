@@ -158,8 +158,8 @@ function Customers() {
                     columns={tableOptions.columns}
                     minWidth={600}
                     pageSizeOptions={tableOptions.pageSizeOptions}
-                    onAddMore={handleOpenModal}
-                    onClickRow={handleCLickRow}
+                    onAddMore={role === 'Admin' ? handleOpenModal : false}
+                    onClickRow={role === 'Admin' ? handleCLickRow : false}
                 />
             </ContentBlock>
             <Modal
@@ -218,10 +218,6 @@ function Customers() {
                 </div>
             </Modal>
             <ToastComponent />
-            <form action="http://localhost:8080/api/customers/store" method="post" enctype="multipart/form-data">
-                <input type="file" name="avatar" />
-                <input type="submit" name="" id="" />
-            </form>
         </div>
     );
 }

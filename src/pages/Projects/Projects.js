@@ -5,8 +5,6 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
-import { httpRequest } from '~/utils';
-
 import ContentBlock from '~/components/ContentBlock';
 import Table from '~/components/Table';
 import Search from '~/components/Search';
@@ -160,8 +158,9 @@ function Projects() {
                     columns={tableOptions.columns}
                     minWidth={600}
                     pageSizeOptions={tableOptions.pageSizeOptions}
-                    onAddMore={handleOpenModal}
-                    onClickRow={handleCLickRow}
+                    onAddMore={role === 'Admin' ? handleCLickRow : false}
+                    onClickRow={role === 'Admin' ? handleCLickRow : false}
+                    btnControl={role === 'Admin'}
                 />
             </ContentBlock>
             <Modal

@@ -48,23 +48,55 @@
 
     tbody {
         font-size: 1.4rem;
-        tr:not(:last-child) {
+        .row:not(:last-child) {
             border-bottom: 1px solid $border-color;
         }
 
-        tr {
+        .row {
             cursor: pointer;
             transition: all ease 0.1s;
         }
 
-        tr:hover {
-            background-color: rgba(var(--secondary-color-rgb), 0.05);
+        .row:hover {
+            background-color: #f2f4f5;
+
+            .edit-table {
+                background-color: #f2f4f5;
+            }
         }
     }
 
     td {
         border: none;
         padding: 10px 20px;
+    }
+
+    .edit-table {
+        position: sticky;
+        right: 0px;
+        box-shadow: inset 1px 0px 0 $border-color;
+        transition: all ease 0.1s;
+        width: 80px;
+        text-align: center;
+    }
+
+    thead {
+        .edit-table {
+            color: #181e24;
+            box-shadow: none;
+        }
+    }
+
+    tbody {
+        .edit-table {
+            padding: 6px;
+            background-color: #fff;
+            .btn-control {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
     }
 
     .pagination {

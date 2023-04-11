@@ -15,6 +15,7 @@ const Button = forwardRef(
             href,
             children,
             primary,
+            danger,
             rounded,
             size = 'md',
             leftIcon,
@@ -50,6 +51,7 @@ const Button = forwardRef(
         const classes = cx('wrapper', {
             primary: primary,
             rounded: rounded,
+            danger: danger,
             [size]: size,
             [className]: className,
         });
@@ -70,6 +72,7 @@ Button.propTypes = {
     href: PropTypes.string,
     children: PropTypes.node.isRequired,
     primary: PropTypes.bool,
+    danger: PropTypes.bool,
     rounded: PropTypes.bool,
     leftIcon: PropTypes.node,
     rightIcon: PropTypes.node,
