@@ -34,7 +34,7 @@ function Editor({ options, placeholder, ...props }) {
                     [{ script: 'sub' }, { script: 'super' }],
                     [{ color: [] }, { background: [] }],
                     [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }, { align: [] }],
-                    ['link', 'image', 'video'],
+                    ['link'],
                     ['clean'],
                     ['undo', 'redo'],
                 ],

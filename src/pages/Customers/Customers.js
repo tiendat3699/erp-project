@@ -14,6 +14,7 @@ import ToastComponent from '~/components/Toast/Toast';
 import { customerService } from '~/services';
 import { Button, File, TextField } from '~/components/Input';
 import { Col, Row } from '~/components/GridSystem';
+import CropperImage from '~/components/CropperImage';
 
 import { useForm } from '~/hooks';
 
@@ -142,7 +143,7 @@ function Customers() {
             <ContentBlock>
                 <div className={cx('control')}>
                     <Search animation={false} scaleOnFocus={false} placeholder="Tìm kiếm dự án" />
-                    {role === 'Admin' && (
+                    {true && (
                         <Button
                             primary
                             size="sm"
@@ -213,7 +214,7 @@ function Customers() {
                     </div>
                     <div className={cx('block-modal')}>
                         <p className={cx('title')}>Chọn Avatar</p>
-                        <File register={register('avatar')} accept="image/jpeg, image/jpg, image/png" />
+                        <CropperImage circularCrop aspect={1} widthInit={200} />
                     </div>
                 </div>
             </Modal>

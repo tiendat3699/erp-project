@@ -15,10 +15,13 @@ File.propTypes = {
     multiple: PropTypes.bool,
     accept: PropTypes.string,
     className: PropTypes.string,
+    onSelect: PropTypes.func,
+    showFileList: PropTypes.bool,
     register: PropTypes.object,
+    size: PropTypes.string,
 };
 
-function File({ multiple, accept, className, register = {} }) {
+function File({ multiple, accept, className, onSelect, showFileList = true, register = {}, size = 'md' }) {
     const [drag, setDrag] = useState(false);
     const [files, setFiles] = useState([]);
     const inputRef = useRef();
@@ -28,6 +31,8 @@ function File({ multiple, accept, className, register = {} }) {
     const HandleUpFile = (e) => {
         const fileList = e.target.files;
         const accepts = accept?.split(',');
+        onSelect?.call(this, e);
+        onChange?.call(this, e);
         const newFiles = [...fileList].filter((file) => {
             if (!accept) return true;
             let valid;
@@ -47,12 +52,9 @@ function File({ multiple, accept, className, register = {} }) {
                 return el;
             });
             inputRef.current.files = container.files;
-            onChange(e);
             setFiles(newList);
             return;
         }
-
-        onChange(e);
         setFiles(newFiles);
     };
 
@@ -101,7 +103,7 @@ function File({ multiple, accept, className, register = {} }) {
 
     return (
         <>
-            <div className={cx('wrapper', className)}>
+            <div className={cx('wrapper', className, size)}>
                 <div className={cx('drag-box', { drag })}>
                     <input
                         type="file"
@@ -114,7 +116,7 @@ function File({ multiple, accept, className, register = {} }) {
                         accept={accept}
                         ref={(e) => {
                             inputRef.current = e;
-                            ref(e);
+                            if (ref) ref(e);
                         }}
                         {...restRegister}
                     />
@@ -125,7 +127,7 @@ function File({ multiple, accept, className, register = {} }) {
                         </div>
                     </div>
                 </div>
-                {files.length > 0 && (
+                {showFileList && files.length > 0 && (
                     <>
                         <p className={cx('head-text')}>Sẵn sàng tải lên</p>
                         <ul className={cx('list-file')}>{RenderListFile()}</ul>

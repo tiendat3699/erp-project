@@ -32,7 +32,7 @@ function Modal({
             setTimeout(() => {
                 setOpen(false);
                 setClosing(false);
-                onClose();
+                onClose?.call();
             }, 300);
         }
     };

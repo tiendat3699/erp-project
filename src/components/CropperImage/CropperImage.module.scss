@@ -1,0 +1,38 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .preview {
+        margin-bottom: 8px;
+        .holder,
+        canvas {
+            border-radius: 4px;
+            object-fit: contain;
+        }
+
+        .holder {
+            display: flex;
+            min-width: 200px;
+            min-height: 200px;
+            border: 1px solid #5555555e;
+            background-color: rgba(var(--primary-color-rgb), 0.2);
+
+            .icon {
+                margin: auto;
+                font-size: 6rem;
+                opacity: 0.4;
+            }
+        }
+    }
+
+    input {
+        display: none;
+    }
+}
+
+.cropper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

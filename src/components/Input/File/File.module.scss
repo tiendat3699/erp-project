@@ -1,7 +1,6 @@
 .wrapper {
     .drag-box {
         position: relative;
-        height: 200px;
         background-color: rgba(var(--primary-color-rgb), 0.2);
         border-radius: 4px;
         padding: 8px;
@@ -47,6 +46,56 @@
                 margin-top: 16px;
                 font-size: 1.8rem;
             }
+        }
+    }
+
+    &.sm {
+        .drag-box {
+            height: 100px;
+
+            .icon {
+                font-size: 2.4rem;
+
+                .text {
+                    margin-top: 8px;
+                    font-size: 1.6rem;
+                }
+            }
+        }
+
+        .list-file {
+            padding: 4px 0;
+
+            .file-card {
+                height: 46px;
+            }
+
+            .icon {
+                width: 30px;
+                font-size: 3rem;
+            }
+
+            .info {
+                .file-name {
+                    font-size: 1.4rem;
+                }
+
+                .file-size {
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+
+    &.md {
+        .drag-box {
+            height: 200px;
+        }
+    }
+
+    &.lg {
+        .drag-box {
+            height: 28px;
         }
     }
 
