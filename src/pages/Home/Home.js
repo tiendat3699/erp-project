@@ -95,7 +95,7 @@ function Home() {
                 const res = await userService.getAll();
                 setUser(res);
             } catch (e) {
-                console.log(e);
+                // console.log(e);
             }
         };
 

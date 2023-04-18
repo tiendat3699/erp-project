@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,9 +10,9 @@ import ContentBlock from '~/components/ContentBlock';
 import Table from '~/components/Table';
 import Search from '~/components/Search';
 import Modal from '~/components/Modal';
-import ToastComponent from '~/components/Toast/Toast';
+import ToastComponent, { showtoast, toastType } from '~/components/Toast';
 import { customerService } from '~/services';
-import { Button, File, TextField } from '~/components/Input';
+import { Button, TextField } from '~/components/Input';
 import { Col, Row } from '~/components/GridSystem';
 import CropperImage from '~/components/CropperImage';
 
@@ -24,6 +24,12 @@ const cx = classNames.bind(styles);
 
 const tableOptions = {
     columns: [
+        {
+            id: 'avatar_url',
+            headerName: 'Avatar',
+            image: true,
+            width: 80,
+        },
         {
             id: 'name',
             headerName: 'Tên',
@@ -46,35 +52,10 @@ const tableOptions = {
     pageSizeOptions: [10, 15, 20],
 };
 
-const rows = [
-    {
-        name: 'ok',
-        phone: 123124,
-        email: 'mail@gmail.com',
-        address: 'da nang',
-    },
-    {
-        name: 'ok',
-        phone: 123124,
-        email: 'mail@gmail.com',
-        address: 'da nang',
-    },
-    {
-        name: 'ok',
-        phone: 123124,
-        email: 'mail@gmail.com',
-        address: 'da nang',
-    },
-    {
-        name: 'ok',
-        phone: 123124,
-        email: 'mail@gmail.com',
-        address: 'da nang',
-    },
-];
-
 function Customers() {
     const user = useSelector((state) => state.auth.user, shallowEqual);
+    const [customers, setCustomers] = useState([]);
+    const [defaultImage, setDefaultImage] = useState('');
     const [disabledModal, setDisabledModal] = useState(false);
     const modalRef = useRef();
     const {
@@ -87,19 +68,28 @@ function Customers() {
 
     const { role } = user;
 
+    useEffect(() => {
+        const fetch = async () => {
+            const res = await customerService.getAll();
+            setCustomers(res);
+        };
+        fetch();
+    }, []);
+
     const handleCloseModal = () => {
+        setDefaultImage('');
         reset({});
     };
 
-    const handleCLickRow = useCallback(
+    const handleEdit = useCallback(
         (row) => {
             reset({
                 name: row.name,
-                customer: row.customerId,
-                users: row.users,
-                status: row.status,
-                date: { startDate: new Date(row.start_date), endDate: new Date(row.end_date) },
+                phone: row.phone,
+                email: row.email,
+                address: row.address,
             });
+            setDefaultImage(row.avatar_url);
             modalRef.current.open();
         },
         [reset],
@@ -115,21 +105,26 @@ function Customers() {
             phone: data.phone,
             email: data.email,
             address: data.address,
-            avatar: data.avatar[0],
+            avatar: 'default',
         };
+        if (data.avatar.length > 0) {
+            reqData.avatar = data.avatar[0];
+        }
 
         modalRef.current.close();
 
         const fetch = async () => {
+            const toastId = showtoast.loading('Đang xử lý...');
             try {
                 setDisabledModal(true);
                 const res = await customerService.store(reqData);
-                console.log(res);
+                showtoast.update(toastId, res.message, toastType.SUCCESS);
+                setCustomers((prevState) => [...prevState, res.customer]);
                 modalRef.current.close();
             } catch (error) {
-                console.log(error);
+                showtoast.update(toastId, error.message, toastType.ERROR);
             } finally {
-                reset({});
+                handleCloseModal();
                 setDisabledModal(false);
             }
         };
@@ -155,12 +150,13 @@ function Customers() {
                     )}
                 </div>
                 <Table
-                    rows={rows}
+                    rows={customers}
                     columns={tableOptions.columns}
-                    minWidth={600}
+                    minWidth={1000}
                     pageSizeOptions={tableOptions.pageSizeOptions}
+                    btnControl={role === 'Admin'}
+                    onClickEdit={handleEdit}
                     onAddMore={role === 'Admin' ? handleOpenModal : false}
-                    onClickRow={role === 'Admin' ? handleCLickRow : false}
                 />
             </ContentBlock>
             <Modal
@@ -214,7 +210,13 @@ function Customers() {
                     </div>
                     <div className={cx('block-modal')}>
                         <p className={cx('title')}>Chọn Avatar</p>
-                        <CropperImage circularCrop aspect={1} widthInit={200} />
+                        <CropperImage
+                            defaultImageScr={defaultImage}
+                            circularCrop
+                            aspect={1}
+                            widthInit={200}
+                            register={register('avatar')}
+                        />
                     </div>
                 </div>
             </Modal>

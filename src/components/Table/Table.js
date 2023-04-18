@@ -117,15 +117,34 @@ function Table({
                                         onClick={(e) => onClickRow && onClickRow(row, e)}
                                     >
                                         {columns.map((column) => (
-                                            <td key={rows.id || column.id}>{row[column.id]}</td>
+                                            <td key={rows.id || column.id}>
+                                                {column.image ? (
+                                                    <img className={cx('imga-col')} src={row[column.id]} alt="" />
+                                                ) : (
+                                                    row[column.id]
+                                                )}
+                                            </td>
                                         ))}
                                         {btnControl && (
                                             <td className={cx('edit-table')}>
                                                 <div className={cx('btn-control')}>
-                                                    <Button size="sm">
+                                                    <Button
+                                                        size="sm"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            onClickEdit(row, e);
+                                                        }}
+                                                    >
                                                         <FontAwesomeIcon icon={faEdit} />
                                                     </Button>
-                                                    <Button size="sm" danger>
+                                                    <Button
+                                                        size="sm"
+                                                        danger
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            onClickDelete(row, e);
+                                                        }}
+                                                    >
                                                         <FontAwesomeIcon icon={faTrashCan} />
                                                     </Button>
                                                 </div>

@@ -15,20 +15,25 @@ import { Button } from '../Input';
 const cx = classNames.bind(style);
 
 CropperImage.propTypes = {
+    defaultImageScr: PropTypes.string,
     aspect: PropTypes.number,
     locked: PropTypes.bool,
     circularCrop: PropTypes.bool,
     widthInit: PropTypes.number,
+    register: PropTypes.object,
 };
 
-function CropperImage({ aspect, locked, circularCrop, widthInit = 100 }) {
+function CropperImage({ defaultImageScr, aspect, locked, circularCrop, widthInit = 100, register = {} }) {
     const [crop, setCrop] = useState({});
     const [image, setImage] = useState({});
     const [completedCrop, setCompletedCrop] = useState();
     const inputRef = useRef(null);
+    const storeInputRef = useRef(null);
     const imgRef = useRef(null);
     const canvasRef = useRef(null);
     const modalRef = useRef(null);
+
+    const { ref, ...restRegister } = register;
 
     useEffect(() => {
         //clear preview image
@@ -100,16 +105,18 @@ function CropperImage({ aspect, locked, circularCrop, widthInit = 100 }) {
         canvasRef.current.toBlob((blob) => {
             const file = new File(
                 [blob],
-                'cropped-image',
-                { type: 'image/jpeg', lastModified: new Date().getTime() },
+                image.name,
+                { type: image.type, lastModified: new Date().getTime() },
                 'utf-8',
             );
             const container = new DataTransfer();
             container.items.add(file);
-            inputRef.current.files = container.files;
+            storeInputRef.current.files = container.files;
+            storeInputRef.current.dispatchEvent(new CustomEvent('change', { bubbles: true }));
+            const cropData = completedCrop || crop;
             setImage((preState) => ({
                 ...preState,
-                completedCrop: { with: completedCrop.width, height: completedCrop.height },
+                completedCrop: { with: cropData.width, height: cropData.height },
             }));
         }, 'image/jpeg');
     };
@@ -142,15 +149,18 @@ function CropperImage({ aspect, locked, circularCrop, widthInit = 100 }) {
                     ref={canvasRef}
                     style={{
                         display: !!!image.completedCrop && 'none',
-                        width: image.completedCrop?.width,
-                        height: image.completedCrop?.height,
                     }}
                 />
-                {!!!image.completedCrop && (
-                    <div className={cx('holder')}>
-                        <FontAwesomeIcon icon={faImage} className={cx('icon')} />
-                    </div>
-                )}
+                {!!!image.completedCrop &&
+                    (!!defaultImageScr ? (
+                        <div className={cx('default-image')}>
+                            <img src={defaultImageScr} alt="" />
+                        </div>
+                    ) : (
+                        <div className={cx('holder')}>
+                            <FontAwesomeIcon icon={faImage} className={cx('icon')} />
+                        </div>
+                    ))}
             </div>
             <Button size="sm" primary onClick={(e) => inputRef.current.click()}>
                 Tải ảnh lên
@@ -161,6 +171,16 @@ function CropperImage({ aspect, locked, circularCrop, widthInit = 100 }) {
                 accept="image/jpeg, image/jpg, image/png"
                 onChange={onSelectFile}
                 onClick={(e) => (e.target.value = null)}
+            />
+            <input
+                ref={(e) => {
+                    storeInputRef.current = e;
+                    !!ref && ref(e);
+                }}
+                className={cx('hidden-input')}
+                type="file"
+                accept="image/jpeg, image/jpg, image/png"
+                {...restRegister}
             />
             <Modal
                 size="md"

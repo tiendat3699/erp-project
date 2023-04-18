@@ -31,8 +31,8 @@ function File({ multiple, accept, className, onSelect, showFileList = true, regi
     const HandleUpFile = (e) => {
         const fileList = e.target.files;
         const accepts = accept?.split(',');
-        onSelect?.call(this, e);
-        onChange?.call(this, e);
+        !!onSelect && onSelect(e);
+        !!onchange && onchange(e);
         const newFiles = [...fileList].filter((file) => {
             if (!accept) return true;
             let valid;
@@ -116,7 +116,7 @@ function File({ multiple, accept, className, onSelect, showFileList = true, regi
                         accept={accept}
                         ref={(e) => {
                             inputRef.current = e;
-                            if (ref) ref(e);
+                            !!ref && ref(e);
                         }}
                         {...restRegister}
                     />

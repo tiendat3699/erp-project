@@ -1,6 +1,15 @@
 .wrapper {
     $border-color: #d9dee3;
 
+    .imga-col {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+        border: 1px solid rgba(var(--primary-color-rgb), 0.3);
+    }
+
     .title {
         text-align: center;
         padding: 8px 0px 16px;
@@ -24,7 +33,6 @@
 
     .table-container {
         overflow: auto;
-        user-select: none;
 
         &::-webkit-scrollbar {
             height: 10px;

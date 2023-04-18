@@ -11,6 +11,19 @@ import styles from './Modal.module.scss';
 
 const cx = classNames.bind(styles);
 
+Modal.propTypes = {
+    title: PropTypes.string,
+    children: PropTypes.node.isRequired,
+    size: PropTypes.string,
+    onClose: PropTypes.func,
+    onAcceptClick: PropTypes.func.isRequired,
+    acceptBtnText: PropTypes.string,
+    disabled: PropTypes.bool,
+    className: PropTypes.string,
+    staticBackDrop: PropTypes.bool,
+    modalRef: PropTypes.object,
+};
+
 function Modal({
     title,
     children,
@@ -32,7 +45,7 @@ function Modal({
             setTimeout(() => {
                 setOpen(false);
                 setClosing(false);
-                onClose?.call();
+                !!onClose && onClose();
             }, 300);
         }
     };
@@ -97,18 +110,5 @@ function Modal({
         document.querySelector('body'),
     );
 }
-
-Modal.propTypes = {
-    title: PropTypes.string,
-    children: PropTypes.node.isRequired,
-    size: PropTypes.string,
-    onClose: PropTypes.func,
-    onAcceptClick: PropTypes.func.isRequired,
-    acceptBtnText: PropTypes.string,
-    disabled: PropTypes.bool,
-    className: PropTypes.string,
-    staticBackDrop: PropTypes.bool,
-    modalRef: PropTypes.object,
-};
 
 export default Modal;

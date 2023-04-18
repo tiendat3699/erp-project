@@ -42,7 +42,7 @@ function Login() {
                 showtoast.update(toastId, res.message, toastType.SUCCESS);
                 setSuccess(true);
             } catch (error) {
-                showtoast.update(toastId, error.message, toastType.WARNING);
+                showtoast.update(toastId, error.message, toastType.ERROR);
             } finally {
                 setDisabled(false);
             }

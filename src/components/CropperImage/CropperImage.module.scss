@@ -6,22 +6,31 @@
     .preview {
         margin-bottom: 8px;
         .holder,
+        .default-image,
         canvas {
             border-radius: 4px;
             object-fit: contain;
+            border: 1px solid #5555555e;
+            width: 200px;
+            height: 200px;
         }
 
         .holder {
             display: flex;
-            min-width: 200px;
-            min-height: 200px;
-            border: 1px solid #5555555e;
             background-color: rgba(var(--primary-color-rgb), 0.2);
 
             .icon {
                 margin: auto;
                 font-size: 6rem;
                 opacity: 0.4;
+            }
+        }
+
+        .default-image {
+            img {
+                width: 100%;
+                vertical-align: middle;
+                object-fit: cover;
             }
         }
     }
@@ -35,4 +44,8 @@
     display: flex;
     justify-content: center;
     width: 100%;
+}
+
+.hidden-input {
+    display: none;
 }

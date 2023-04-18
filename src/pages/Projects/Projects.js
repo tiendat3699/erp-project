@@ -104,7 +104,6 @@ function Projects() {
                 const res = await projectService.store(reqData);
                 showtoast.update(toastId, res.message, toastType.SUCCESS);
                 setProjects((prevState) => [...prevState, res.project]);
-
                 modalRef.current.close();
             } catch (error) {
                 showtoast.update(toastId, error.message, toastType.ERROR);
@@ -158,9 +157,9 @@ function Projects() {
                     columns={tableOptions.columns}
                     minWidth={600}
                     pageSizeOptions={tableOptions.pageSizeOptions}
-                    onAddMore={role === 'Admin' ? handleCLickRow : false}
-                    onClickRow={role === 'Admin' ? handleCLickRow : false}
+                    onAddMore={role === 'Admin' ? handleOpenModal : false}
                     btnControl={role === 'Admin'}
+                    onClickEdit={handleCLickRow}
                 />
             </ContentBlock>
             <Modal
