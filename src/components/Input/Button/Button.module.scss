@@ -61,8 +61,7 @@
         &:not(:disabled) {
             &:hover,
             &:active {
-                color: var(--primary-color);
-                background-color: #fff;
+                filter: brightness(70%);
             }
         }
     }
@@ -76,6 +75,47 @@
             &:active {
                 color: #fff;
                 background-color: var(--danger-color);
+            }
+        }
+    }
+
+    &.dangerSolid {
+        color: #fff;
+        background-color: var(--danger-color);
+        border-color: var(--danger-color);
+
+        &:not(:disabled) {
+            &:hover,
+            &:active {
+                background-color: var(--danger-color);
+                filter: brightness(70%);
+            }
+        }
+    }
+
+    &.success {
+        color: var(--success-color);
+        border-color: var(--success-color);
+
+        &:not(:disabled) {
+            &:hover,
+            &:active {
+                color: #fff;
+                background-color: var(--success-color);
+            }
+        }
+    }
+
+    &.successSolid {
+        color: #fff;
+        background-color: var(--success-color);
+        border-color: var(--success-color);
+
+        &:not(:disabled) {
+            &:hover,
+            &:active {
+                background-color: var(--success-color);
+                filter: brightness(70%);
             }
         }
     }

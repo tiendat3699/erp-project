@@ -11,7 +11,7 @@
             height: calc($height-block / 2 - $mt/2);
         }
 
-        & ~ .chart-block {
+        & + .chart-block {
             margin-top: $mt;
         }
     }

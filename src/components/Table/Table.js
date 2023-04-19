@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { memo, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 
-import style from './Table.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAngleLeft,
@@ -12,36 +11,47 @@ import {
     faForwardStep,
     faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { Button } from '../Input';
 import { faEdit, faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { Button } from '../Input';
+import Modal from '../Modal';
+
+import style from './Table.module.scss';
 
 const cx = classNames.bind(style);
 
 Table.propTypes = {
     title: PropTypes.string,
+    prefixRowName: PropTypes.string,
     minWidth: PropTypes.number,
     rows: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
+    tabs: PropTypes.array,
     pageSizeOptions: PropTypes.array,
     onAddMore: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onClickRow: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     btnControl: PropTypes.bool,
     onClickEdit: PropTypes.func,
     onClickDelete: PropTypes.func,
+    onClickTab: PropTypes.func,
 };
 
 function Table({
     title,
+    prefixRowName,
     minWidth,
     rows = [],
     columns = [],
+    tabs = [],
     pageSizeOptions = [],
     onAddMore,
     onClickRow,
     btnControl,
     onClickEdit,
     onClickDelete,
+    onClickTab,
 }) {
+    const deleteModalRef = useRef(null);
+    const [deleteRow, setDeleteRow] = useState({ row: {}, index: null });
     const [pageSize, setPageSize] = useState(pageSizeOptions[0]?.value || pageSizeOptions[0] || 5);
     const [page, setPage] = useState(1);
     const maxPage = Math.ceil(rows.length / pageSize);
@@ -95,6 +105,15 @@ function Table({
     return (
         <div className={cx('wrapper')}>
             {!!title && <h4 className={cx('title')}>{title}</h4>}
+            {tabs.length > 0 && (
+                <ul className={cx('tab-list')}>
+                    {tabs.map((tab, index) => (
+                        <li className={cx({ active: tab.active })} key={index} onClick={(e) => onClickTab(index, e)}>
+                            {tab.title}
+                        </li>
+                    ))}
+                </ul>
+            )}
             <div className={cx('table-container')}>
                 <table style={{ minWidth: minWidth }}>
                     <thead>
@@ -113,11 +132,11 @@ function Table({
                                 return (
                                     <tr
                                         className={cx('row')}
-                                        key={index}
+                                        key={row._id}
                                         onClick={(e) => onClickRow && onClickRow(row, e)}
                                     >
                                         {columns.map((column) => (
-                                            <td key={rows.id || column.id}>
+                                            <td key={column.id}>
                                                 {column.image ? (
                                                     <img className={cx('imga-col')} src={row[column.id]} alt="" />
                                                 ) : (
@@ -132,7 +151,7 @@ function Table({
                                                         size="sm"
                                                         onClick={(e) => {
                                                             e.stopPropagation();
-                                                            onClickEdit(row, e);
+                                                            onClickEdit(row, index, e);
                                                         }}
                                                     >
                                                         <FontAwesomeIcon icon={faEdit} />
@@ -142,7 +161,8 @@ function Table({
                                                         danger
                                                         onClick={(e) => {
                                                             e.stopPropagation();
-                                                            onClickDelete(row, e);
+                                                            setDeleteRow({ row, index: index });
+                                                            deleteModalRef.current.open();
                                                         }}
                                                     >
                                                         <FontAwesomeIcon icon={faTrashCan} />
@@ -211,6 +231,20 @@ function Table({
                     </button>
                 </div>
             </div>
+
+            <Modal
+                theme="danger"
+                title="Xác nhận xóa"
+                modalRef={deleteModalRef}
+                acceptBtnText="Xóa"
+                onAcceptClick={(e) => {
+                    deleteModalRef.current.close();
+                    onClickDelete(deleteRow.row, deleteRow.index, e);
+                }}
+            >
+                {prefixRowName} <strong style={{ color: 'var(--danger-color)' }}>{' ' + deleteRow.row.name}</strong> sẽ
+                được chuyển vào thùng rác. Chọn "Xóa" để xác nhận?
+            </Modal>
         </div>
     );
 }

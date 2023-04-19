@@ -13,6 +13,7 @@ const customerService = {
             }
         }
     },
+
     store: async (data) => {
         try {
             const res = await httpRequest.post('customers/store', data, {
@@ -20,6 +21,36 @@ const customerService = {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            return res.data;
+        } catch (error) {
+            if (error.response?.data) {
+                return Promise.reject(error.response.data);
+            } else {
+                return Promise.reject({ message: error.message });
+            }
+        }
+    },
+
+    update: async (id, data) => {
+        try {
+            const res = await httpRequest.put('customers/' + id, data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            return res.data;
+        } catch (error) {
+            if (error.response?.data) {
+                return Promise.reject(error.response.data);
+            } else {
+                return Promise.reject({ message: error.message });
+            }
+        }
+    },
+
+    delete: async (id) => {
+        try {
+            const res = await httpRequest.delete('customers/' + id);
             return res.data;
         } catch (error) {
             if (error.response?.data) {

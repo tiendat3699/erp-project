@@ -148,11 +148,11 @@ function CropperImage({ defaultImageScr, aspect, locked, circularCrop, widthInit
                 <canvas
                     ref={canvasRef}
                     style={{
-                        display: !!!image.completedCrop && 'none',
+                        display: !image.completedCrop && 'none',
                     }}
                 />
-                {!!!image.completedCrop &&
-                    (!!defaultImageScr ? (
+                {!image.completedCrop &&
+                    (defaultImageScr ? (
                         <div className={cx('default-image')}>
                             <img src={defaultImageScr} alt="" />
                         </div>

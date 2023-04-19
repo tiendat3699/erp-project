@@ -1,5 +1,7 @@
 .wrapper {
     $border-color: #d9dee3;
+    $bg-color: #cae0f3;
+    $bg-color-2: #bfc6cc;
 
     .imga-col {
         height: 40px;
@@ -14,6 +16,101 @@
         text-align: center;
         padding: 8px 0px 16px;
         color: var(--primary-color);
+    }
+
+    .tab-list {
+        display: flex;
+        list-style: none;
+        padding: 2px 12px 0 12px;
+        border-radius: 6px 6px 0px 0px;
+        background-color: #f2f4f5;
+        border: 1px solid $border-color;
+        border-bottom: none;
+
+        li {
+            user-select: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+            padding: 8px 14px 4px;
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            font-size: 1.4rem;
+            color: #566a7f;
+            transition: color ease 0.2s;
+            margin: 0 1px;
+            font-weight: 600;
+
+            &:not(:first-child) {
+                &::before {
+                    content: ' ';
+                    pointer-events: none;
+                    position: absolute;
+                    height: 50%;
+                    width: 1px;
+                    background-color: #888;
+                    right: 100%;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+            }
+
+            &:last-child::after {
+                content: ' ';
+                pointer-events: none;
+                position: absolute;
+                height: 50%;
+                width: 1px;
+                background-color: #888;
+                left: 100%;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            &.active {
+                color: #202830;
+                background-color: $bg-color;
+                &::before {
+                    content: ' ';
+                    pointer-events: none;
+                    position: absolute;
+                    height: 80%;
+                    width: 100%;
+                    bottom: -1px;
+                    z-index: -1;
+                    left: -100%;
+                    border-radius: 0 0 10px 0;
+                    box-shadow: 14px 0.25em 0 -4px $bg-color;
+                    top: unset;
+                    transform: unset;
+                    background-color: unset;
+                }
+
+                &::after {
+                    content: ' ';
+                    pointer-events: none;
+                    position: absolute;
+                    height: 80%;
+                    width: 100%;
+                    bottom: -1px;
+                    z-index: -1;
+                    right: -100%;
+                    border-radius: 0 0 0 10px;
+                    box-shadow: -14px 0.25em 0 -4px $bg-color;
+                    top: unset;
+                    transform: unset;
+                    background-color: unset;
+                }
+            }
+
+            &.active + li::before {
+                visibility: hidden;
+            }
+
+            &:hover:not(.active) {
+                color: var(--primary-color);
+            }
+        }
     }
 
     .empty {
@@ -43,13 +140,13 @@
         width: 100%;
         border-collapse: collapse;
         color: #566a7f;
-        border: 1px solid $border-color;
+        border: 1px solid $bg-color;
     }
 
     thead {
         font-weight: 500;
         tr {
-            background-color: rgba(var(--primary-color-rgb), 0.1);
+            background-color: $bg-color;
             border-bottom: 1px solid $border-color;
         }
     }
@@ -111,7 +208,7 @@
         display: flex;
         align-items: center;
         padding: 4px 8px;
-        background-color: rgba(var(--primary-color-rgb), 0.1);
+        background-color: $bg-color;
         font-size: 1.3rem;
         color: #0000008a;
 
@@ -164,7 +261,7 @@
                 border: none;
                 border-radius: 4px;
                 outline: none;
-                background-color: rgba(var(--primary-color-rgb), 0.7);
+                background-color: $bg-color-2;
                 color: #fff;
                 transition: all ease 0.2s;
 
@@ -179,7 +276,7 @@
                     background-color: var(--primary-color);
                 }
 
-                & ~ button {
+                & + button {
                     margin-left: 4px;
                 }
             }

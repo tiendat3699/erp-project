@@ -44,7 +44,7 @@
                 border-color: var(--primary-color);
             }
 
-            & ~ .btn {
+            & + .btn {
                 margin-left: 8px;
             }
 

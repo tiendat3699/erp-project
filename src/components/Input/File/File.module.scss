@@ -121,7 +121,7 @@
             border: 1px solid var(--primary-color);
             border-radius: 4px;
 
-            & ~ .file-card {
+            & + .file-card {
                 margin-top: 4px;
             }
         }

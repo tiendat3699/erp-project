@@ -12,6 +12,7 @@ import styles from './Modal.module.scss';
 const cx = classNames.bind(styles);
 
 Modal.propTypes = {
+    theme: PropTypes.string,
     title: PropTypes.string,
     children: PropTypes.node.isRequired,
     size: PropTypes.string,
@@ -25,6 +26,7 @@ Modal.propTypes = {
 };
 
 function Modal({
+    theme = 'success',
     title,
     children,
     size = 'sm',
@@ -83,6 +85,7 @@ function Modal({
                                     disabled={disabled}
                                     className={cx('btn', 'close')}
                                     size="md"
+                                    primary
                                     onClick={closeModalHandler}
                                 >
                                     Đóng
@@ -91,7 +94,8 @@ function Modal({
                                     disabled={disabled}
                                     className={cx('btn', 'accept')}
                                     size="md"
-                                    primary
+                                    successSolid={theme === 'success'}
+                                    dangerSolid={theme === 'danger'}
                                     onClick={onAcceptClick}
                                 >
                                     {acceptBtnText}

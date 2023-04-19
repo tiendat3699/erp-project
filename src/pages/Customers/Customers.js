@@ -55,6 +55,8 @@ const tableOptions = {
 function Customers() {
     const user = useSelector((state) => state.auth.user, shallowEqual);
     const [customers, setCustomers] = useState([]);
+    const [tabs, setTabs] = useState([{ title: 'Tất cả', active: true }, { title: 'Của tôi' }, { title: 'Thùng rác' }]);
+    const [edit, setEdit] = useState({ id: '', index: null });
     const [defaultImage, setDefaultImage] = useState('');
     const [disabledModal, setDisabledModal] = useState(false);
     const modalRef = useRef();
@@ -82,7 +84,7 @@ function Customers() {
     };
 
     const handleEdit = useCallback(
-        (row) => {
+        (row, index) => {
             reset({
                 name: row.name,
                 phone: row.phone,
@@ -90,10 +92,40 @@ function Customers() {
                 address: row.address,
             });
             setDefaultImage(row.avatar_url);
+            setEdit({ id: row._id, index });
             modalRef.current.open();
         },
         [reset],
     );
+
+    const handleClickTab = useCallback((index) => {
+        setTabs((prevState) =>
+            prevState.map((tab, i) => {
+                tab.active = index === i;
+                return tab;
+            }),
+        );
+    }, []);
+
+    const handleDelete = useCallback((row, index) => {
+        const fetch = async () => {
+            const toastId = showtoast.loading('Đang xử lý...');
+            try {
+                const res = await customerService.delete(row._id);
+                showtoast.update(toastId, res.message, toastType.SUCCESS);
+                setCustomers((prevState) => {
+                    prevState.splice(index, 1);
+                    return [...prevState];
+                });
+                modalRef.current.close();
+            } catch (error) {
+                showtoast.update(toastId, error.message, toastType.ERROR);
+            } finally {
+            }
+        };
+
+        fetch();
+    }, []);
 
     const handleOpenModal = useCallback(() => {
         modalRef.current.open();
@@ -105,11 +137,8 @@ function Customers() {
             phone: data.phone,
             email: data.email,
             address: data.address,
-            avatar: 'default',
+            avatar: data.avatar[0],
         };
-        if (data.avatar.length > 0) {
-            reqData.avatar = data.avatar[0];
-        }
 
         modalRef.current.close();
 
@@ -117,9 +146,19 @@ function Customers() {
             const toastId = showtoast.loading('Đang xử lý...');
             try {
                 setDisabledModal(true);
-                const res = await customerService.store(reqData);
+                let res;
+                if (edit.id) {
+                    res = await customerService.update(edit.id, reqData);
+                    setCustomers((prevState) => {
+                        prevState[edit.index] = res.updated;
+                        return [...prevState];
+                    });
+                    setEdit({ id: '', index: null });
+                } else {
+                    res = await customerService.store(reqData);
+                    setCustomers((prevState) => [...prevState, res.customer]);
+                }
                 showtoast.update(toastId, res.message, toastType.SUCCESS);
-                setCustomers((prevState) => [...prevState, res.customer]);
                 modalRef.current.close();
             } catch (error) {
                 showtoast.update(toastId, error.message, toastType.ERROR);
@@ -137,7 +176,7 @@ function Customers() {
             <h3 className={cx('title')}>Danh sách dự án</h3>
             <ContentBlock>
                 <div className={cx('control')}>
-                    <Search animation={false} scaleOnFocus={false} placeholder="Tìm kiếm dự án" />
+                    <Search animation={false} scaleOnFocus={false} placeholder="Tìm kiếm khách hàng" />
                     {true && (
                         <Button
                             primary
@@ -150,13 +189,17 @@ function Customers() {
                     )}
                 </div>
                 <Table
+                    tabs={tabs}
                     rows={customers}
                     columns={tableOptions.columns}
                     minWidth={1000}
                     pageSizeOptions={tableOptions.pageSizeOptions}
                     btnControl={role === 'Admin'}
                     onClickEdit={handleEdit}
+                    onClickDelete={handleDelete}
+                    onClickTab={handleClickTab}
                     onAddMore={role === 'Admin' ? handleOpenModal : false}
+                    prefixRowName="Khách hàng"
                 />
             </ContentBlock>
             <Modal

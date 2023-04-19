@@ -52,6 +52,11 @@ const httpRequest = {
         return response;
     },
 
+    put: async (path, options = {}, config = {}) => {
+        const response = await axiosInstance.put(path, options, config);
+        return response;
+    },
+
     delete: async (path, options = {}, config = {}) => {
         const response = await axiosInstance.delete(path, options, config);
         return response;
