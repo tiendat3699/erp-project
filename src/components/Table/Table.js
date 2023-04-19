@@ -138,7 +138,9 @@ function Table({
                                         {columns.map((column) => (
                                             <td key={column.id}>
                                                 {column.image ? (
-                                                    <img className={cx('imga-col')} src={row[column.id]} alt="" />
+                                                    <div className={cx('imga-col')}>
+                                                        <img src={row[column.id]} alt="" />
+                                                    </div>
                                                 ) : (
                                                     row[column.id]
                                                 )}
