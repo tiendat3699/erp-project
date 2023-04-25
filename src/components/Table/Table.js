@@ -25,14 +25,12 @@ Table.propTypes = {
     minWidth: PropTypes.number,
     rows: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
-    tabs: PropTypes.array,
     pageSizeOptions: PropTypes.array,
     onAddMore: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onClickRow: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     btnControl: PropTypes.bool,
     onClickEdit: PropTypes.func,
     onClickDelete: PropTypes.func,
-    onClickTab: PropTypes.func,
 };
 
 function Table({
@@ -41,14 +39,12 @@ function Table({
     minWidth,
     rows = [],
     columns = [],
-    tabs = [],
     pageSizeOptions = [],
     onAddMore,
     onClickRow,
     btnControl,
     onClickEdit,
     onClickDelete,
-    onClickTab,
 }) {
     const deleteModalRef = useRef(null);
     const [deleteRow, setDeleteRow] = useState({ row: {}, index: null });
@@ -105,15 +101,6 @@ function Table({
     return (
         <div className={cx('wrapper')}>
             {!!title && <h4 className={cx('title')}>{title}</h4>}
-            {tabs.length > 0 && (
-                <ul className={cx('tab-list')}>
-                    {tabs.map((tab, index) => (
-                        <li className={cx({ active: tab.active })} key={index} onClick={(e) => onClickTab(index, e)}>
-                            {tab.title}
-                        </li>
-                    ))}
-                </ul>
-            )}
             <div className={cx('table-container')}>
                 <table style={{ minWidth: minWidth }}>
                     <thead>
@@ -141,6 +128,8 @@ function Table({
                                                     <div className={cx('imga-col')}>
                                                         <img src={row[column.id]} alt="" />
                                                     </div>
+                                                ) : typeof row[column.id] == 'object' ? (
+                                                    row[column.id].map((el, i) => <p key={i}>{el}</p>)
                                                 ) : (
                                                     row[column.id]
                                                 )}

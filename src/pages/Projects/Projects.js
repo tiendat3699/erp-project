@@ -13,7 +13,7 @@ import { Button, TextField, Select, DatePicker, Editor } from '~/components/Inpu
 import ToastComponent, { showtoast, toastType } from '~/components/Toast';
 
 import { Col, Row } from '~/components/GridSystem';
-import { userService, projectService } from '~/services';
+import { userService, projectService, customerService } from '~/services';
 import { useForm } from '~/hooks';
 import { Controller } from 'react-hook-form';
 import AccountItem from '~/components/AccountItem';
@@ -31,7 +31,7 @@ const tableOptions = {
             width: 200,
         },
         {
-            id: 'customerId',
+            id: 'customer',
             headerName: 'Khách hàng',
         },
         {
@@ -50,7 +50,7 @@ const tableOptions = {
 function Projects() {
     const [users, setUsers] = useState([]);
     const [projects, setProjects] = useState([]);
-    // const [customers, setCustomers] = useState([]);
+    const [customers, setCustomers] = useState([]);
     const modalRef = useRef();
     const [disabledModal, setDisabledModal] = useState(false);
     const {
@@ -67,7 +67,11 @@ function Projects() {
 
     useEffect(() => {
         const fetch = async () => {
-            const [projectRes, userRes] = await Promise.all([projectService.getAll(), userService.getAll()]);
+            const [projectRes, userRes, customerRes] = await Promise.all([
+                projectService.getAll(),
+                userService.getAll(),
+                customerService.getAll(),
+            ]);
 
             const users = userRes.map((user) => ({
                 value: user._id,
@@ -78,8 +82,26 @@ function Projects() {
                 image: user.avatar_url,
             }));
 
+            const project = projectRes.map((project) => ({
+                ...project,
+                _id: project._id,
+                name: project.name,
+                customer: project.customer.fullname,
+                status: project.status,
+                users: project.users.map((user) => user.fullname),
+            }));
+
+            const customer = customerRes.map((customer) => ({
+                value: customer._id,
+                label: customer.fullname,
+                fullname: customer.fullname,
+                avatar_url: customer.avatar_url,
+                image: customer.avatar_url,
+            }));
+
             setUsers(users);
-            setProjects(projectRes);
+            setProjects(project);
+            setCustomers(customer);
         };
         fetch();
     }, []);
@@ -87,7 +109,7 @@ function Projects() {
     const onSubmit = (data) => {
         const reqData = {
             name: data.name,
-            customerId: data.customer,
+            customer: data.customer,
             description: data.description,
             start_date: data.date.startDate,
             end_date: data.date.endDate,
@@ -120,7 +142,7 @@ function Projects() {
         (row) => {
             reset({
                 name: row.name,
-                customer: row.customerId,
+                customer: row.customer,
                 users: row.users,
                 status: row.status,
                 date: { startDate: new Date(row.start_date), endDate: new Date(row.end_date) },
@@ -194,7 +216,7 @@ function Projects() {
                                             size="sm"
                                             label="Khách hàng"
                                             placeholder="Chọn Khách hàng"
-                                            options={users}
+                                            options={customers}
                                             message={fieldState.error?.message}
                                             inputRef={ref}
                                             formatOptionLabel={(option) => <AccountItem data={option} minimal />}

@@ -31,7 +31,7 @@ const tableOptions = {
             width: 80,
         },
         {
-            id: 'name',
+            id: 'fullname',
             headerName: 'Tên',
             width: 200,
         },
@@ -86,7 +86,7 @@ function Customers() {
     const handleEdit = useCallback(
         (row, index) => {
             reset({
-                name: row.name,
+                fullname: row.fullname,
                 phone: row.phone,
                 email: row.email,
                 address: row.address,
@@ -133,7 +133,7 @@ function Customers() {
 
     const onSubmit = (data) => {
         const reqData = {
-            name: data.name,
+            fullname: data.fullname,
             phone: data.phone,
             email: data.email,
             address: data.address,
@@ -219,7 +219,7 @@ function Customers() {
                             </Col>
                             <Col md={6}>
                                 <TextField
-                                    register={register('name', { required: rules.required })}
+                                    register={register('fullname', { required: rules.required })}
                                     size="sm"
                                     label="Tên khách hàng"
                                     placeholder="Nhập tên..."
